@@ -381,6 +381,241 @@ Clones WordPress site between live and staging environments.
 "Create staging copy of production WordPress site"
 ```
 
+### CDN Management
+
+#### `get_cdn_options`
+Lists all available CDN features for a hosting package.
+
+**Parameters:**
+- `package_id` (string, required): The hosting package ID to get CDN options for
+
+**Returns:** Array of available CDN features and their configurations
+
+**Example Usage:**
+```
+"Show me all available CDN features for package w12345"
+"What CDN features can I enable for better performance?"
+"List all CDN options for my hosting package"
+```
+
+#### `get_cdn_feature_groups`
+Gets CDN feature groups for organized management.
+
+**Parameters:**
+- `package_id` (string, required): The hosting package ID to get feature groups for
+
+**Returns:** CDN feature groups with categorized features
+
+**Example Usage:**
+```
+"Show me CDN feature groups for package w12345"
+"What are the different categories of CDN features?"
+"Display organized CDN feature groups"
+```
+
+#### `add_cdn_feature`
+Adds a single CDN feature to a hosting package.
+
+**Parameters:**
+- `package_id` (string, required): The hosting package ID to add feature to
+- `feature_data` (object, required): CDN feature configuration data
+
+**Returns:** Feature addition confirmation and details
+
+**Example Usage:**
+```
+"Enable CDN compression feature for package w12345"
+"Add image optimization CDN feature to my site"
+"Activate minification CDN feature for better performance"
+```
+
+#### `bulk_add_cdn_features`
+Adds multiple CDN features in a single operation.
+
+**Parameters:**
+- `package_id` (string, required): The hosting package ID to add features to
+- `features_data` (object, required): Multiple CDN features configuration
+
+**Returns:** Bulk feature addition confirmation
+
+**Example Usage:**
+```
+"Enable all performance CDN features for package w12345"
+"Add compression, minification, and image optimization CDN features"
+"Bulk activate security and performance CDN features"
+```
+
+#### `get_cdn_stats`
+Gets CDN usage statistics and performance metrics.
+
+**Parameters:**
+- `package_id` (string, required): The hosting package ID to get CDN stats for
+
+**Returns:** CDN usage statistics, bandwidth, and performance metrics
+
+**Example Usage:**
+```
+"Show CDN statistics for package w12345"
+"What's my CDN bandwidth usage this month?"
+"Display CDN performance metrics and analytics"
+```
+
+#### `get_cache_report`
+Gets detailed CDN cache report (requires Website Turbo).
+
+**Parameters:**
+- `package_id` (string, required): The hosting package ID to get cache report for
+
+**Returns:** Comprehensive cache performance report
+
+**Example Usage:**
+```
+"Show me cache report for package w12345"
+"Get CDN cache performance analysis"
+"Display cache hit rates and optimization opportunities"
+```
+
+#### `purge_cdn_cache`
+Purges CDN cache for a specific URL.
+
+**Parameters:**
+- `package_id` (string, required): The hosting package ID to purge cache for
+- `url` (string, required): URL to purge from CDN cache
+
+**Returns:** Cache purge confirmation
+
+**Example Usage:**
+```
+"Clear CDN cache for https://example.com/updated-page.html"
+"Purge cache for my homepage after content updates"
+"Force CDN cache refresh for https://mysite.com/news/latest"
+```
+
+#### `get_stackcache_settings`
+Gets current StackCache performance settings.
+
+**Parameters:**
+- `package_id` (string, required): The hosting package ID to get settings for
+
+**Returns:** Current StackCache configuration and policies
+
+**Example Usage:**
+```
+"Show StackCache settings for package w12345"
+"What are my current StackCache policies?"
+"Display StackCache configuration for performance optimization"
+```
+
+#### `set_stackcache_policy`
+Sets StackCache policies for CSS, images, and JavaScript optimization.
+
+**Parameters:**
+- `package_id` (string, required): The hosting package ID to set policies for
+- `policy_data` (object, required): StackCache policy configuration
+
+**Returns:** Policy update confirmation
+
+**Example Usage:**
+```
+"Set aggressive StackCache policy for maximum performance"
+"Configure StackCache to optimize CSS and JavaScript"
+"Update StackCache policies for better image compression"
+```
+
+#### `get_cdn_security_headers`
+Gets current CDN security headers configuration.
+
+**Parameters:**
+- `package_id` (string, required): The hosting package ID to get security headers for
+
+**Returns:** Current security headers and their values
+
+**Example Usage:**
+```
+"Show security headers for package w12345"
+"What CDN security headers are currently active?"
+"Display current security header configuration"
+```
+
+#### `update_cdn_security_headers`
+Updates CDN security headers for enhanced protection.
+
+**Parameters:**
+- `package_id` (string, required): The hosting package ID to update headers for
+- `headers_data` (object, required): Security headers configuration
+
+**Returns:** Security headers update confirmation
+
+**Example Usage:**
+```
+"Set strict security headers for enhanced protection"
+"Update HSTS and CSP headers for package w12345"
+"Configure security headers to prevent XSS attacks"
+```
+
+#### `delete_cdn_security_headers`
+Deletes CDN security headers.
+
+**Parameters:**
+- `package_id` (string, required): The hosting package ID to delete headers for
+- `header_names` (array, optional): Specific header names to delete
+
+**Returns:** Header deletion confirmation
+
+**Example Usage:**
+```
+"Remove all security headers for package w12345"
+"Delete specific CORS header from CDN configuration"
+"Clear security headers that are causing issues"
+```
+
+#### `get_cdn_traffic_distribution`
+Gets CDN traffic distribution by country and region.
+
+**Parameters:**
+- `package_id` (string, required): The hosting package ID to get traffic data for
+- `filters` (object, optional): Optional filters for traffic analysis
+
+**Returns:** Traffic distribution analytics by geographic location
+
+**Example Usage:**
+```
+"Show CDN traffic distribution by country for package w12345"
+"Where are most of my website visitors coming from?"
+"Display geographic traffic analytics for performance optimization"
+```
+
+#### `assign_website_turbo`
+Assigns a hosting package to Website Turbo service for enhanced performance.
+
+**Parameters:**
+- `website_turbo_id` (string, required): Website Turbo service ID
+- `package_id` (string, required): Hosting package ID to assign
+
+**Returns:** Website Turbo assignment confirmation
+
+**Example Usage:**
+```
+"Assign package w12345 to Website Turbo for faster loading"
+"Enable Website Turbo service for my hosting package"
+"Connect my site to Website Turbo for performance acceleration"
+```
+
+#### `order_website_turbo_credits`
+Orders Website Turbo credits for CDN and performance services.
+
+**Parameters:**
+- `amount` (number, required): Amount of Website Turbo credits to order
+
+**Returns:** Credit order confirmation and account update
+
+**Example Usage:**
+```
+"Order 100 Website Turbo credits for CDN services"
+"Purchase additional Website Turbo credits for performance"
+"Add more Website Turbo credits to my account"
+```
+
 ### Hosting Package Management
 
 #### `list_hosting_packages`

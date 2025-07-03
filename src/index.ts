@@ -372,6 +372,106 @@ class TwentyIClient {
     return response.data;
   }
 
+  // CDN Management Methods
+  async getCdnOptions(packageId: string) {
+    const response = await this.apiClient.get(`/package/${packageId}/web/cdnOptions`);
+    return response.data;
+  }
+
+  async getCdnFeatureGroups(packageId: string) {
+    const response = await this.apiClient.get(`/package/${packageId}/web/cdnFeatureGroups`);
+    return response.data;
+  }
+
+  async addCdnFeature(packageId: string, featureData: any) {
+    const response = await this.apiClient.post(`/package/${packageId}/web/addCdnFeature`, featureData);
+    return response.data;
+  }
+
+  async bulkAddCdnFeatures(packageId: string, featuresData: any) {
+    const response = await this.apiClient.post(`/package/${packageId}/web/bulkAddCdnFeature`, featuresData);
+    return response.data;
+  }
+
+  async getCdnStats(packageId: string) {
+    const response = await this.apiClient.get(`/package/${packageId}/web/cdnStats`);
+    return response.data;
+  }
+
+  async getCacheReport(packageId: string) {
+    const response = await this.apiClient.get(`/package/${packageId}/web/cacheReport`);
+    return response.data;
+  }
+
+  async purgeCdnCache(packageId: string, url: string) {
+    const response = await this.apiClient.post(`/package/${packageId}/web/purgeCdnByUrl`, { url });
+    return response.data;
+  }
+
+  async getStackCacheSettings(packageId: string) {
+    const response = await this.apiClient.get(`/package/${packageId}/web/stackCache`);
+    return response.data;
+  }
+
+  async setStackCachePolicy(packageId: string, policyData: any) {
+    const response = await this.apiClient.post(`/package/${packageId}/web/stackCache`, policyData);
+    return response.data;
+  }
+
+  async getCdnSecurityHeaders(packageId: string) {
+    const response = await this.apiClient.get(`/package/${packageId}/web/cdnSecurityHeaders`);
+    return response.data;
+  }
+
+  async updateCdnSecurityHeaders(packageId: string, headersData: any) {
+    const response = await this.apiClient.post(`/package/${packageId}/web/updateCdnSecurityHeaders`, headersData);
+    return response.data;
+  }
+
+  async deleteCdnSecurityHeaders(packageId: string, headerNames?: string[]) {
+    if (headerNames && headerNames.length > 0) {
+      // Delete specific headers
+      const response = await this.apiClient.post(`/package/${packageId}/web/deleteCdnSecurityHeader`, { headers: headerNames });
+      return response.data;
+    } else {
+      // Delete all headers
+      const response = await this.apiClient.post(`/package/${packageId}/web/deleteCdnSecurityHeaders`);
+      return response.data;
+    }
+  }
+
+  async getCdnTrafficDistribution(packageId: string, filters?: any) {
+    const response = await this.apiClient.post(`/package/${packageId}/web/cdnStatsTrafficDistribution`, filters || {});
+    return response.data;
+  }
+
+  async getBandwidthStats(packageId: string) {
+    const response = await this.apiClient.get(`/package/${packageId}/web/bandwidthStats`);
+    return response.data;
+  }
+
+  async assignWebsiteTurbo(websiteTurboId: string, packageId: string) {
+    const response = await this.apiClient.post(`/website_turbo/${websiteTurboId}/assignPackage`, { packageId });
+    return response.data;
+  }
+
+  async unassignWebsiteTurbo(websiteTurboId: string, packageId: string) {
+    const response = await this.apiClient.post(`/website_turbo/${websiteTurboId}/unAssignPackage`, { packageId });
+    return response.data;
+  }
+
+  async orderWebsiteTurboCredits(amount: number) {
+    const resellerInfo = await this.getResellerInfo();
+    const resellerId = resellerInfo?.id;
+    
+    if (!resellerId) {
+      throw new Error('Unable to determine reseller ID from account information');
+    }
+    
+    const response = await this.apiClient.post(`/reseller/${resellerId}/addWebsiteTurboCredits`, { amount });
+    return response.data;
+  }
+
   // Premium Email Management Methods
   async orderPremiumMailbox(configuration: any, forUser?: string) {
     const resellerInfo = await this.getResellerInfo();
@@ -1172,6 +1272,251 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
             },
           },
           required: ['package_id', 'type'],
+        },
+      },
+      {
+        name: 'get_cdn_options',
+        description: 'Get list of all available CDN features',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'The hosting package ID to get CDN options for',
+            },
+          },
+          required: ['package_id'],
+        },
+      },
+      {
+        name: 'get_cdn_feature_groups',
+        description: 'Get CDN feature groups',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'The hosting package ID to get CDN feature groups for',
+            },
+          },
+          required: ['package_id'],
+        },
+      },
+      {
+        name: 'add_cdn_feature',
+        description: 'Add a single CDN feature',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'The hosting package ID to add CDN feature to',
+            },
+            feature_data: {
+              type: 'object',
+              description: 'CDN feature configuration data',
+            },
+          },
+          required: ['package_id', 'feature_data'],
+        },
+      },
+      {
+        name: 'bulk_add_cdn_features',
+        description: 'Bulk add multiple CDN features',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'The hosting package ID to add CDN features to',
+            },
+            features_data: {
+              type: 'object',
+              description: 'Multiple CDN features configuration data',
+            },
+          },
+          required: ['package_id', 'features_data'],
+        },
+      },
+      {
+        name: 'get_cdn_stats',
+        description: 'Get CDN usage statistics',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'The hosting package ID to get CDN stats for',
+            },
+          },
+          required: ['package_id'],
+        },
+      },
+      {
+        name: 'get_cache_report',
+        description: 'Get CDN cache report (requires Website Turbo)',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'The hosting package ID to get cache report for',
+            },
+          },
+          required: ['package_id'],
+        },
+      },
+      {
+        name: 'purge_cdn_cache',
+        description: 'Purge CDN cache by URL',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'The hosting package ID to purge cache for',
+            },
+            url: {
+              type: 'string',
+              description: 'URL to purge from CDN cache',
+            },
+          },
+          required: ['package_id', 'url'],
+        },
+      },
+      {
+        name: 'get_stackcache_settings',
+        description: 'Get StackCache performance settings',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'The hosting package ID to get StackCache settings for',
+            },
+          },
+          required: ['package_id'],
+        },
+      },
+      {
+        name: 'set_stackcache_policy',
+        description: 'Set StackCache policy for CSS, images, and JavaScript',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'The hosting package ID to set StackCache policy for',
+            },
+            policy_data: {
+              type: 'object',
+              description: 'StackCache policy configuration',
+            },
+          },
+          required: ['package_id', 'policy_data'],
+        },
+      },
+      {
+        name: 'get_cdn_security_headers',
+        description: 'Get CDN security headers',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'The hosting package ID to get security headers for',
+            },
+          },
+          required: ['package_id'],
+        },
+      },
+      {
+        name: 'update_cdn_security_headers',
+        description: 'Update CDN security headers',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'The hosting package ID to update security headers for',
+            },
+            headers_data: {
+              type: 'object',
+              description: 'Security headers configuration',
+            },
+          },
+          required: ['package_id', 'headers_data'],
+        },
+      },
+      {
+        name: 'delete_cdn_security_headers',
+        description: 'Delete CDN security headers',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'The hosting package ID to delete security headers for',
+            },
+            header_names: {
+              type: 'array',
+              items: {
+                type: 'string',
+              },
+              description: 'Specific header names to delete (optional, deletes all if not provided)',
+            },
+          },
+          required: ['package_id'],
+        },
+      },
+      {
+        name: 'get_cdn_traffic_distribution',
+        description: 'Get CDN traffic distribution by country',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'The hosting package ID to get traffic distribution for',
+            },
+            filters: {
+              type: 'object',
+              description: 'Optional filters for traffic data',
+            },
+          },
+          required: ['package_id'],
+        },
+      },
+      {
+        name: 'assign_website_turbo',
+        description: 'Assign package to Website Turbo service',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            website_turbo_id: {
+              type: 'string',
+              description: 'Website Turbo service ID',
+            },
+            package_id: {
+              type: 'string',
+              description: 'Hosting package ID to assign',
+            },
+          },
+          required: ['website_turbo_id', 'package_id'],
+        },
+      },
+      {
+        name: 'order_website_turbo_credits',
+        description: 'Order Website Turbo credits',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            amount: {
+              type: 'number',
+              description: 'Amount of Website Turbo credits to order',
+            },
+          },
+          required: ['amount'],
         },
       },
       {
@@ -2151,6 +2496,195 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             {
               type: 'text',
               text: JSON.stringify(wpStagingManage, null, 2),
+            },
+          ],
+        };
+
+      case 'get_cdn_options':
+        const cdnOptions = await twentyIClient.getCdnOptions(args.package_id as string);
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(cdnOptions, null, 2),
+            },
+          ],
+        };
+
+      case 'get_cdn_feature_groups':
+        const cdnFeatureGroups = await twentyIClient.getCdnFeatureGroups(args.package_id as string);
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(cdnFeatureGroups, null, 2),
+            },
+          ],
+        };
+
+      case 'add_cdn_feature':
+        const addedCdnFeature = await twentyIClient.addCdnFeature(
+          args.package_id as string,
+          args.feature_data as any
+        );
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(addedCdnFeature, null, 2),
+            },
+          ],
+        };
+
+      case 'bulk_add_cdn_features':
+        const bulkAddedFeatures = await twentyIClient.bulkAddCdnFeatures(
+          args.package_id as string,
+          args.features_data as any
+        );
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(bulkAddedFeatures, null, 2),
+            },
+          ],
+        };
+
+      case 'get_cdn_stats':
+        const cdnStats = await twentyIClient.getCdnStats(args.package_id as string);
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(cdnStats, null, 2),
+            },
+          ],
+        };
+
+      case 'get_cache_report':
+        const cacheReport = await twentyIClient.getCacheReport(args.package_id as string);
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(cacheReport, null, 2),
+            },
+          ],
+        };
+
+      case 'purge_cdn_cache':
+        const purgeResult = await twentyIClient.purgeCdnCache(
+          args.package_id as string,
+          args.url as string
+        );
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(purgeResult, null, 2),
+            },
+          ],
+        };
+
+      case 'get_stackcache_settings':
+        const stackCacheSettings = await twentyIClient.getStackCacheSettings(args.package_id as string);
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(stackCacheSettings, null, 2),
+            },
+          ],
+        };
+
+      case 'set_stackcache_policy':
+        const stackCachePolicy = await twentyIClient.setStackCachePolicy(
+          args.package_id as string,
+          args.policy_data as any
+        );
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(stackCachePolicy, null, 2),
+            },
+          ],
+        };
+
+      case 'get_cdn_security_headers':
+        const securityHeaders = await twentyIClient.getCdnSecurityHeaders(args.package_id as string);
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(securityHeaders, null, 2),
+            },
+          ],
+        };
+
+      case 'update_cdn_security_headers':
+        const updatedHeaders = await twentyIClient.updateCdnSecurityHeaders(
+          args.package_id as string,
+          args.headers_data as any
+        );
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(updatedHeaders, null, 2),
+            },
+          ],
+        };
+
+      case 'delete_cdn_security_headers':
+        const deletedHeaders = await twentyIClient.deleteCdnSecurityHeaders(
+          args.package_id as string,
+          args.header_names as string[]
+        );
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(deletedHeaders, null, 2),
+            },
+          ],
+        };
+
+      case 'get_cdn_traffic_distribution':
+        const trafficDistribution = await twentyIClient.getCdnTrafficDistribution(
+          args.package_id as string,
+          args.filters as any
+        );
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(trafficDistribution, null, 2),
+            },
+          ],
+        };
+
+      case 'assign_website_turbo':
+        const assignResult = await twentyIClient.assignWebsiteTurbo(
+          args.website_turbo_id as string,
+          args.package_id as string
+        );
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(assignResult, null, 2),
+            },
+          ],
+        };
+
+      case 'order_website_turbo_credits':
+        const turboCredits = await twentyIClient.orderWebsiteTurboCredits(args.amount as number);
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(turboCredits, null, 2),
             },
           ],
         };

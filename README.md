@@ -10,12 +10,13 @@ Transform your 20i hosting management experience with AI-powered administration.
 
 ## 🆕 What's New - Latest Update
 
-**🎉 Latest Update: WordPress Management Added!**
+**🎉 Latest Update: CDN Management Added!**
 
-- **⚡ NEW: WordPress Management**: Complete WordPress automation with 15 new tools
+- **🚀 NEW: CDN Management**: Complete content delivery network control with 15 new tools
+- **⚡ WordPress Management**: Complete WordPress automation with 15 tools
 - **🌐 Domain Registration**: Register new domains with full contact management and privacy options
 
-The MCP server now supports **61 total tools (22.5% API coverage)** including:
+The MCP server now supports **76 total tools (28.0% API coverage)** including:
 - **🌐 Subdomain Management**: Create, remove, and list subdomains with simple commands
 - **🗄️ Database Operations**: Create MySQL databases and users for your applications  
 - **📧 Email Account Creation**: Set up email accounts and forwarders directly
@@ -23,6 +24,7 @@ The MCP server now supports **61 total tools (22.5% API coverage)** including:
 - **🚀 Application Installation**: Install WordPress, Joomla, and other applications instantly
 - **📁 FTP & File Management**: Create FTP users and manage directory structures
 - **⚡ WordPress Management**: Complete WordPress automation, plugin/theme control, staging environments
+- **🚀 CDN Management**: Content delivery optimization, cache control, security headers
 
 ## 🎯 Why This Matters
 
@@ -114,6 +116,17 @@ The MCP server now supports **61 total tools (22.5% API coverage)** including:
 - Configuration management: get/set WordPress settings
 - Search and replace operations for migrations
 - One-click WordPress updates and reinstallation
+
+### 🚀 **CDN Management**
+- **NEW**: Complete CDN automation with 15 tools
+- CDN feature configuration and management
+- Cache control: get reports, purge cache by URL
+- StackCache performance optimization policies
+- Security headers management for enhanced protection
+- Traffic distribution analytics by country
+- Website Turbo service assignment and credit management
+- Bandwidth statistics and monitoring
+- Performance optimization through CDN features
 
 ## 🚀 Quick Start
 
@@ -230,6 +243,18 @@ The MCP server now supports **61 total tools (22.5% API coverage)** including:
 "List all WordPress users and their roles"
 ```
 
+### CDN and Performance Management
+```
+"Show me all available CDN features for package w12345"
+"Enable all performance CDN features for better site speed"
+"Clear CDN cache for https://example.com/updated-page.html"
+"Get CDN traffic distribution by country for analytics"
+"Set up security headers for enhanced site protection"
+"Assign my package to Website Turbo for faster loading"
+"Show me CDN cache report and performance statistics"
+"Configure StackCache policies for optimal performance"
+```
+
 ### Database and Development
 ```
 "Create MySQL database 'app_db' and user 'app_user' for my application"
@@ -253,7 +278,7 @@ The MCP server now supports **61 total tools (22.5% API coverage)** including:
 "Email system setup: create support@, sales@, and info@ accounts, then forward all to main inbox"
 ```
 
-## 🛠️ Available Tools (61 Total) - 22.5% API Coverage (61/271)
+## 🛠️ Available Tools (76 Total) - 28.0% API Coverage (76/271)
 
 ### Core Management
 | Tool | Description | Use Cases |
@@ -294,6 +319,25 @@ The MCP server now supports **61 total tools (22.5% API coverage)** including:
 | `update_wordpress` | Update WordPress to latest version | Security updates, feature updates |
 | `get_wordpress_staging` | Check staging environment status | Development workflow, testing |
 | `manage_wordpress_staging` | Clone between live and staging | Development workflow, safe testing |
+
+### CDN Management
+| Tool | Description | Use Cases |
+|------|-------------|-----------|
+| `get_cdn_options` | List all available CDN features | Feature discovery, configuration planning |
+| `get_cdn_feature_groups` | Get CDN feature groups | Organized feature management |
+| `add_cdn_feature` | Add single CDN feature | Feature activation, performance optimization |
+| `bulk_add_cdn_features` | Add multiple CDN features | Bulk configuration, setup automation |
+| `get_cdn_stats` | Get CDN usage statistics | Performance monitoring, analytics |
+| `get_cache_report` | Get CDN cache report | Cache analysis, optimization |
+| `purge_cdn_cache` | Purge CDN cache by URL | Content updates, cache management |
+| `get_stackcache_settings` | Get StackCache configuration | Performance monitoring, optimization |
+| `set_stackcache_policy` | Configure StackCache policies | Performance tuning, resource optimization |
+| `get_cdn_security_headers` | Get security headers | Security auditing, compliance |
+| `update_cdn_security_headers` | Update security headers | Security enhancement, policy enforcement |
+| `delete_cdn_security_headers` | Delete security headers | Configuration cleanup, policy changes |
+| `get_cdn_traffic_distribution` | Get traffic by country | Analytics, geographic performance |
+| `assign_website_turbo` | Assign package to Website Turbo | Performance acceleration, service activation |
+| `order_website_turbo_credits` | Order Website Turbo credits | Service provisioning, account management |
 
 ### Database Management
 | Tool | Description | Use Cases |
