@@ -16,6 +16,9 @@ ignor.txt
 .env.test.local
 .env.production.local
 
+# Reference materials (should not be committed)
+gitignor_ref_folder/
+
 # IDE files
 .vscode/
 .idea/

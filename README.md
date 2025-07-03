@@ -10,17 +10,17 @@ Transform your 20i hosting management experience with AI-powered administration.
 
 ## 🆕 What's New - Latest Update
 
-**🎉 14 New Management Tools Added!** We've significantly expanded the capabilities with comprehensive hosting management features:
+**🎉 Latest Update: Account Balance Feature Added!**
 
-- **💰 Account Balance**: Check your account balance and billing status
+- **💰 NEW: Account Balance**: Check your account balance and billing status directly through AI chat
+
+The MCP server now supports **45 total tools** for complete hosting management including:
 - **🌐 Subdomain Management**: Create, remove, and list subdomains with simple commands
 - **🗄️ Database Operations**: Create MySQL databases and users for your applications  
 - **📧 Email Account Creation**: Set up email accounts and forwarders directly
 - **⚙️ PHP Version Control**: Get and set PHP versions for optimal compatibility
 - **🚀 Application Installation**: Install WordPress, Joomla, and other applications instantly
 - **📁 FTP & File Management**: Create FTP users and manage directory structures
-
-**Now supporting 45 total tools** for complete hosting management through natural language!
 
 ## 🎯 Why This Matters
 
@@ -54,9 +54,9 @@ Transform your 20i hosting management experience with AI-powered administration.
 - Monitor hosting package performance and usage
 - Scale resources based on demand
 - Automated provisioning and deployment
-- **NEW**: Create and manage subdomains for organized site structure
-- **NEW**: Set PHP versions for optimal application compatibility
-- **NEW**: Install applications like WordPress with one command
+- Create and manage subdomains for organized site structure
+- Set PHP versions for optimal application compatibility
+- Install applications like WordPress with one command
 
 ### ☁️ **Cloud Server Operations**
 - Deploy cloud servers across multiple providers
@@ -81,20 +81,26 @@ Transform your 20i hosting management experience with AI-powered administration.
 - Manage mailbox configurations and quotas
 - Set up and modify email forwarding rules
 - Monitor email infrastructure health
-- **NEW**: Create email accounts directly through conversation
-- **NEW**: Set up email forwarders with multiple destinations
+- Create email accounts directly through conversation
+- Set up email forwarders with multiple destinations
 
 ### 🗃️ **Database Management**
-- **NEW**: Create MySQL databases for applications
-- **NEW**: Set up MySQL users with proper permissions
+- Create MySQL databases for applications
+- Set up MySQL users with proper permissions
 - List and monitor existing databases
 - Manage database access and security
 
 ### 📁 **File and Access Management**
-- **NEW**: Create FTP users for team access
-- **NEW**: Manage directories (create/delete)
-- **NEW**: Control file access permissions
+- Create FTP users for team access
+- Manage directories (create/delete)
+- Control file access permissions
 - Monitor file usage and organization
+
+### 💰 **Account & Billing Management**
+- **NEW**: Check account balance and billing status
+- Monitor account overview and statistics
+- Track API usage and limits
+- View reseller account information
 
 ## 🚀 Quick Start
 
@@ -354,5 +360,7 @@ This is the **first Model Context Protocol server for 20i hosting services**, pi
 - **Project**: [20i-MCP](https://github.com/Cbrown35/20i-MCP)
 
 ---
+
+**Created by**: ClaudeCode 4 & DZIND .Inc
 
 *Built with ❤️ for the 20i community. Empowering hosting management through AI.*
