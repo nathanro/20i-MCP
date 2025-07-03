@@ -145,6 +145,242 @@ Registers a new domain name with full contact management.
 "Register 'example.net' and assign it to stack user 'john_doe'"
 ```
 
+### WordPress Management
+
+#### `is_wordpress_installed`
+Checks if WordPress is installed on a hosting package.
+
+**Parameters:**
+- `package_id` (string, required): The hosting package ID to check
+
+**Returns:** Boolean result indicating WordPress installation status
+
+**Example Usage:**
+```
+"Check if WordPress is installed on package w12345"
+"Is WordPress running on my hosting package?"
+"Verify WordPress installation status for my site"
+```
+
+#### `reinstall_wordpress`
+Reinstalls WordPress software on a hosting package.
+
+**Parameters:**
+- `package_id` (string, required): The hosting package ID to reinstall WordPress on
+
+**Returns:** Reinstallation confirmation and details
+
+**Example Usage:**
+```
+"Reinstall WordPress on package w12345"
+"Fresh WordPress installation for my corrupted site"
+"Reset WordPress to clean state for package w67890"
+```
+
+#### `get_wordpress_settings`
+Retrieves WordPress configuration settings.
+
+**Parameters:**
+- `package_id` (string, required): The hosting package ID to get settings for
+
+**Returns:** WordPress configuration settings and options
+
+**Example Usage:**
+```
+"Show WordPress settings for package w12345"
+"Get WordPress configuration for my site"
+"Display all WordPress options and settings"
+```
+
+#### `set_wordpress_settings`
+Updates WordPress configuration settings.
+
+**Parameters:**
+- `package_id` (string, required): The hosting package ID to set settings for
+- `option_name` (string, required): WordPress option name to set
+- `option_value` (string, required): WordPress option value to set
+
+**Returns:** Setting update confirmation
+
+**Example Usage:**
+```
+"Set WordPress site title to 'My Awesome Blog' for package w12345"
+"Update WordPress admin email to admin@newdomain.com"
+"Change WordPress timezone setting to America/New_York"
+```
+
+#### `get_wordpress_version`
+Gets the current WordPress version for a hosting package.
+
+**Parameters:**
+- `package_id` (string, required): The hosting package ID to get version for
+
+**Returns:** Current WordPress version information
+
+**Example Usage:**
+```
+"What WordPress version is running on package w12345?"
+"Check WordPress version for my site"
+"Show current WordPress version and update status"
+```
+
+#### `wordpress_search_replace`
+Performs WordPress search and replace operations across the database.
+
+**Parameters:**
+- `package_id` (string, required): The hosting package ID to perform operation on
+- `search` (string, required): Text to search for
+- `replace` (string, required): Text to replace with
+
+**Returns:** Search and replace operation results
+
+**Example Usage:**
+```
+"Replace all instances of 'old-domain.com' with 'new-domain.com' in WordPress"
+"Update WordPress site URL from staging.site.com to site.com"
+"Change all references from http:// to https:// in WordPress database"
+```
+
+#### `get_wordpress_plugins`
+Lists all installed WordPress plugins and their status.
+
+**Parameters:**
+- `package_id` (string, required): The hosting package ID to get plugins for
+
+**Returns:** Array of WordPress plugins with status information
+
+**Example Usage:**
+```
+"List all WordPress plugins for package w12345"
+"Show WordPress plugin status and versions"
+"Which plugins are active on my WordPress site?"
+```
+
+#### `manage_wordpress_plugin`
+Activates, deactivates, or removes WordPress plugins.
+
+**Parameters:**
+- `package_id` (string, required): The hosting package ID to manage plugin for
+- `action` (string, required): Action to perform - 'activate', 'deactivate', or 'remove'
+- `plugin_name` (string, required): Name of the plugin to manage
+
+**Returns:** Plugin management operation confirmation
+
+**Example Usage:**
+```
+"Activate the Yoast SEO plugin on package w12345"
+"Deactivate all inactive plugins on my WordPress site"
+"Remove the old contact form plugin from WordPress"
+```
+
+#### `install_stackcache_plugin`
+Installs the StackCache performance optimization plugin.
+
+**Parameters:**
+- `package_id` (string, required): The hosting package ID to install plugin for
+
+**Returns:** StackCache plugin installation confirmation
+
+**Example Usage:**
+```
+"Install StackCache plugin for better performance on package w12345"
+"Add StackCache optimization to my WordPress site"
+"Enable StackCache caching for my hosting package"
+```
+
+#### `get_wordpress_themes`
+Lists all installed WordPress themes.
+
+**Parameters:**
+- `package_id` (string, required): The hosting package ID to get themes for
+
+**Returns:** Array of WordPress themes with status information
+
+**Example Usage:**
+```
+"List all WordPress themes for package w12345"
+"Show available themes on my WordPress site"
+"Which WordPress theme is currently active?"
+```
+
+#### `manage_wordpress_theme`
+Activates, deactivates, or removes WordPress themes.
+
+**Parameters:**
+- `package_id` (string, required): The hosting package ID to manage theme for
+- `action` (string, required): Action to perform - 'activate', 'deactivate', or 'remove'
+- `theme_name` (string, required): Name of the theme to manage
+
+**Returns:** Theme management operation confirmation
+
+**Example Usage:**
+```
+"Activate the Twenty Twenty-Four theme on package w12345"
+"Switch to the Astra theme for my WordPress site"
+"Remove unused themes from my WordPress installation"
+```
+
+#### `get_wordpress_users`
+Lists WordPress users and their roles.
+
+**Parameters:**
+- `package_id` (string, required): The hosting package ID to get users for
+
+**Returns:** Array of WordPress users with role information
+
+**Example Usage:**
+```
+"List all WordPress users for package w12345"
+"Show WordPress administrators and their access levels"
+"Who has access to my WordPress site?"
+```
+
+#### `update_wordpress`
+Updates WordPress to the latest version.
+
+**Parameters:**
+- `package_id` (string, required): The hosting package ID to update WordPress for
+
+**Returns:** WordPress update operation confirmation
+
+**Example Usage:**
+```
+"Update WordPress to the latest version on package w12345"
+"Install WordPress security updates for my site"
+"Upgrade WordPress core to newest version"
+```
+
+#### `get_wordpress_staging`
+Checks WordPress staging environment status.
+
+**Parameters:**
+- `package_id` (string, required): The hosting package ID to check staging for
+
+**Returns:** Staging environment status and configuration
+
+**Example Usage:**
+```
+"Check staging environment status for package w12345"
+"Is there a staging copy of my WordPress site?"
+"Show WordPress staging configuration"
+```
+
+#### `manage_wordpress_staging`
+Clones WordPress site between live and staging environments.
+
+**Parameters:**
+- `package_id` (string, required): The hosting package ID to manage staging for
+- `type` (string, required): Clone direction - 'live' (copy live to staging) or 'staging' (copy staging to live)
+
+**Returns:** Staging operation confirmation
+
+**Example Usage:**
+```
+"Copy my live WordPress site to staging environment"
+"Deploy staging changes to live WordPress site"
+"Create staging copy of production WordPress site"
+```
+
 ### Hosting Package Management
 
 #### `list_hosting_packages`

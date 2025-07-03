@@ -10,17 +10,19 @@ Transform your 20i hosting management experience with AI-powered administration.
 
 ## 🆕 What's New - Latest Update
 
-**🎉 Latest Update: Domain Registration Added!**
+**🎉 Latest Update: WordPress Management Added!**
 
-- **🌐 NEW: Domain Registration**: Register new domains with full contact management and privacy options
+- **⚡ NEW: WordPress Management**: Complete WordPress automation with 15 new tools
+- **🌐 Domain Registration**: Register new domains with full contact management and privacy options
 
-The MCP server now supports **46 total tools (17.0% API coverage)** including:
+The MCP server now supports **61 total tools (22.5% API coverage)** including:
 - **🌐 Subdomain Management**: Create, remove, and list subdomains with simple commands
 - **🗄️ Database Operations**: Create MySQL databases and users for your applications  
 - **📧 Email Account Creation**: Set up email accounts and forwarders directly
 - **⚙️ PHP Version Control**: Get and set PHP versions for optimal compatibility
 - **🚀 Application Installation**: Install WordPress, Joomla, and other applications instantly
 - **📁 FTP & File Management**: Create FTP users and manage directory structures
+- **⚡ WordPress Management**: Complete WordPress automation, plugin/theme control, staging environments
 
 ## 🎯 Why This Matters
 
@@ -97,10 +99,21 @@ The MCP server now supports **46 total tools (17.0% API coverage)** including:
 - Monitor file usage and organization
 
 ### 💰 **Account & Billing Management**
-- **NEW**: Check account balance and billing status
+- Check account balance and billing status
 - Monitor account overview and statistics
 - Track API usage and limits
 - View reseller account information
+
+### ⚡ **WordPress Management**
+- **NEW**: Complete WordPress automation with 15 tools
+- Check WordPress installation status and version
+- Manage plugins: activate, deactivate, remove, install StackCache
+- Theme management: switch themes, remove unused themes
+- WordPress staging environments: clone live to staging and vice versa
+- User management: list administrators and users
+- Configuration management: get/set WordPress settings
+- Search and replace operations for migrations
+- One-click WordPress updates and reinstallation
 
 ## 🚀 Quick Start
 
@@ -205,6 +218,18 @@ The MCP server now supports **46 total tools (17.0% API coverage)** including:
 "Install WordPress in the '/blog' directory of my site"
 ```
 
+### WordPress Management Operations
+```
+"Check if WordPress is installed on package w12345"
+"Update WordPress to the latest version on my site"
+"List all WordPress plugins and their status"
+"Activate the Yoast SEO plugin on my WordPress site"
+"Create a staging environment copy of my live WordPress site"
+"Update my WordPress site URL from old-domain.com to new-domain.com"
+"Install the StackCache plugin for better performance"
+"List all WordPress users and their roles"
+```
+
 ### Database and Development
 ```
 "Create MySQL database 'app_db' and user 'app_user' for my application"
@@ -228,7 +253,7 @@ The MCP server now supports **46 total tools (17.0% API coverage)** including:
 "Email system setup: create support@, sales@, and info@ accounts, then forward all to main inbox"
 ```
 
-## 🛠️ Available Tools (46 Total) - 17.0% API Coverage (46/271)
+## 🛠️ Available Tools (61 Total) - 22.5% API Coverage (61/271)
 
 ### Core Management
 | Tool | Description | Use Cases |
@@ -250,6 +275,25 @@ The MCP server now supports **46 total tools (17.0% API coverage)** including:
 | `get_hosting_package_limits` | Package quotas and limits | Resource monitoring, upgrade planning |
 | `get_hosting_package_usage` | Usage statistics | Performance monitoring, billing analysis |
 | `create_hosting_package` | Automated package creation | Client onboarding, rapid deployment |
+
+### WordPress Management
+| Tool | Description | Use Cases |
+|------|-------------|-----------|
+| `is_wordpress_installed` | Check WordPress installation status | Site verification, troubleshooting |
+| `reinstall_wordpress` | Reinstall WordPress software | Site recovery, fresh installation |
+| `get_wordpress_settings` | Get WordPress configuration settings | Site analysis, troubleshooting |
+| `set_wordpress_settings` | Update WordPress configuration | Site customization, optimization |
+| `get_wordpress_version` | Get current WordPress version | Version management, security audits |
+| `wordpress_search_replace` | Perform search and replace operations | Migration, URL changes, content updates |
+| `get_wordpress_plugins` | List installed WordPress plugins | Plugin management, security audits |
+| `manage_wordpress_plugin` | Activate/deactivate/remove plugins | Plugin management, site optimization |
+| `install_stackcache_plugin` | Install StackCache optimization plugin | Performance optimization, caching |
+| `get_wordpress_themes` | List installed WordPress themes | Theme management, design workflow |
+| `manage_wordpress_theme` | Activate/deactivate/remove themes | Theme management, site customization |
+| `get_wordpress_users` | List WordPress users | User management, security audits |
+| `update_wordpress` | Update WordPress to latest version | Security updates, feature updates |
+| `get_wordpress_staging` | Check staging environment status | Development workflow, testing |
+| `manage_wordpress_staging` | Clone between live and staging | Development workflow, safe testing |
 
 ### Database Management
 | Tool | Description | Use Cases |

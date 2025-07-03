@@ -245,6 +245,133 @@ class TwentyIClient {
     return response.data;
   }
 
+  // WordPress Management Methods
+  async isWordPressInstalled(packageId: string) {
+    const response = await this.apiClient.get(`/package/${packageId}/web/wordpressIsInstalled`);
+    return response.data;
+  }
+
+  async reinstallWordPress(packageId: string) {
+    const response = await this.apiClient.post(`/package/${packageId}/web/reinstall`);
+    return response.data;
+  }
+
+  async getWordPressSettings(packageId: string) {
+    const response = await this.apiClient.get(`/package/${packageId}/web/wordpressSettings`);
+    return response.data;
+  }
+
+  async setWordPressSettings(packageId: string, optionName: string, optionValue: string) {
+    const response = await this.apiClient.post(`/package/${packageId}/web/wordpressSettings`, {
+      option_name: optionName,
+      option_value: optionValue
+    });
+    return response.data;
+  }
+
+  async getWordPressVersion(packageId: string) {
+    const response = await this.apiClient.get(`/package/${packageId}/web/wordpressVersion`);
+    return response.data;
+  }
+
+  async wordPressSearchReplace(packageId: string, search: string, replace: string) {
+    const response = await this.apiClient.post(`/package/${packageId}/web/wordpressSearchReplace`, {
+      search,
+      replace
+    });
+    return response.data;
+  }
+
+  async getWordPressPlugins(packageId: string) {
+    const response = await this.apiClient.get(`/package/${packageId}/web/wordpressPlugins`);
+    return response.data;
+  }
+
+  async manageWordPressPlugin(packageId: string, action: 'activate' | 'deactivate' | 'remove', pluginName: string) {
+    const response = await this.apiClient.post(`/package/${packageId}/web/wordpressPlugins`, {
+      type: action,
+      name: pluginName
+    });
+    return response.data;
+  }
+
+  async installStackCachePlugin(packageId: string) {
+    const response = await this.apiClient.post(`/package/${packageId}/web/wordpressInstallStackCache`);
+    return response.data;
+  }
+
+  async getWordPressThemes(packageId: string) {
+    const response = await this.apiClient.get(`/package/${packageId}/web/wordpressThemes`);
+    return response.data;
+  }
+
+  async manageWordPressTheme(packageId: string, action: 'activate' | 'deactivate' | 'remove', themeName: string) {
+    const response = await this.apiClient.post(`/package/${packageId}/web/wordpressThemes`, {
+      type: action,
+      name: themeName
+    });
+    return response.data;
+  }
+
+  async getWordPressUsers(packageId: string) {
+    const response = await this.apiClient.get(`/package/${packageId}/web/wordpressUsers`);
+    return response.data;
+  }
+
+  async manageWordPressUser(packageId: string, userData: any) {
+    const response = await this.apiClient.post(`/package/${packageId}/web/wordpressUsers`, userData);
+    return response.data;
+  }
+
+  async getWordPressAdministrators(packageId: string) {
+    const response = await this.apiClient.get(`/package/${packageId}/web/wordpressAdministrators`);
+    return response.data;
+  }
+
+  async getWordPressRoles(packageId: string) {
+    const response = await this.apiClient.get(`/package/${packageId}/web/wordpressRoles`);
+    return response.data;
+  }
+
+  async updateWordPress(packageId: string) {
+    const response = await this.apiClient.post(`/package/${packageId}/web/wordpressUpdate`);
+    return response.data;
+  }
+
+  async getWordPressStaging(packageId: string) {
+    const response = await this.apiClient.get(`/package/${packageId}/web/wordpressStaging`);
+    return response.data;
+  }
+
+  async manageWordPressStaging(packageId: string, type: 'live' | 'staging') {
+    const response = await this.apiClient.post(`/package/${packageId}/web/wordpressStaging`, {
+      type
+    });
+    return response.data;
+  }
+
+  async removeWordPressStagingClone(packageId: string, cloneId: number) {
+    const response = await this.apiClient.post(`/package/${packageId}/web/wordpressStagingRemoveClone`, {
+      id: cloneId
+    });
+    return response.data;
+  }
+
+  async getWordPressChecksum(packageId: string) {
+    const response = await this.apiClient.get(`/package/${packageId}/web/wordpressChecksum`);
+    return response.data;
+  }
+
+  async generateWordPressChecksum(packageId: string) {
+    const response = await this.apiClient.post(`/package/${packageId}/web/wordpressChecksum`);
+    return response.data;
+  }
+
+  async checkWordPressDatabase(packageId: string) {
+    const response = await this.apiClient.get(`/package/${packageId}/web/wordpressDbCheck`);
+    return response.data;
+  }
+
   // Premium Email Management Methods
   async orderPremiumMailbox(configuration: any, forUser?: string) {
     const resellerInfo = await this.getResellerInfo();
@@ -796,6 +923,255 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
             },
           },
           required: ['name', 'years', 'contact'],
+        },
+      },
+      {
+        name: 'is_wordpress_installed',
+        description: 'Check if WordPress is installed on a hosting package',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'The hosting package ID to check',
+            },
+          },
+          required: ['package_id'],
+        },
+      },
+      {
+        name: 'reinstall_wordpress',
+        description: 'Reinstall WordPress on a hosting package',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'The hosting package ID to reinstall WordPress on',
+            },
+          },
+          required: ['package_id'],
+        },
+      },
+      {
+        name: 'get_wordpress_settings',
+        description: 'Get WordPress settings for a hosting package',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'The hosting package ID to get settings for',
+            },
+          },
+          required: ['package_id'],
+        },
+      },
+      {
+        name: 'set_wordpress_settings',
+        description: 'Set WordPress settings for a hosting package',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'The hosting package ID to set settings for',
+            },
+            option_name: {
+              type: 'string',
+              description: 'WordPress option name to set',
+            },
+            option_value: {
+              type: 'string',
+              description: 'WordPress option value to set',
+            },
+          },
+          required: ['package_id', 'option_name', 'option_value'],
+        },
+      },
+      {
+        name: 'get_wordpress_version',
+        description: 'Get the WordPress version for a hosting package',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'The hosting package ID to get WordPress version for',
+            },
+          },
+          required: ['package_id'],
+        },
+      },
+      {
+        name: 'wordpress_search_replace',
+        description: 'Perform WordPress search and replace operation',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'The hosting package ID to perform search/replace on',
+            },
+            search: {
+              type: 'string',
+              description: 'Text to search for',
+            },
+            replace: {
+              type: 'string',
+              description: 'Text to replace with',
+            },
+          },
+          required: ['package_id', 'search', 'replace'],
+        },
+      },
+      {
+        name: 'get_wordpress_plugins',
+        description: 'Get list of WordPress plugins for a hosting package',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'The hosting package ID to get plugins for',
+            },
+          },
+          required: ['package_id'],
+        },
+      },
+      {
+        name: 'manage_wordpress_plugin',
+        description: 'Activate, deactivate, or remove WordPress plugin',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'The hosting package ID to manage plugin for',
+            },
+            action: {
+              type: 'string',
+              enum: ['activate', 'deactivate', 'remove'],
+              description: 'Action to perform on the plugin',
+            },
+            plugin_name: {
+              type: 'string',
+              description: 'Name of the plugin to manage',
+            },
+          },
+          required: ['package_id', 'action', 'plugin_name'],
+        },
+      },
+      {
+        name: 'install_stackcache_plugin',
+        description: 'Install StackCache plugin for WordPress',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'The hosting package ID to install StackCache plugin for',
+            },
+          },
+          required: ['package_id'],
+        },
+      },
+      {
+        name: 'get_wordpress_themes',
+        description: 'Get list of WordPress themes for a hosting package',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'The hosting package ID to get themes for',
+            },
+          },
+          required: ['package_id'],
+        },
+      },
+      {
+        name: 'manage_wordpress_theme',
+        description: 'Activate, deactivate, or remove WordPress theme',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'The hosting package ID to manage theme for',
+            },
+            action: {
+              type: 'string',
+              enum: ['activate', 'deactivate', 'remove'],
+              description: 'Action to perform on the theme',
+            },
+            theme_name: {
+              type: 'string',
+              description: 'Name of the theme to manage',
+            },
+          },
+          required: ['package_id', 'action', 'theme_name'],
+        },
+      },
+      {
+        name: 'get_wordpress_users',
+        description: 'Get WordPress users for a hosting package',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'The hosting package ID to get users for',
+            },
+          },
+          required: ['package_id'],
+        },
+      },
+      {
+        name: 'update_wordpress',
+        description: 'Update WordPress to the latest version',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'The hosting package ID to update WordPress for',
+            },
+          },
+          required: ['package_id'],
+        },
+      },
+      {
+        name: 'get_wordpress_staging',
+        description: 'Check WordPress staging status',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'The hosting package ID to check staging for',
+            },
+          },
+          required: ['package_id'],
+        },
+      },
+      {
+        name: 'manage_wordpress_staging',
+        description: 'Clone WordPress site between live and staging',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'The hosting package ID to manage staging for',
+            },
+            type: {
+              type: 'string',
+              enum: ['live', 'staging'],
+              description: 'Copy from live to staging or staging to live',
+            },
+          },
+          required: ['package_id', 'type'],
         },
       },
       {
@@ -1591,6 +1967,190 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             {
               type: 'text',
               text: JSON.stringify(registeredDomain, null, 2),
+            },
+          ],
+        };
+
+      case 'is_wordpress_installed':
+        const wpInstalled = await twentyIClient.isWordPressInstalled(args.package_id as string);
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(wpInstalled, null, 2),
+            },
+          ],
+        };
+
+      case 'reinstall_wordpress':
+        const wpReinstall = await twentyIClient.reinstallWordPress(args.package_id as string);
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(wpReinstall, null, 2),
+            },
+          ],
+        };
+
+      case 'get_wordpress_settings':
+        const wpSettings = await twentyIClient.getWordPressSettings(args.package_id as string);
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(wpSettings, null, 2),
+            },
+          ],
+        };
+
+      case 'set_wordpress_settings':
+        const wpSetSettings = await twentyIClient.setWordPressSettings(
+          args.package_id as string,
+          args.option_name as string,
+          args.option_value as string
+        );
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(wpSetSettings, null, 2),
+            },
+          ],
+        };
+
+      case 'get_wordpress_version':
+        const wpVersion = await twentyIClient.getWordPressVersion(args.package_id as string);
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(wpVersion, null, 2),
+            },
+          ],
+        };
+
+      case 'wordpress_search_replace':
+        const wpSearchReplace = await twentyIClient.wordPressSearchReplace(
+          args.package_id as string,
+          args.search as string,
+          args.replace as string
+        );
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(wpSearchReplace, null, 2),
+            },
+          ],
+        };
+
+      case 'get_wordpress_plugins':
+        const wpPlugins = await twentyIClient.getWordPressPlugins(args.package_id as string);
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(wpPlugins, null, 2),
+            },
+          ],
+        };
+
+      case 'manage_wordpress_plugin':
+        const wpPluginManage = await twentyIClient.manageWordPressPlugin(
+          args.package_id as string,
+          args.action as 'activate' | 'deactivate' | 'remove',
+          args.plugin_name as string
+        );
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(wpPluginManage, null, 2),
+            },
+          ],
+        };
+
+      case 'install_stackcache_plugin':
+        const stackCache = await twentyIClient.installStackCachePlugin(args.package_id as string);
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(stackCache, null, 2),
+            },
+          ],
+        };
+
+      case 'get_wordpress_themes':
+        const wpThemes = await twentyIClient.getWordPressThemes(args.package_id as string);
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(wpThemes, null, 2),
+            },
+          ],
+        };
+
+      case 'manage_wordpress_theme':
+        const wpThemeManage = await twentyIClient.manageWordPressTheme(
+          args.package_id as string,
+          args.action as 'activate' | 'deactivate' | 'remove',
+          args.theme_name as string
+        );
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(wpThemeManage, null, 2),
+            },
+          ],
+        };
+
+      case 'get_wordpress_users':
+        const wpUsers = await twentyIClient.getWordPressUsers(args.package_id as string);
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(wpUsers, null, 2),
+            },
+          ],
+        };
+
+      case 'update_wordpress':
+        const wpUpdate = await twentyIClient.updateWordPress(args.package_id as string);
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(wpUpdate, null, 2),
+            },
+          ],
+        };
+
+      case 'get_wordpress_staging':
+        const wpStaging = await twentyIClient.getWordPressStaging(args.package_id as string);
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(wpStaging, null, 2),
+            },
+          ],
+        };
+
+      case 'manage_wordpress_staging':
+        const wpStagingManage = await twentyIClient.manageWordPressStaging(
+          args.package_id as string,
+          args.type as 'live' | 'staging'
+        );
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(wpStagingManage, null, 2),
             },
           ],
         };
