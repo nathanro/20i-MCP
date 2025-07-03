@@ -445,11 +445,6 @@ class TwentyIClient {
     return response.data;
   }
 
-  async getBandwidthStats(packageId: string) {
-    const response = await this.apiClient.get(`/package/${packageId}/web/bandwidthStats`);
-    return response.data;
-  }
-
   async assignWebsiteTurbo(websiteTurboId: string, packageId: string) {
     const response = await this.apiClient.post(`/website_turbo/${websiteTurboId}/assignPackage`, { packageId });
     return response.data;
