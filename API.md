@@ -31,6 +31,25 @@ Retrieves comprehensive reseller account information.
 "Display my reseller account statistics"
 ```
 
+#### `get_account_balance`
+Retrieves account balance and billing information.
+
+**Parameters:** None
+
+**Returns:** JSON object containing:
+- Current account balance
+- Billing details
+- Credit information
+- Payment status
+
+**Example Usage:**
+```
+"What's my current account balance?"
+"Show me my billing balance"
+"Check how much credit I have left"
+"Display my payment status and account balance"
+```
+
 ### Domain Management
 
 #### `list_domains`

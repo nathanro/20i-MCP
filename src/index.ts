@@ -94,6 +94,19 @@ class TwentyIClient {
     return response.data;
   }
 
+  async getAccountBalance() {
+    // Fetches account balance and billing information
+    const resellerInfo = await this.getResellerInfo();
+    const resellerId = resellerInfo?.id;
+    
+    if (!resellerId) {
+      throw new Error('Unable to determine reseller ID from account information');
+    }
+    
+    const response = await this.apiClient.get(`/reseller/${resellerId}/accountBalance`);
+    return response.data;
+  }
+
   async listDomains() {
     // Use the domain endpoint (not under reseller)
     const response = await this.apiClient.get('/domain');
@@ -474,6 +487,14 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
       {
         name: 'get_reseller_info',
         description: 'Get reseller account information and overview',
+        inputSchema: {
+          type: 'object',
+          properties: {},
+        },
+      },
+      {
+        name: 'get_account_balance',
+        description: 'Get account balance and billing information',
         inputSchema: {
           type: 'object',
           properties: {},
@@ -1287,6 +1308,17 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             {
               type: 'text',
               text: JSON.stringify(resellerInfo, null, 2),
+            },
+          ],
+        };
+
+      case 'get_account_balance':
+        const accountBalance = await twentyIClient.getAccountBalance();
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(accountBalance, null, 2),
             },
           ],
         };

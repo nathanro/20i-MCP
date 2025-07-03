@@ -10,8 +10,9 @@ Transform your 20i hosting management experience with AI-powered administration.
 
 ## 🆕 What's New - Latest Update
 
-**🎉 13 New Management Tools Added!** We've significantly expanded the capabilities with comprehensive hosting management features:
+**🎉 14 New Management Tools Added!** We've significantly expanded the capabilities with comprehensive hosting management features:
 
+- **💰 Account Balance**: Check your account balance and billing status
 - **🌐 Subdomain Management**: Create, remove, and list subdomains with simple commands
 - **🗄️ Database Operations**: Create MySQL databases and users for your applications  
 - **📧 Email Account Creation**: Set up email accounts and forwarders directly
@@ -19,7 +20,7 @@ Transform your 20i hosting management experience with AI-powered administration.
 - **🚀 Application Installation**: Install WordPress, Joomla, and other applications instantly
 - **📁 FTP & File Management**: Create FTP users and manage directory structures
 
-**Now supporting 44 total tools** for complete hosting management through natural language!
+**Now supporting 45 total tools** for complete hosting management through natural language!
 
 ## 🎯 Why This Matters
 
@@ -185,6 +186,7 @@ Transform your 20i hosting management experience with AI-powered administration.
 ### Account Monitoring
 ```
 "Give me an overview of my 20i reseller account"
+"What's my current account balance and billing status?"
 "What's my current API usage and remaining limits?"
 "Show me this month's hosting statistics"
 ```
@@ -220,12 +222,13 @@ Transform your 20i hosting management experience with AI-powered administration.
 "Email system setup: create support@, sales@, and info@ accounts, then forward all to main inbox"
 ```
 
-## 🛠️ Available Tools (44 Total)
+## 🛠️ Available Tools (45 Total)
 
 ### Core Management
 | Tool | Description | Use Cases |
 |------|-------------|-----------|
 | `get_reseller_info` | Account overview and statistics | Monitoring, reporting, billing analysis |
+| `get_account_balance` | Account balance and billing info | Financial monitoring, payment tracking |
 | `list_domains` | Domain portfolio management | Bulk operations, expiration tracking |
 | `get_domain_info` | Detailed domain information | Troubleshooting, configuration review |
 | `get_dns_records` | DNS configuration retrieval | Troubleshooting, migration planning |
