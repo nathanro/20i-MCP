@@ -616,6 +616,180 @@ Orders Website Turbo credits for CDN and performance services.
 "Add more Website Turbo credits to my account"
 ```
 
+### Backup/Restore Management
+
+#### `list_timeline_storage`
+Lists timeline storage items for backup management.
+
+**Parameters:**
+- `package_id` (string, required): The hosting package ID to list storage for
+
+**Returns:** Array of timeline storage items with backup information
+
+**Example Usage:**
+```
+"Show me all timeline storage items for package w12345"
+"List backup storage inventory for my hosting package"
+"Display available backups for data recovery planning"
+```
+
+#### `create_snapshot`
+Creates immediate snapshots for web content or databases.
+
+**Parameters:**
+- `package_id` (string, required): The hosting package ID to create snapshot for
+- `snapshot_type` (string, required): Type of snapshot - 'web' or 'database'
+- `database_id` (string, optional): Database ID if creating database snapshot
+
+**Returns:** Snapshot creation confirmation and details
+
+**Example Usage:**
+```
+"Create a web snapshot for package w12345"
+"Take a database snapshot for database db67890"
+"Create immediate backup of my website and database"
+```
+
+#### `list_snapshots`
+Lists available snapshots for a hosting package.
+
+**Parameters:**
+- `package_id` (string, required): The hosting package ID to list snapshots for
+
+**Returns:** Array of available snapshots with creation dates and types
+
+**Example Usage:**
+```
+"Show me all available snapshots for package w12345"
+"List backup snapshots for recovery options"
+"Display snapshot history for my hosting package"
+```
+
+#### `restore_snapshot`
+Restores content from timeline snapshots.
+
+**Parameters:**
+- `package_id` (string, required): The hosting package ID to restore to
+- `snapshot_id` (string, required): The snapshot ID to restore from
+- `restore_type` (string, required): Type of restoration - 'web', 'database', or 'both'
+
+**Returns:** Restoration confirmation and progress details
+
+**Example Usage:**
+```
+"Restore my website from snapshot s12345"
+"Restore database from yesterday's snapshot"
+"Restore both web and database from snapshot s67890"
+```
+
+#### `get_snapshot_jobs`
+Monitors snapshot job status and progress.
+
+**Parameters:**
+- `package_id` (string, required): The hosting package ID to monitor jobs for
+
+**Returns:** Array of active and recent snapshot jobs with status
+
+**Example Usage:**
+```
+"Check snapshot job status for package w12345"
+"Monitor backup creation progress"
+"Show me all running backup and restore jobs"
+```
+
+#### `restore_ftp_backup`
+Restores backups that were uploaded via FTP.
+
+**Parameters:**
+- `package_id` (string, required): The hosting package ID to restore to
+- `backup_filename` (string, required): Name of the backup file uploaded via FTP
+
+**Returns:** FTP backup restoration confirmation and progress
+
+**Example Usage:**
+```
+"Restore backup file 'mysite_backup_2024.tar.gz' for package w12345"
+"Restore the FTP-uploaded backup for my hosting package"
+"Process external backup file that I uploaded via FTP"
+```
+
+#### `list_backup_jobs`
+Lists backup and restore job history with status.
+
+**Parameters:**
+- `package_id` (string, required): The hosting package ID to list jobs for
+
+**Returns:** Array of backup/restore jobs with completion status and logs
+
+**Example Usage:**
+```
+"Show backup job history for package w12345"
+"List all completed and failed backup operations"
+"Display backup job logs for troubleshooting"
+```
+
+#### `list_multisite_backups`
+Lists multisite backup information for bulk operations.
+
+**Parameters:**
+- `package_ids` (array, required): Array of hosting package IDs to check
+
+**Returns:** Multisite backup status and configuration for multiple packages
+
+**Example Usage:**
+```
+"Show backup status for packages w12345, w67890, w11111"
+"List backup information for all my client websites"
+"Check multisite backup configuration for bulk operations"
+```
+
+#### `create_multisite_backup`
+Creates backups for multiple hosting packages simultaneously.
+
+**Parameters:**
+- `package_ids` (array, required): Array of hosting package IDs to backup
+- `backup_type` (string, required): Type of backup - 'web', 'database', or 'both'
+
+**Returns:** Multisite backup creation confirmation for all packages
+
+**Example Usage:**
+```
+"Create web backups for packages w12345, w67890, w11111"
+"Backup all databases for my client hosting packages"
+"Create full backups for all specified hosting packages"
+```
+
+#### `list_vps_backups`
+Lists VPS backup services and configurations.
+
+**Parameters:**
+- `vps_id` (string, required): The VPS ID to list backup services for
+
+**Returns:** Array of VPS backup services with configuration details
+
+**Example Usage:**
+```
+"Show VPS backup services for server vps123"
+"List backup configuration for my VPS infrastructure"
+"Display VPS data protection services"
+```
+
+#### `update_vps_backup`
+Configures VPS backup service settings.
+
+**Parameters:**
+- `vps_id` (string, required): The VPS ID to configure backups for
+- `backup_config` (object, required): VPS backup configuration settings
+
+**Returns:** VPS backup configuration update confirmation
+
+**Example Usage:**
+```
+"Configure daily VPS backups for server vps123"
+"Update VPS backup retention policy to 30 days"
+"Set up automated VPS backup schedule"
+```
+
 ### Hosting Package Management
 
 #### `list_hosting_packages`
