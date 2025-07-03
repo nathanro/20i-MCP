@@ -125,6 +125,26 @@ Adds or updates DNS records for a domain.
 "Set the MX record for mail.example.com with priority 10"
 ```
 
+#### `register_domain`
+Registers a new domain name with full contact management.
+
+**Parameters:**
+- `name` (string, required): Domain name to register (e.g., "example.com")
+- `years` (number, required): Number of years to register for
+- `contact` (object, required): Contact information including name, address, city, state, postal code, country, phone, email
+- `privacy_service` (boolean, optional): Enable domain privacy protection
+- `nameservers` (array, optional): Custom nameservers (defaults to 20i nameservers)
+- `stack_user` (string, optional): Stack user to grant access to
+
+**Returns:** Domain registration confirmation and details
+
+**Example Usage:**
+```
+"Register the domain 'mynewbusiness.com' for 2 years with privacy protection"
+"Register 'clientsite.org' using my standard contact information"
+"Register 'example.net' and assign it to stack user 'john_doe'"
+```
+
 ### Hosting Package Management
 
 #### `list_hosting_packages`

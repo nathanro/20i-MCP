@@ -216,6 +216,35 @@ class TwentyIClient {
     return response.data;
   }
 
+  async registerDomain(domainData: {
+    name: string;
+    years: number;
+    contact: {
+      organisation?: string;
+      name: string;
+      address: string;
+      telephone: string;
+      email: string;
+      cc: string;
+      pc: string;
+      sp: string;
+      city: string;
+    };
+    privacyService?: boolean;
+    nameservers?: string[];
+    stackUser?: string;
+  }) {
+    const resellerInfo = await this.getResellerInfo();
+    const resellerId = resellerInfo?.id;
+    
+    if (!resellerId) {
+      throw new Error('Unable to determine reseller ID from account information');
+    }
+    
+    const response = await this.apiClient.post(`/reseller/${resellerId}/addDomain`, domainData);
+    return response.data;
+  }
+
   // Premium Email Management Methods
   async orderPremiumMailbox(configuration: any, forUser?: string) {
     const resellerInfo = await this.getResellerInfo();
@@ -689,6 +718,84 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
             },
           },
           required: ['domain_id', 'record_type', 'name', 'value'],
+        },
+      },
+      {
+        name: 'register_domain',
+        description: 'Register a new domain name',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            name: {
+              type: 'string',
+              description: 'Domain name to register (e.g., example.com)',
+            },
+            years: {
+              type: 'number',
+              description: 'Number of years to register for',
+              default: 1,
+            },
+            contact: {
+              type: 'object',
+              description: 'Contact information for domain registration',
+              properties: {
+                name: {
+                  type: 'string',
+                  description: 'Contact person name',
+                },
+                organisation: {
+                  type: 'string',
+                  description: 'Organisation name (optional)',
+                },
+                address: {
+                  type: 'string',
+                  description: 'Street address',
+                },
+                city: {
+                  type: 'string',
+                  description: 'City',
+                },
+                sp: {
+                  type: 'string',
+                  description: 'State/Province',
+                },
+                pc: {
+                  type: 'string',
+                  description: 'Postal code',
+                },
+                cc: {
+                  type: 'string',
+                  description: 'Country code (e.g., GB, US)',
+                },
+                telephone: {
+                  type: 'string',
+                  description: 'Phone number',
+                },
+                email: {
+                  type: 'string',
+                  description: 'Email address',
+                },
+              },
+              required: ['name', 'address', 'city', 'sp', 'pc', 'cc', 'telephone', 'email'],
+            },
+            privacy_service: {
+              type: 'boolean',
+              description: 'Enable domain privacy protection',
+              default: false,
+            },
+            nameservers: {
+              type: 'array',
+              items: {
+                type: 'string',
+              },
+              description: 'Custom nameservers (optional, defaults to 20i nameservers)',
+            },
+            stack_user: {
+              type: 'string',
+              description: 'Stack user to grant access to (optional)',
+            },
+          },
+          required: ['name', 'years', 'contact'],
         },
       },
       {
@@ -1466,6 +1573,24 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             {
               type: 'text',
               text: JSON.stringify(updatedDns, null, 2),
+            },
+          ],
+        };
+
+      case 'register_domain':
+        const registeredDomain = await twentyIClient.registerDomain({
+          name: args.name as string,
+          years: args.years as number,
+          contact: args.contact as any,
+          privacyService: args.privacy_service as boolean,
+          nameservers: args.nameservers as string[],
+          stackUser: args.stack_user as string,
+        });
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(registeredDomain, null, 2),
             },
           ],
         };

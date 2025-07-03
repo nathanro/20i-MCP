@@ -10,11 +10,11 @@ Transform your 20i hosting management experience with AI-powered administration.
 
 ## 🆕 What's New - Latest Update
 
-**🎉 Latest Update: Account Balance Feature Added!**
+**🎉 Latest Update: Domain Registration Added!**
 
-- **💰 NEW: Account Balance**: Check your account balance and billing status directly through AI chat
+- **🌐 NEW: Domain Registration**: Register new domains with full contact management and privacy options
 
-The MCP server now supports **45 total tools** for complete hosting management including:
+The MCP server now supports **46 total tools (17.0% API coverage)** including:
 - **🌐 Subdomain Management**: Create, remove, and list subdomains with simple commands
 - **🗄️ Database Operations**: Create MySQL databases and users for your applications  
 - **📧 Email Account Creation**: Set up email accounts and forwarders directly
@@ -228,7 +228,7 @@ The MCP server now supports **45 total tools** for complete hosting management i
 "Email system setup: create support@, sales@, and info@ accounts, then forward all to main inbox"
 ```
 
-## 🛠️ Available Tools (45 Total)
+## 🛠️ Available Tools (46 Total) - 17.0% API Coverage (46/271)
 
 ### Core Management
 | Tool | Description | Use Cases |
@@ -239,6 +239,7 @@ The MCP server now supports **45 total tools** for complete hosting management i
 | `get_domain_info` | Detailed domain information | Troubleshooting, configuration review |
 | `get_dns_records` | DNS configuration retrieval | Troubleshooting, migration planning |
 | `update_dns_record` | DNS record management | Configuration changes, traffic routing |
+| `register_domain` | Register new domain names | Domain acquisition, business expansion |
 
 ### Hosting Package Management
 | Tool | Description | Use Cases |
