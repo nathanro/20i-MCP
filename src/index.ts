@@ -467,6 +467,115 @@ class TwentyIClient {
     return response.data;
   }
 
+  // Backup and Restore Management Methods
+  async listTimelineStorage(packageId: string) {
+    const response = await this.apiClient.get(`/package/${packageId}/web/timelineBackup`);
+    return response.data;
+  }
+
+  async createSnapshot(packageId: string, snapshotType: 'web' | 'database', databaseId?: string) {
+    if (snapshotType === 'database' && databaseId) {
+      const response = await this.apiClient.post(`/package/${packageId}/web/timelineBackup/database/${databaseId}/takeSnapshot`);
+      return response.data;
+    } else if (snapshotType === 'web') {
+      const response = await this.apiClient.post(`/package/${packageId}/web/timelineBackup/web/takeSnapshot`);
+      return response.data;
+    } else {
+      throw new Error('Invalid snapshot type or missing database ID for database snapshots');
+    }
+  }
+
+  async listSnapshots(packageId: string, snapshotType: 'web' | 'database', databaseId?: string) {
+    if (snapshotType === 'database' && databaseId) {
+      const response = await this.apiClient.get(`/package/${packageId}/web/timelineBackup/database/${databaseId}`);
+      return response.data;
+    } else if (snapshotType === 'web') {
+      const response = await this.apiClient.get(`/package/${packageId}/web/timelineBackup/web`);
+      return response.data;
+    } else {
+      throw new Error('Invalid snapshot type or missing database ID for database snapshots');
+    }
+  }
+
+  async restoreSnapshot(packageId: string, restoreData: {
+    snapshotType: 'web' | 'database';
+    action: 'restore' | 'mysqlrestore';
+    restoreAsOf: number;
+    restorePath: string;
+    target?: string;
+    databaseId?: string;
+  }) {
+    const { snapshotType, databaseId, ...restoreParams } = restoreData;
+    
+    if (snapshotType === 'database' && databaseId) {
+      const response = await this.apiClient.post(`/package/${packageId}/web/timelineBackup/database/${databaseId}/restoreSnapshot`, restoreParams);
+      return response.data;
+    } else if (snapshotType === 'web') {
+      const response = await this.apiClient.post(`/package/${packageId}/web/timelineBackup/web/restoreSnapshot`, restoreParams);
+      return response.data;
+    } else {
+      throw new Error('Invalid snapshot type or missing database ID for database snapshots');
+    }
+  }
+
+  async getSnapshotJobs(packageId: string) {
+    const response = await this.apiClient.get(`/package/${packageId}/web/timelineBackup/web/jobs`);
+    return response.data;
+  }
+
+  async restoreFtpBackup(packageId: string, backupData: {
+    filename: string;
+    restoreType: 'IntoDirectory' | 'ReplaceMissing' | 'ReplaceAll';
+    restoreDatabases: boolean;
+  }) {
+    const response = await this.apiClient.post(`/package/${packageId}/web/restoreWebsiteBackup`, backupData);
+    return response.data;
+  }
+
+  async listBackupJobs(packageId: string) {
+    // This would typically be combined with other job monitoring endpoints
+    const response = await this.apiClient.get(`/package/${packageId}/web/timelineBackup/web/jobs`);
+    return response.data;
+  }
+
+  async listMultisiteBackups() {
+    const resellerInfo = await this.getResellerInfo();
+    const resellerId = resellerInfo?.id;
+    
+    if (!resellerId) {
+      throw new Error('Unable to determine reseller ID from account information');
+    }
+    
+    const response = await this.apiClient.get(`/reseller/${resellerId}/backupBulkPackages`);
+    return response.data;
+  }
+
+  async createMultisiteBackup(packageIds: string[], deleteExisting: boolean = false) {
+    const resellerInfo = await this.getResellerInfo();
+    const resellerId = resellerInfo?.id;
+    
+    if (!resellerId) {
+      throw new Error('Unable to determine reseller ID from account information');
+    }
+    
+    const response = await this.apiClient.post(`/reseller/${resellerId}/backupBulkPackages`, {
+      id: packageIds,
+      delete: deleteExisting
+    });
+    return response.data;
+  }
+
+  async listVpsBackups() {
+    // This would list VPS backup services if available
+    const response = await this.apiClient.get('/vps');
+    return response.data;
+  }
+
+  async updateVpsBackup(vpsId: string, backupConfig: any) {
+    const response = await this.apiClient.post(`/vps/${vpsId}/backup`, backupConfig);
+    return response.data;
+  }
+
   // Premium Email Management Methods
   async orderPremiumMailbox(configuration: any, forUser?: string) {
     const resellerInfo = await this.getResellerInfo();
@@ -1512,6 +1621,218 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
             },
           },
           required: ['amount'],
+        },
+      },
+      {
+        name: 'list_timeline_storage',
+        description: 'List timeline storage items for a hosting package',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'The hosting package ID to list timeline storage for',
+            },
+          },
+          required: ['package_id'],
+        },
+      },
+      {
+        name: 'create_snapshot',
+        description: 'Create immediate snapshot of web files or database',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'The hosting package ID to create snapshot for',
+            },
+            snapshot_type: {
+              type: 'string',
+              enum: ['web', 'database'],
+              description: 'Type of snapshot to create',
+            },
+            database_id: {
+              type: 'string',
+              description: 'Database ID (required for database snapshots)',
+            },
+          },
+          required: ['package_id', 'snapshot_type'],
+        },
+      },
+      {
+        name: 'list_snapshots',
+        description: 'List available snapshots for web files or database',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'The hosting package ID to list snapshots for',
+            },
+            snapshot_type: {
+              type: 'string',
+              enum: ['web', 'database'],
+              description: 'Type of snapshots to list',
+            },
+            database_id: {
+              type: 'string',
+              description: 'Database ID (required for database snapshots)',
+            },
+          },
+          required: ['package_id', 'snapshot_type'],
+        },
+      },
+      {
+        name: 'restore_snapshot',
+        description: 'Restore from timeline snapshot with precise control',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'The hosting package ID to restore snapshot for',
+            },
+            snapshot_type: {
+              type: 'string',
+              enum: ['web', 'database'],
+              description: 'Type of snapshot to restore',
+            },
+            action: {
+              type: 'string',
+              enum: ['restore', 'mysqlrestore'],
+              description: 'Restore action type',
+            },
+            restore_as_of: {
+              type: 'number',
+              description: 'UNIX timestamp to restore from',
+            },
+            restore_path: {
+              type: 'string',
+              description: 'Path to restore to',
+            },
+            target: {
+              type: 'string',
+              description: 'Optional target for restore operation',
+            },
+            database_id: {
+              type: 'string',
+              description: 'Database ID (required for database snapshots)',
+            },
+          },
+          required: ['package_id', 'snapshot_type', 'action', 'restore_as_of', 'restore_path'],
+        },
+      },
+      {
+        name: 'get_snapshot_jobs',
+        description: 'Get snapshot job status and progress',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'The hosting package ID to get snapshot jobs for',
+            },
+          },
+          required: ['package_id'],
+        },
+      },
+      {
+        name: 'restore_ftp_backup',
+        description: 'Restore backup file uploaded via FTP',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'The hosting package ID to restore backup for',
+            },
+            filename: {
+              type: 'string',
+              description: 'Backup filename to restore',
+            },
+            restore_type: {
+              type: 'string',
+              enum: ['IntoDirectory', 'ReplaceMissing', 'ReplaceAll'],
+              description: 'How to restore the backup',
+            },
+            restore_databases: {
+              type: 'boolean',
+              description: 'Whether to restore databases',
+              default: false,
+            },
+          },
+          required: ['package_id', 'filename', 'restore_type'],
+        },
+      },
+      {
+        name: 'list_backup_jobs',
+        description: 'List backup and restore job progress',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'The hosting package ID to list backup jobs for',
+            },
+          },
+          required: ['package_id'],
+        },
+      },
+      {
+        name: 'list_multisite_backups',
+        description: 'List multisite backup information',
+        inputSchema: {
+          type: 'object',
+          properties: {},
+        },
+      },
+      {
+        name: 'create_multisite_backup',
+        description: 'Create bulk backups across multiple packages',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_ids: {
+              type: 'array',
+              items: {
+                type: 'string',
+              },
+              description: 'Array of package IDs to backup',
+            },
+            delete_existing: {
+              type: 'boolean',
+              description: 'Whether to delete existing backups',
+              default: false,
+            },
+          },
+          required: ['package_ids'],
+        },
+      },
+      {
+        name: 'list_vps_backups',
+        description: 'List VPS backup services',
+        inputSchema: {
+          type: 'object',
+          properties: {},
+        },
+      },
+      {
+        name: 'update_vps_backup',
+        description: 'Configure VPS backup settings',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            vps_id: {
+              type: 'string',
+              description: 'VPS ID to configure backup for',
+            },
+            backup_config: {
+              type: 'object',
+              description: 'Backup configuration settings',
+            },
+          },
+          required: ['vps_id', 'backup_config'],
         },
       },
       {
@@ -2680,6 +3001,152 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             {
               type: 'text',
               text: JSON.stringify(turboCredits, null, 2),
+            },
+          ],
+        };
+
+      case 'list_timeline_storage':
+        const timelineStorage = await twentyIClient.listTimelineStorage(args.package_id as string);
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(timelineStorage, null, 2),
+            },
+          ],
+        };
+
+      case 'create_snapshot':
+        const snapshotResult = await twentyIClient.createSnapshot(
+          args.package_id as string,
+          args.snapshot_type as 'web' | 'database',
+          args.database_id as string
+        );
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(snapshotResult, null, 2),
+            },
+          ],
+        };
+
+      case 'list_snapshots':
+        const snapshots = await twentyIClient.listSnapshots(
+          args.package_id as string,
+          args.snapshot_type as 'web' | 'database',
+          args.database_id as string
+        );
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(snapshots, null, 2),
+            },
+          ],
+        };
+
+      case 'restore_snapshot':
+        const restoreResult = await twentyIClient.restoreSnapshot(args.package_id as string, {
+          snapshotType: args.snapshot_type as 'web' | 'database',
+          action: args.action as 'restore' | 'mysqlrestore',
+          restoreAsOf: args.restore_as_of as number,
+          restorePath: args.restore_path as string,
+          target: args.target as string,
+          databaseId: args.database_id as string
+        });
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(restoreResult, null, 2),
+            },
+          ],
+        };
+
+      case 'get_snapshot_jobs':
+        const snapshotJobs = await twentyIClient.getSnapshotJobs(args.package_id as string);
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(snapshotJobs, null, 2),
+            },
+          ],
+        };
+
+      case 'restore_ftp_backup':
+        const ftpRestoreResult = await twentyIClient.restoreFtpBackup(args.package_id as string, {
+          filename: args.filename as string,
+          restoreType: args.restore_type as 'IntoDirectory' | 'ReplaceMissing' | 'ReplaceAll',
+          restoreDatabases: args.restore_databases as boolean
+        });
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(ftpRestoreResult, null, 2),
+            },
+          ],
+        };
+
+      case 'list_backup_jobs':
+        const backupJobs = await twentyIClient.listBackupJobs(args.package_id as string);
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(backupJobs, null, 2),
+            },
+          ],
+        };
+
+      case 'list_multisite_backups':
+        const multisiteBackups = await twentyIClient.listMultisiteBackups();
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(multisiteBackups, null, 2),
+            },
+          ],
+        };
+
+      case 'create_multisite_backup':
+        const multisiteBackupResult = await twentyIClient.createMultisiteBackup(
+          args.package_ids as string[],
+          args.delete_existing as boolean
+        );
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(multisiteBackupResult, null, 2),
+            },
+          ],
+        };
+
+      case 'list_vps_backups':
+        const vpsBackups = await twentyIClient.listVpsBackups();
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(vpsBackups, null, 2),
+            },
+          ],
+        };
+
+      case 'update_vps_backup':
+        const vpsBackupUpdate = await twentyIClient.updateVpsBackup(
+          args.vps_id as string,
+          args.backup_config as any
+        );
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(vpsBackupUpdate, null, 2),
             },
           ],
         };

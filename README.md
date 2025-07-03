@@ -10,13 +10,14 @@ Transform your 20i hosting management experience with AI-powered administration.
 
 ## 🆕 What's New - Latest Update
 
-**🎉 Latest Update: CDN Management Added!**
+**🎉 Latest Update: Backup/Restore Management Added!**
 
-- **🚀 NEW: CDN Management**: Complete content delivery network control with 15 new tools
+- **💾 NEW: Backup/Restore Management**: Complete data protection with 11 new tools
+- **🚀 CDN Management**: Complete content delivery network control with 15 tools
 - **⚡ WordPress Management**: Complete WordPress automation with 15 tools
 - **🌐 Domain Registration**: Register new domains with full contact management and privacy options
 
-The MCP server now supports **76 total tools (28.0% API coverage)** including:
+The MCP server now supports **87 total tools (32.1% API coverage)** including:
 - **🌐 Subdomain Management**: Create, remove, and list subdomains with simple commands
 - **🗄️ Database Operations**: Create MySQL databases and users for your applications  
 - **📧 Email Account Creation**: Set up email accounts and forwarders directly
@@ -25,6 +26,7 @@ The MCP server now supports **76 total tools (28.0% API coverage)** including:
 - **📁 FTP & File Management**: Create FTP users and manage directory structures
 - **⚡ WordPress Management**: Complete WordPress automation, plugin/theme control, staging environments
 - **🚀 CDN Management**: Content delivery optimization, cache control, security headers
+- **💾 Backup/Restore Management**: Timeline snapshots, data protection, multisite backups
 
 ## 🎯 Why This Matters
 
@@ -127,6 +129,16 @@ The MCP server now supports **76 total tools (28.0% API coverage)** including:
 - Website Turbo service assignment and credit management
 - Bandwidth statistics and monitoring
 - Performance optimization through CDN features
+
+### 💾 **Backup/Restore Management**
+- **NEW**: Complete data protection with 11 tools
+- Timeline storage management and snapshot creation
+- Web and database snapshot restoration with precise control
+- FTP backup restoration and job monitoring
+- Multisite backup management across multiple packages
+- VPS backup service configuration
+- Automated backup job status tracking
+- Point-in-time recovery capabilities
 
 ## 🚀 Quick Start
 
@@ -255,6 +267,18 @@ The MCP server now supports **76 total tools (28.0% API coverage)** including:
 "Configure StackCache policies for optimal performance"
 ```
 
+### Backup and Data Protection
+```
+"Create a snapshot of my website and database for package w12345"
+"Show me all available backups for my hosting package"
+"Restore my website from yesterday's snapshot"
+"List all timeline storage items for data recovery planning"
+"Monitor the status of my current backup jobs"
+"Create bulk backups for all my client websites"
+"Restore the backup file I uploaded via FTP"
+"Configure automatic VPS backup settings"
+```
+
 ### Database and Development
 ```
 "Create MySQL database 'app_db' and user 'app_user' for my application"
@@ -278,7 +302,7 @@ The MCP server now supports **76 total tools (28.0% API coverage)** including:
 "Email system setup: create support@, sales@, and info@ accounts, then forward all to main inbox"
 ```
 
-## 🛠️ Available Tools (76 Total) - 28.0% API Coverage (76/271)
+## 🛠️ Available Tools (87 Total) - 32.1% API Coverage (87/271)
 
 ### Core Management
 | Tool | Description | Use Cases |
@@ -338,6 +362,21 @@ The MCP server now supports **76 total tools (28.0% API coverage)** including:
 | `get_cdn_traffic_distribution` | Get traffic by country | Analytics, geographic performance |
 | `assign_website_turbo` | Assign package to Website Turbo | Performance acceleration, service activation |
 | `order_website_turbo_credits` | Order Website Turbo credits | Service provisioning, account management |
+
+### Backup/Restore Management
+| Tool | Description | Use Cases |
+|------|-------------|-----------|
+| `list_timeline_storage` | List timeline storage items | Backup inventory, storage management |
+| `create_snapshot` | Create immediate snapshots | Data protection, backup creation |
+| `list_snapshots` | List available snapshots | Recovery planning, backup history |
+| `restore_snapshot` | Restore from timeline snapshots | Data recovery, point-in-time restoration |
+| `get_snapshot_jobs` | Monitor snapshot job status | Process tracking, job management |
+| `restore_ftp_backup` | Restore FTP-uploaded backups | External backup restoration |
+| `list_backup_jobs` | Monitor backup/restore progress | Job tracking, status monitoring |
+| `list_multisite_backups` | List multisite backup info | Bulk backup management |
+| `create_multisite_backup` | Backup multiple packages | Bulk operations, enterprise backup |
+| `list_vps_backups` | List VPS backup services | VPS data protection |
+| `update_vps_backup` | Configure VPS backup settings | VPS backup automation |
 
 ### Database Management
 | Tool | Description | Use Cases |
