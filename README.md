@@ -10,14 +10,15 @@ Transform your 20i hosting management experience with AI-powered administration.
 
 ## 🆕 What's New - Latest Update
 
-**🎉 Latest Update: Backup/Restore Management Added!**
+**🎉 Latest Update: Advanced Security Management Added!**
 
-- **💾 NEW: Backup/Restore Management**: Complete data protection with 11 new tools
+- **🔒 NEW: Advanced Security Management**: Complete security control with 13 new tools
+- **💾 Backup/Restore Management**: Complete data protection with 11 tools
 - **🚀 CDN Management**: Complete content delivery network control with 15 tools
 - **⚡ WordPress Management**: Complete WordPress automation with 15 tools
 - **🌐 Domain Registration**: Register new domains with full contact management and privacy options
 
-The MCP server now supports **87 total tools (32.1% API coverage)** including:
+The MCP server now supports **100 total tools (36.9% API coverage)** including:
 - **🌐 Subdomain Management**: Create, remove, and list subdomains with simple commands
 - **🗄️ Database Operations**: Create MySQL databases and users for your applications  
 - **📧 Email Account Creation**: Set up email accounts and forwarders directly
@@ -27,6 +28,7 @@ The MCP server now supports **87 total tools (32.1% API coverage)** including:
 - **⚡ WordPress Management**: Complete WordPress automation, plugin/theme control, staging environments
 - **🚀 CDN Management**: Content delivery optimization, cache control, security headers
 - **💾 Backup/Restore Management**: Timeline snapshots, data protection, multisite backups
+- **🔒 Advanced Security Management**: IP/country blocking, malware scanning, premium SSL certificates
 
 ## 🎯 Why This Matters
 
@@ -139,6 +141,16 @@ The MCP server now supports **87 total tools (32.1% API coverage)** including:
 - VPS backup service configuration
 - Automated backup job status tracking
 - Point-in-time recovery capabilities
+
+### 🔒 **Advanced Security Management**
+- **NEW**: Complete security control with 13 tools
+- IP address blocking and allowlisting for traffic control
+- Country-based access restrictions using ISO codes
+- Malware scanning and automated threat detection
+- Email spam filtering with blacklist/whitelist management
+- Premium SSL/TLS certificate ordering and renewal
+- Security monitoring and incident response
+- Real-time threat protection and access control
 
 ## 🚀 Quick Start
 
@@ -279,6 +291,20 @@ The MCP server now supports **87 total tools (32.1% API coverage)** including:
 "Configure automatic VPS backup settings"
 ```
 
+### Advanced Security Management
+```
+"Block IP address 192.168.1.100 from accessing package w12345"
+"Show me all blocked IP addresses for my hosting package"
+"Block all traffic from China and Russia for enhanced security"
+"Remove country block for Germany to allow EU traffic"
+"Run a malware scan on package w12345 to check for threats"
+"Show me the latest malware report for security analysis"
+"Order a premium SSL certificate for mysite.com valid for 12 months"
+"Check email spam blacklist settings for support@mysite.com"
+"Add 10.0.0.0/8 to IP block list to prevent internal network access"
+"Remove IP block for 203.0.113.5 to restore legitimate access"
+```
+
 ### Database and Development
 ```
 "Create MySQL database 'app_db' and user 'app_user' for my application"
@@ -302,7 +328,7 @@ The MCP server now supports **87 total tools (32.1% API coverage)** including:
 "Email system setup: create support@, sales@, and info@ accounts, then forward all to main inbox"
 ```
 
-## 🛠️ Available Tools (87 Total) - 32.1% API Coverage (87/271)
+## 🛠️ Available Tools (100 Total) - 36.9% API Coverage (100/271)
 
 ### Core Management
 | Tool | Description | Use Cases |
@@ -377,6 +403,25 @@ The MCP server now supports **87 total tools (32.1% API coverage)** including:
 | `create_multisite_backup` | Backup multiple packages | Bulk operations, enterprise backup |
 | `list_vps_backups` | List VPS backup services | VPS data protection |
 | `update_vps_backup` | Configure VPS backup settings | VPS backup automation |
+
+### Advanced Security Management
+| Tool | Description | Use Cases |
+|------|-------------|-----------|
+| `get_blocked_ip_addresses` | List blocked IP addresses | Security auditing, access control review |
+| `set_blocked_ip_addresses` | Set blocked IP addresses | Bulk IP blocking, security policy enforcement |
+| `add_ip_block` | Block single IP address | Immediate threat response, targeted blocking |
+| `remove_ip_block` | Remove IP address block | Access restoration, policy updates |
+| `get_blocked_countries` | List blocked countries | Geographic security review, compliance |
+| `set_blocked_countries` | Set blocked countries | Bulk country blocking, geo-restrictions |
+| `add_country_block` | Block single country | Targeted geographic blocking, security |
+| `remove_country_block` | Remove country block | Access restoration, policy changes |
+| `get_malware_scan` | Check malware scan status | Security monitoring, threat assessment |
+| `request_malware_scan` | Request new malware scan | Proactive security scanning, incident response |
+| `get_malware_report` | Get detailed malware report | Security analysis, threat investigation |
+| `get_email_spam_blacklist` | View email spam blacklist | Email security auditing, filter management |
+| `get_email_spam_whitelist` | View email spam whitelist | Email security configuration, legitimate sender management |
+| `add_tls_certificate` | Order premium SSL certificate | Enhanced security, commercial SSL deployment |
+| `renew_tls_certificate` | Renew SSL certificate | Certificate lifecycle management, security maintenance |
 
 ### Database Management
 | Tool | Description | Use Cases |

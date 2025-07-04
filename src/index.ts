@@ -576,6 +576,133 @@ class TwentyIClient {
     return response.data;
   }
 
+  // Advanced Security Management Methods
+  async getBlockedIpAddresses(packageId: string) {
+    const response = await this.apiClient.get(`/package/${packageId}/web/blockedIpAddresses`);
+    return response.data;
+  }
+
+  async setBlockedIpAddresses(packageId: string, ipAddresses?: string[]) {
+    const payload = ipAddresses ? { ip_addresses: ipAddresses } : {};
+    const response = await this.apiClient.post(`/package/${packageId}/web/blockedIpAddresses`, payload);
+    return response.data;
+  }
+
+  async addIpBlock(packageId: string, ipAddress: string) {
+    // Get current blocked IPs and add the new one
+    const currentBlocked = await this.getBlockedIpAddresses(packageId);
+    const blockedList = Array.isArray(currentBlocked) ? currentBlocked : [];
+    
+    if (!blockedList.includes(ipAddress)) {
+      blockedList.push(ipAddress);
+      return await this.setBlockedIpAddresses(packageId, blockedList);
+    }
+    
+    return { message: 'IP address is already blocked', blocked_ips: blockedList };
+  }
+
+  async removeIpBlock(packageId: string, ipAddress: string) {
+    // Get current blocked IPs and remove the specified one
+    const currentBlocked = await this.getBlockedIpAddresses(packageId);
+    const blockedList = Array.isArray(currentBlocked) ? currentBlocked : [];
+    
+    const updatedList = blockedList.filter(ip => ip !== ipAddress);
+    return await this.setBlockedIpAddresses(packageId, updatedList);
+  }
+
+  async getBlockedCountries(packageId: string) {
+    const response = await this.apiClient.get(`/package/${packageId}/web/blockedCountries`);
+    return response.data;
+  }
+
+  async setBlockedCountries(packageId: string, countries: string[], access: string = 'block') {
+    const response = await this.apiClient.post(`/package/${packageId}/web/blockedCountries`, {
+      countries,
+      access
+    });
+    return response.data;
+  }
+
+  async addCountryBlock(packageId: string, countryCode: string, access: string = 'block') {
+    // Get current blocked countries and add the new one
+    const currentBlocked = await this.getBlockedCountries(packageId);
+    const blockedList = Array.isArray(currentBlocked) ? currentBlocked : [];
+    
+    if (!blockedList.includes(countryCode)) {
+      blockedList.push(countryCode);
+      return await this.setBlockedCountries(packageId, blockedList, access);
+    }
+    
+    return { message: 'Country is already blocked', blocked_countries: blockedList };
+  }
+
+  async removeCountryBlock(packageId: string, countryCode: string) {
+    // Get current blocked countries and remove the specified one
+    const currentBlocked = await this.getBlockedCountries(packageId);
+    const blockedList = Array.isArray(currentBlocked) ? currentBlocked : [];
+    
+    const updatedList = blockedList.filter(country => country !== countryCode);
+    return await this.setBlockedCountries(packageId, updatedList);
+  }
+
+  async getMalwareScan(packageId: string) {
+    const response = await this.apiClient.get(`/package/${packageId}/web/malwareScan`);
+    return response.data;
+  }
+
+  async requestMalwareScan(packageId: string) {
+    const response = await this.apiClient.post(`/package/${packageId}/web/malwareScan`, {
+      LockState: 'new'
+    });
+    return response.data;
+  }
+
+  async getMalwareReport(packageId: string) {
+    const response = await this.apiClient.get(`/package/${packageId}/web/malwareReport`);
+    return response.data;
+  }
+
+  async getEmailSpamBlacklist(packageId: string, emailId: string) {
+    const response = await this.apiClient.get(`/package/${packageId}/email/${emailId}/spamPolicyListBlacklist`);
+    return response.data;
+  }
+
+  async getEmailSpamWhitelist(packageId: string, emailId: string) {
+    const response = await this.apiClient.get(`/package/${packageId}/email/${emailId}/spamPolicyListWhitelist`);
+    return response.data;
+  }
+
+  async addTlsCertificate(name: string, periodMonths: number, configuration: any) {
+    const resellerInfo = await this.getResellerInfo();
+    const resellerId = resellerInfo?.id;
+    
+    if (!resellerId) {
+      throw new Error('Unable to determine reseller ID from account information');
+    }
+    
+    const response = await this.apiClient.post(`/reseller/${resellerId}/addTlsCertificate`, {
+      name,
+      periodMonths,
+      configuration
+    });
+    return response.data;
+  }
+
+  async renewTlsCertificate(certificateId: string, periodMonths: number) {
+    const resellerInfo = await this.getResellerInfo();
+    const resellerId = resellerInfo?.id;
+    
+    if (!resellerId) {
+      throw new Error('Unable to determine reseller ID from account information');
+    }
+    
+    const response = await this.apiClient.post(`/reseller/${resellerId}/renewTlsCertificate`, {
+      id: certificateId,
+      periodMonths
+    });
+    return response.data;
+  }
+
   // Premium Email Management Methods
   async orderPremiumMailbox(configuration: any, forUser?: string) {
     const resellerInfo = await this.getResellerInfo();
@@ -1833,6 +1960,272 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
             },
           },
           required: ['vps_id', 'backup_config'],
+        },
+      },
+      {
+        name: 'get_blocked_ip_addresses',
+        description: 'Retrieve blocked IP addresses for a hosting package',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'Hosting package ID to get blocked IPs for',
+            },
+          },
+          required: ['package_id'],
+        },
+      },
+      {
+        name: 'set_blocked_ip_addresses',
+        description: 'Set blocked IP addresses for a hosting package',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'Hosting package ID to set blocked IPs for',
+            },
+            ip_addresses: {
+              type: 'array',
+              items: { type: 'string' },
+              description: 'Array of IP addresses or CIDR ranges to block',
+            },
+          },
+          required: ['package_id'],
+        },
+      },
+      {
+        name: 'add_ip_block',
+        description: 'Add a single IP address to the block list',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'Hosting package ID to add IP block to',
+            },
+            ip_address: {
+              type: 'string',
+              description: 'IP address or CIDR range to block',
+            },
+          },
+          required: ['package_id', 'ip_address'],
+        },
+      },
+      {
+        name: 'remove_ip_block',
+        description: 'Remove an IP address from the block list',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'Hosting package ID to remove IP block from',
+            },
+            ip_address: {
+              type: 'string',
+              description: 'IP address or CIDR range to unblock',
+            },
+          },
+          required: ['package_id', 'ip_address'],
+        },
+      },
+      {
+        name: 'get_blocked_countries',
+        description: 'Retrieve blocked countries for a hosting package',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'Hosting package ID to get blocked countries for',
+            },
+          },
+          required: ['package_id'],
+        },
+      },
+      {
+        name: 'set_blocked_countries',
+        description: 'Set blocked countries for a hosting package',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'Hosting package ID to set blocked countries for',
+            },
+            countries: {
+              type: 'array',
+              items: { type: 'string' },
+              description: 'Array of ISO 3166 country codes to block',
+            },
+            access: {
+              type: 'string',
+              description: 'Access type configuration (default: "block")',
+              default: 'block',
+            },
+          },
+          required: ['package_id', 'countries'],
+        },
+      },
+      {
+        name: 'add_country_block',
+        description: 'Add a single country to the block list',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'Hosting package ID to add country block to',
+            },
+            country_code: {
+              type: 'string',
+              description: 'ISO 3166 country code to block (e.g., "CN", "RU")',
+            },
+            access: {
+              type: 'string',
+              description: 'Access type configuration (default: "block")',
+              default: 'block',
+            },
+          },
+          required: ['package_id', 'country_code'],
+        },
+      },
+      {
+        name: 'remove_country_block',
+        description: 'Remove a country from the block list',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'Hosting package ID to remove country block from',
+            },
+            country_code: {
+              type: 'string',
+              description: 'ISO 3166 country code to unblock',
+            },
+          },
+          required: ['package_id', 'country_code'],
+        },
+      },
+      {
+        name: 'get_malware_scan',
+        description: 'Get malware scan status and results for a hosting package',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'Hosting package ID to get malware scan for',
+            },
+          },
+          required: ['package_id'],
+        },
+      },
+      {
+        name: 'request_malware_scan',
+        description: 'Request a new malware scan for a hosting package',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'Hosting package ID to scan for malware',
+            },
+          },
+          required: ['package_id'],
+        },
+      },
+      {
+        name: 'get_malware_report',
+        description: 'Get detailed malware report for a hosting package',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'Hosting package ID to get malware report for',
+            },
+          },
+          required: ['package_id'],
+        },
+      },
+      {
+        name: 'get_email_spam_blacklist',
+        description: 'Get email spam blacklist configuration',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'Hosting package ID',
+            },
+            email_id: {
+              type: 'string',
+              description: 'Email domain ID',
+            },
+          },
+          required: ['package_id', 'email_id'],
+        },
+      },
+      {
+        name: 'get_email_spam_whitelist',
+        description: 'Get email spam whitelist configuration',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'Hosting package ID',
+            },
+            email_id: {
+              type: 'string',
+              description: 'Email domain ID',
+            },
+          },
+          required: ['package_id', 'email_id'],
+        },
+      },
+      {
+        name: 'add_tls_certificate',
+        description: 'Order a premium TLS/SSL certificate',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            name: {
+              type: 'string',
+              description: 'Certificate name/identifier',
+            },
+            period_months: {
+              type: 'number',
+              description: 'Certificate validity period in months',
+            },
+            configuration: {
+              type: 'object',
+              description: 'Certificate configuration details',
+            },
+          },
+          required: ['name', 'period_months', 'configuration'],
+        },
+      },
+      {
+        name: 'renew_tls_certificate',
+        description: 'Renew an existing TLS/SSL certificate',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            certificate_id: {
+              type: 'string',
+              description: 'Certificate ID to renew',
+            },
+            period_months: {
+              type: 'number',
+              description: 'Renewal period in months',
+            },
+          },
+          required: ['certificate_id', 'period_months'],
         },
       },
       {
@@ -3147,6 +3540,204 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             {
               type: 'text',
               text: JSON.stringify(vpsBackupUpdate, null, 2),
+            },
+          ],
+        };
+
+      case 'get_blocked_ip_addresses':
+        const blockedIps = await twentyIClient.getBlockedIpAddresses(args.package_id as string);
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(blockedIps, null, 2),
+            },
+          ],
+        };
+
+      case 'set_blocked_ip_addresses':
+        const setIpBlocks = await twentyIClient.setBlockedIpAddresses(
+          args.package_id as string,
+          args.ip_addresses as string[]
+        );
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(setIpBlocks, null, 2),
+            },
+          ],
+        };
+
+      case 'add_ip_block':
+        const addIpBlock = await twentyIClient.addIpBlock(
+          args.package_id as string,
+          args.ip_address as string
+        );
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(addIpBlock, null, 2),
+            },
+          ],
+        };
+
+      case 'remove_ip_block':
+        const removeIpBlock = await twentyIClient.removeIpBlock(
+          args.package_id as string,
+          args.ip_address as string
+        );
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(removeIpBlock, null, 2),
+            },
+          ],
+        };
+
+      case 'get_blocked_countries':
+        const blockedCountries = await twentyIClient.getBlockedCountries(args.package_id as string);
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(blockedCountries, null, 2),
+            },
+          ],
+        };
+
+      case 'set_blocked_countries':
+        const setCountryBlocks = await twentyIClient.setBlockedCountries(
+          args.package_id as string,
+          args.countries as string[],
+          args.access as string
+        );
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(setCountryBlocks, null, 2),
+            },
+          ],
+        };
+
+      case 'add_country_block':
+        const addCountryBlock = await twentyIClient.addCountryBlock(
+          args.package_id as string,
+          args.country_code as string,
+          args.access as string
+        );
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(addCountryBlock, null, 2),
+            },
+          ],
+        };
+
+      case 'remove_country_block':
+        const removeCountryBlock = await twentyIClient.removeCountryBlock(
+          args.package_id as string,
+          args.country_code as string
+        );
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(removeCountryBlock, null, 2),
+            },
+          ],
+        };
+
+      case 'get_malware_scan':
+        const malwareScan = await twentyIClient.getMalwareScan(args.package_id as string);
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(malwareScan, null, 2),
+            },
+          ],
+        };
+
+      case 'request_malware_scan':
+        const requestScan = await twentyIClient.requestMalwareScan(args.package_id as string);
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(requestScan, null, 2),
+            },
+          ],
+        };
+
+      case 'get_malware_report':
+        const malwareReport = await twentyIClient.getMalwareReport(args.package_id as string);
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(malwareReport, null, 2),
+            },
+          ],
+        };
+
+      case 'get_email_spam_blacklist':
+        const spamBlacklist = await twentyIClient.getEmailSpamBlacklist(
+          args.package_id as string,
+          args.email_id as string
+        );
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(spamBlacklist, null, 2),
+            },
+          ],
+        };
+
+      case 'get_email_spam_whitelist':
+        const spamWhitelist = await twentyIClient.getEmailSpamWhitelist(
+          args.package_id as string,
+          args.email_id as string
+        );
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(spamWhitelist, null, 2),
+            },
+          ],
+        };
+
+      case 'add_tls_certificate':
+        const tlsCertificate = await twentyIClient.addTlsCertificate(
+          args.name as string,
+          args.period_months as number,
+          args.configuration as any
+        );
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(tlsCertificate, null, 2),
+            },
+          ],
+        };
+
+      case 'renew_tls_certificate':
+        const renewCertificate = await twentyIClient.renewTlsCertificate(
+          args.certificate_id as string,
+          args.period_months as number
+        );
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(renewCertificate, null, 2),
             },
           ],
         };

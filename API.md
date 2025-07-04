@@ -790,6 +790,246 @@ Configures VPS backup service settings.
 "Set up automated VPS backup schedule"
 ```
 
+### Advanced Security Management
+
+#### `get_blocked_ip_addresses`
+Retrieves blocked IP addresses for a hosting package.
+
+**Parameters:**
+- `package_id` (string, required): The hosting package ID to get blocked IPs for
+
+**Returns:** Array of blocked IP addresses (standard format or CIDR)
+
+**Example Usage:**
+```
+"Show me all blocked IP addresses for package w12345"
+"List current IP blocks for security review"
+"Display IP access restrictions for my hosting package"
+```
+
+#### `set_blocked_ip_addresses`
+Sets blocked IP addresses for a hosting package.
+
+**Parameters:**
+- `package_id` (string, required): The hosting package ID to set blocked IPs for
+- `ip_addresses` (array, optional): Array of IP addresses or CIDR ranges to block
+
+**Returns:** IP blocking configuration confirmation
+
+**Example Usage:**
+```
+"Block IPs 192.168.1.100, 10.0.0.0/8 for package w12345"
+"Set comprehensive IP block list for enhanced security"
+"Clear all IP blocks by setting empty list"
+```
+
+#### `add_ip_block`
+Adds a single IP address to the block list.
+
+**Parameters:**
+- `package_id` (string, required): The hosting package ID to add IP block to
+- `ip_address` (string, required): IP address or CIDR range to block
+
+**Returns:** IP block addition confirmation
+
+**Example Usage:**
+```
+"Block IP address 203.0.113.5 for package w12345"
+"Add 172.16.0.0/16 to IP block list for internal network protection"
+"Block suspicious IP 198.51.100.42 immediately"
+```
+
+#### `remove_ip_block`
+Removes an IP address from the block list.
+
+**Parameters:**
+- `package_id` (string, required): The hosting package ID to remove IP block from
+- `ip_address` (string, required): IP address or CIDR range to unblock
+
+**Returns:** IP block removal confirmation
+
+**Example Usage:**
+```
+"Remove IP block for 203.0.113.5 to restore legitimate access"
+"Unblock 10.0.0.0/8 for internal network access"
+"Remove false positive IP block for 198.51.100.42"
+```
+
+#### `get_blocked_countries`
+Retrieves blocked countries for a hosting package.
+
+**Parameters:**
+- `package_id` (string, required): The hosting package ID to get blocked countries for
+
+**Returns:** Array of blocked country codes (ISO 3166 format)
+
+**Example Usage:**
+```
+"Show me all blocked countries for package w12345"
+"List current geographic restrictions for security review"
+"Display country-based access controls"
+```
+
+#### `set_blocked_countries`
+Sets blocked countries for a hosting package.
+
+**Parameters:**
+- `package_id` (string, required): The hosting package ID to set blocked countries for
+- `countries` (array, required): Array of ISO 3166 country codes to block
+- `access` (string, optional): Access type configuration (default: "block")
+
+**Returns:** Country blocking configuration confirmation
+
+**Example Usage:**
+```
+"Block countries CN, RU, KP for package w12345"
+"Set comprehensive country block list for compliance"
+"Block high-risk countries for enhanced security"
+```
+
+#### `add_country_block`
+Adds a single country to the block list.
+
+**Parameters:**
+- `package_id` (string, required): The hosting package ID to add country block to
+- `country_code` (string, required): ISO 3166 country code to block (e.g., "CN", "RU")
+- `access` (string, optional): Access type configuration (default: "block")
+
+**Returns:** Country block addition confirmation
+
+**Example Usage:**
+```
+"Block traffic from China (CN) for package w12345"
+"Add Russia (RU) to country block list for security"
+"Block North Korea (KP) for compliance requirements"
+```
+
+#### `remove_country_block`
+Removes a country from the block list.
+
+**Parameters:**
+- `package_id` (string, required): The hosting package ID to remove country block from
+- `country_code` (string, required): ISO 3166 country code to unblock
+
+**Returns:** Country block removal confirmation
+
+**Example Usage:**
+```
+"Remove country block for Germany (DE) to allow EU traffic"
+"Unblock Canada (CA) for North American access"
+"Remove false positive country block for UK (GB)"
+```
+
+#### `get_malware_scan`
+Gets malware scan status and results for a hosting package.
+
+**Parameters:**
+- `package_id` (string, required): The hosting package ID to get malware scan for
+
+**Returns:** Malware scan status, results, and threat information
+
+**Example Usage:**
+```
+"Check malware scan status for package w12345"
+"Show me the latest security scan results"
+"Display threat detection status for my hosting package"
+```
+
+#### `request_malware_scan`
+Requests a new malware scan for a hosting package.
+
+**Parameters:**
+- `package_id` (string, required): The hosting package ID to scan for malware
+
+**Returns:** Malware scan initiation confirmation
+
+**Example Usage:**
+```
+"Run a new malware scan on package w12345"
+"Start security scan to check for threats"
+"Initiate malware detection for my hosting package"
+```
+
+#### `get_malware_report`
+Gets detailed malware report for a hosting package.
+
+**Parameters:**
+- `package_id` (string, required): The hosting package ID to get malware report for
+
+**Returns:** Detailed malware analysis and threat assessment
+
+**Example Usage:**
+```
+"Show me detailed malware report for package w12345"
+"Get comprehensive security analysis for threat investigation"
+"Display malware detection details and recommendations"
+```
+
+#### `get_email_spam_blacklist`
+Gets email spam blacklist configuration.
+
+**Parameters:**
+- `package_id` (string, required): The hosting package ID
+- `email_id` (string, required): The email domain ID
+
+**Returns:** Current email spam blacklist settings and blocked addresses
+
+**Example Usage:**
+```
+"Show email spam blacklist for support@mysite.com"
+"Display blocked email addresses for security review"
+"Get spam filter blacklist configuration"
+```
+
+#### `get_email_spam_whitelist`
+Gets email spam whitelist configuration.
+
+**Parameters:**
+- `package_id` (string, required): The hosting package ID
+- `email_id` (string, required): The email domain ID
+
+**Returns:** Current email spam whitelist settings and allowed addresses
+
+**Example Usage:**
+```
+"Show email spam whitelist for support@mysite.com"
+"Display allowed email addresses for legitimate senders"
+"Get spam filter whitelist configuration"
+```
+
+#### `add_tls_certificate`
+Orders a premium TLS/SSL certificate.
+
+**Parameters:**
+- `name` (string, required): Certificate name/identifier
+- `period_months` (number, required): Certificate validity period in months
+- `configuration` (object, required): Certificate configuration details
+
+**Returns:** Premium SSL certificate order confirmation and details
+
+**Example Usage:**
+```
+"Order premium SSL certificate for mysite.com valid for 12 months"
+"Purchase commercial SSL certificate with extended validation"
+"Order wildcard SSL certificate for *.mysite.com domain"
+```
+
+#### `renew_tls_certificate`
+Renews an existing TLS/SSL certificate.
+
+**Parameters:**
+- `certificate_id` (string, required): Certificate ID to renew
+- `period_months` (number, required): Renewal period in months
+
+**Returns:** SSL certificate renewal confirmation and updated details
+
+**Example Usage:**
+```
+"Renew SSL certificate cert123 for another 12 months"
+"Extend premium SSL certificate before expiration"
+"Renew commercial SSL certificate with 24-month validity"
+```
+
 ### Hosting Package Management
 
 #### `list_hosting_packages`
