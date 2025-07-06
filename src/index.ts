@@ -16,6 +16,25 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
+/**
+ * 20i API Response Format Notes:
+ * 
+ * The 20i API may return different response formats depending on account status:
+ * 
+ * 1. Reseller Info (/reseller endpoint):
+ *    - Normal: { id: "reseller-id", name: "...", ... }
+ *    - UUID only: "0f8b7d7c-d878-4356-9b00-e6210a26fff1" (string)
+ *    - Empty/new accounts may return minimal data
+ * 
+ * 2. Account Balance (/reseller/{id}/accountBalance):
+ *    - Normal: { balance: 123.45, currency: "USD", ... }
+ *    - Zero balance: May return empty object {} or 404 error
+ *    - New accounts: May have no balance endpoint available
+ * 
+ * Important: Always use console.error() instead of console.log() to avoid
+ * polluting the stdio transport used by MCP protocol.
+ */
+
 interface ApiCredentials {
   apiKey: string;
   oauthKey: string;
@@ -28,27 +47,90 @@ class TwentyIClient {
 
   constructor() {
     this.credentials = this.loadCredentials();
+    // Credentials loaded successfully
+    
+    const authHeader = `Bearer ${Buffer.from(this.credentials.apiKey).toString('base64')}`;
+    // Authorization header configured
+    
     this.apiClient = axios.create({
       baseURL: 'https://api.20i.com',
       headers: {
-        'Authorization': `Bearer ${Buffer.from(this.credentials.apiKey).toString('base64')}`,
+        'Authorization': authHeader,
         'Content-Type': 'application/json',
+        'Accept': 'application/json',
       },
       timeout: 30000, // 30 second timeout
+      responseType: 'json', // Ensure axios tries to parse JSON
+      transformResponse: [(data) => {
+        // If it's already parsed by axios, return it
+        if (typeof data === 'object' && data !== null) {
+          return data;
+        }
+        
+        // Try to parse if it's a string
+        if (typeof data === 'string' && data.trim()) {
+          try {
+            return JSON.parse(data);
+          } catch (e) {
+            // Return the string as-is so we can handle it in the interceptor
+            return data;
+          }
+        }
+        
+        return data;
+      }],
     });
 
-    // Add response interceptor for better error handling
+    // Add response interceptor for better error handling and JSON validation
     this.apiClient.interceptors.response.use(
-      (response) => response,
+      (response) => {
+        // Process response
+
+        // Check if response is JSON
+        const contentType = response.headers['content-type'];
+        
+        // If we got a string response that looks like JavaScript object literal, try to convert it
+        if (typeof response.data === 'string' && response.data.trim()) {
+          const trimmedData = response.data.trim();
+          
+          // Check if it looks like a JavaScript object literal (starts with 'Loaded' or contains ':' without quotes)
+          if (trimmedData.includes(':') && !trimmedData.startsWith('{') && !trimmedData.startsWith('[')) {
+            // Invalid response format detected
+            throw new Error(`API returned invalid format (JavaScript object literal instead of JSON). This suggests the API endpoint or authentication may be incorrect.`);
+          }
+          
+          // Try to parse as JSON if it's a string
+          try {
+            response.data = JSON.parse(trimmedData);
+          } catch (parseError) {
+            // JSON parsing failed
+            
+            if (contentType && contentType.includes('text/html')) {
+              throw new Error(`API returned HTML instead of JSON. Status: ${response.status}. This usually indicates an authentication error or invalid endpoint.`);
+            } else {
+              throw new Error(`API returned unparseable response: ${trimmedData.substring(0, 100)}...`);
+            }
+          }
+        }
+        
+        if (response.data === null || response.data === undefined) {
+          // Handle null/undefined response
+          response.data = {};
+        }
+        
+        return response;
+      },
       (error) => {
-        console.error('API Error:', {
-          status: error.response?.status,
-          statusText: error.response?.statusText,
-          url: error.config?.url,
-          method: error.config?.method,
-          headers: error.config?.headers,
-          data: error.response?.data
-        });
+        // API request failed
+        
+        // Check if the error response contains HTML
+        if (error.response?.headers?.['content-type']?.includes('text/html')) {
+          const htmlPreview = typeof error.response.data === 'string' 
+            ? error.response.data.substring(0, 200).replace(/<[^>]*>/g, ' ').trim()
+            : '';
+          throw new Error(`API returned HTML error page (${error.response.status}): ${htmlPreview}`);
+        }
+        
         return Promise.reject(error);
       }
     );
@@ -90,21 +172,72 @@ class TwentyIClient {
   async getResellerInfo() {
     // Fetches reseller account information including unique reseller ID
     // Never hardcode reseller IDs - each account has a different one
-    const response = await this.apiClient.get('/reseller');
-    return response.data;
+    // 
+    // API Response Formats:
+    // 1. Normal response: { id: "reseller-id", name: "...", ... }
+    // 2. UUID response: "0f8b7d7c-d878-4356-9b00-e6210a26fff1" (string)
+    // 3. Empty/zero balance accounts may return different formats
+    try {
+      const response = await this.apiClient.get('/reseller');
+      
+      // Handle different response formats
+      if (typeof response.data === 'string' && response.data.match(/^[a-f0-9-]{36}$/i)) {
+        // API returned just a UUID string
+        return { id: response.data };
+      }
+      
+      // Validate response structure
+      if (!response.data || typeof response.data !== 'object') {
+        throw new Error(`Invalid response from /reseller endpoint: expected object, got ${typeof response.data}`);
+      }
+      
+      return response.data;
+    } catch (error: any) {
+      // Error occurred - rethrow with original details
+      throw error;
+    }
   }
 
   async getAccountBalance() {
     // Fetches account balance and billing information
-    const resellerInfo = await this.getResellerInfo();
-    const resellerId = resellerInfo?.id;
+    // 
+    // Note: Accounts with zero balance or new accounts may return different response formats
+    // The API may return an empty object {} or specific error for zero-balance accounts
+    let resellerId: string | undefined;
     
-    if (!resellerId) {
-      throw new Error('Unable to determine reseller ID from account information');
+    try {
+      const resellerInfo = await this.getResellerInfo();
+      resellerId = resellerInfo?.id;
+      
+      if (!resellerId) {
+        throw new Error('Unable to determine reseller ID from account information');
+      }
+      
+      const response = await this.apiClient.get(`/reseller/${resellerId}/accountBalance`);
+      
+      // Handle empty response for zero-balance accounts
+      if (!response.data || Object.keys(response.data).length === 0) {
+        return {
+          balance: 0,
+          currency: 'USD',
+          message: 'Account has zero balance or no balance information available'
+        };
+      }
+      
+      return response.data;
+    } catch (error: any) {
+      // If the API returns 404 or specific error for zero-balance, handle gracefully
+      if (error.response?.status === 404 || error.response?.status === 403) {
+        return {
+          balance: 0,
+          currency: 'USD',
+          message: 'Balance information not available - account may have zero balance or no payment history',
+          resellerId: resellerId
+        };
+      }
+      // Re-throw with more specific error message
+      throw new Error(`Failed to retrieve balance for reseller ${resellerId}: ${error.message}`);
     }
-    
-    const response = await this.apiClient.get(`/reseller/${resellerId}/accountBalance`);
-    return response.data;
   }
 
   async listDomains() {
@@ -243,6 +376,579 @@ class TwentyIClient {
     
     const response = await this.apiClient.post(`/reseller/${resellerId}/addDomain`, domainData);
     return response.data;
+  }
+
+  async searchDomains(searchTerm: string, options?: {
+    suggestions?: boolean;
+    tlds?: string[];
+  }) {
+    // Search for domain availability and suggestions
+    // Supports both prefix searching (searches all TLDs) and specific domain names
+    // Can also return semantic suggestions for domain names
+    //
+    // API Endpoint: GET /domain-search/{prefix_or_name}
+    // - If searchTerm is a full domain (contains dot), searches that specific domain
+    // - If searchTerm is a prefix, searches across all supported TLDs
+    // - Multiple domains can be searched by comma separation
+    // - Results include availability status and suggestions if enabled
+    //
+    // Note: Results are streamed and may arrive in different order than requested
+    try {
+      // Encode the search term to handle special characters and spaces
+      const encodedSearchTerm = encodeURIComponent(searchTerm.trim());
+      
+      // Build query parameters if options provided
+      const queryParams = new URLSearchParams();
+      if (options?.suggestions !== undefined) {
+        queryParams.set('suggestions', options.suggestions.toString());
+      }
+      if (options?.tlds && options.tlds.length > 0) {
+        queryParams.set('tlds', options.tlds.join(','));
+      }
+      
+      const queryString = queryParams.toString();
+      const url = `/domain-search/${encodedSearchTerm}${queryString ? `?${queryString}` : ''}`;
+      
+      const response = await this.apiClient.get(url);
+      return response.data;
+    } catch (error: any) {
+      // Handle rate limiting and usage limits gracefully
+      if (error.response?.status === 429) {
+        throw new Error('Domain search rate limit exceeded. Please try again later.');
+      }
+      throw error;
+    }
+  }
+
+  async getDomainVerificationStatus() {
+    // Retrieve domain verification status for all domains
+    // Returns a list of all domains with their verification status
+    //
+    // API Endpoint: GET /domainVerification
+    // - Returns verification status for all domains in the account
+    // - Shows which domains require registrant verification
+    // - Includes verification completion status and requirements
+    try {
+      const response = await this.apiClient.get('/domainVerification');
+      return response.data;
+    } catch (error: any) {
+      // Handle cases where no domains need verification
+      if (error.response?.status === 404) {
+        return [];
+      }
+      throw error;
+    }
+  }
+
+  async resendDomainVerificationEmail(packageId: string, domainId: string) {
+    // Resend the registrant verification email for a specific domain
+    // Used when domain registrant verification is required
+    //
+    // API Endpoint: POST /package/{packageId}/domain/{domainId}/resendVerificationEmail
+    // - Resends verification email to domain registrant
+    // - Required for certain domain registrations and transfers
+    // - Helps complete domain ownership verification process
+    try {
+      const response = await this.apiClient.post(`/package/${packageId}/domain/${domainId}/resendVerificationEmail`, {});
+      return response.data;
+    } catch (error: any) {
+      if (error.response?.status === 404) {
+        throw new Error('Domain not found or verification email not applicable for this domain');
+      }
+      throw error;
+    }
+  }
+
+  // Email Security Management Methods
+  async getDkimSignature(packageId: string, emailId: string) {
+    // Retrieve DKIM signature configuration for a domain
+    // Used to check current DKIM authentication settings
+    //
+    // API Endpoint: GET /package/{packageId}/email/{emailId}/signature
+    // - Returns current DKIM signature configuration
+    // - Shows selector, key, and signature settings
+    // - Used for email authentication verification
+    try {
+      const response = await this.apiClient.get(`/package/${packageId}/email/${emailId}/signature`);
+      return response.data;
+    } catch (error: any) {
+      if (error.response?.status === 404) {
+        return { message: 'No DKIM signature configured for this domain' };
+      }
+      throw error;
+    }
+  }
+
+  async setDkimSignature(packageId: string, emailId: string, dkimConfig: {
+    action: 'set' | 'delete';
+    body?: {
+      Canonicalization?: string;
+      ExpiryTime?: number;
+      Flag?: string;
+      Granularity?: string;
+      IsDefault?: boolean;
+      IsStrict?: boolean;
+      Note?: string;
+      Selector?: string;
+      ServiceType?: string;
+    };
+  }) {
+    // Set or delete DKIM signature for email authentication
+    // Critical for email deliverability and anti-spoofing
+    //
+    // API Endpoint: POST /package/{packageId}/email/{emailId}/signature
+    // - Configure DKIM signing for outbound email
+    // - Set signature parameters like selector and canonicalization
+    // - Delete existing DKIM configuration if needed
+    try {
+      const response = await this.apiClient.post(`/package/${packageId}/email/${emailId}/signature`, dkimConfig);
+      return response.data;
+    } catch (error: any) {
+      if (error.response?.status === 400) {
+        throw new Error(`Invalid DKIM configuration: ${error.response?.data?.message || 'Check parameters'}`);
+      }
+      throw error;
+    }
+  }
+
+  async getDmarcPolicy(packageId: string, emailId: string) {
+    // Retrieve DMARC policy configuration for a domain
+    // Used to check current DMARC authentication and policy settings
+    //
+    // API Endpoint: GET /package/{packageId}/email/{emailId}/dmarc
+    // - Returns current DMARC policy configuration
+    // - Shows policy actions (none, quarantine, reject)
+    // - Includes reporting and alignment settings
+    try {
+      const response = await this.apiClient.get(`/package/${packageId}/email/${emailId}/dmarc`);
+      return response.data;
+    } catch (error: any) {
+      if (error.response?.status === 404) {
+        return { message: 'No DMARC policy configured for this domain' };
+      }
+      throw error;
+    }
+  }
+
+  async setDmarcPolicy(packageId: string, emailId: string, dmarcConfig: {
+    action: 'set' | 'delete';
+    body?: {
+      Policy?: 'none' | 'quarantine' | 'reject';
+      SubdomainPolicy?: 'none' | 'quarantine' | 'reject';
+      Percentage?: number;
+      ReportingURI?: string;
+      ForensicReportingURI?: string;
+      AlignmentMode?: 'strict' | 'relaxed';
+      ReportingInterval?: number;
+      Note?: string;
+    };
+  }) {
+    // Set or delete DMARC policy for email authentication
+    // Essential for email security and deliverability
+    //
+    // API Endpoint: POST /package/{packageId}/email/{emailId}/dmarc
+    // - Configure DMARC policy (none, quarantine, reject)
+    // - Set reporting URIs for DMARC reports
+    // - Configure alignment modes and percentage rollout
+    try {
+      const response = await this.apiClient.post(`/package/${packageId}/email/${emailId}/dmarc`, dmarcConfig);
+      return response.data;
+    } catch (error: any) {
+      if (error.response?.status === 400) {
+        throw new Error(`Invalid DMARC configuration: ${error.response?.data?.message || 'Check policy parameters'}`);
+      }
+      throw error;
+    }
+  }
+
+  // PHP Environment Management Methods
+  async getAvailablePhpVersions(packageId: string) {
+    // Get all available PHP versions for a hosting package
+    // Used to determine which PHP versions can be set for the package
+    //
+    // API Endpoint: GET /package/{packageId}/web/availablePhpVersions
+    // - Returns list of available PHP versions
+    // - Includes version numbers and display titles
+    // - Used for version selection in hosting management
+    try {
+      const response = await this.apiClient.get(`/package/${packageId}/web/availablePhpVersions`);
+      return response.data;
+    } catch (error: any) {
+      if (error.response?.status === 404) {
+        throw new Error('Package not found or does not support PHP version management');
+      }
+      throw error;
+    }
+  }
+
+  async getCurrentPhpVersion(packageId: string) {
+    // Get the current PHP version for a hosting package
+    // Returns the currently active PHP version string
+    //
+    // API Endpoint: GET /package/{packageId}/web/phpVersion
+    // - Returns current PHP version (e.g., "8.2", "7.4")
+    // - Used to check current environment configuration
+    try {
+      const response = await this.apiClient.get(`/package/${packageId}/web/phpVersion`);
+      return response.data;
+    } catch (error: any) {
+      if (error.response?.status === 404) {
+        throw new Error('Package not found or does not support PHP version management');
+      }
+      throw error;
+    }
+  }
+
+  async setPhpVersion(packageId: string, version: string) {
+    // Set the PHP version for a hosting package
+    // Critical for application compatibility and development environments
+    //
+    // API Endpoint: POST /package/{packageId}/web/phpVersion
+    // - Sets PHP version for the hosting package
+    // - Affects all PHP scripts and applications
+    // - May require application restart or cache clearing
+    try {
+      const response = await this.apiClient.post(`/package/${packageId}/web/phpVersion`, {
+        value: version
+      });
+      return response.data;
+    } catch (error: any) {
+      if (error.response?.status === 400) {
+        throw new Error(`Invalid PHP version: ${version}. Check available versions first.`);
+      }
+      if (error.response?.status === 404) {
+        throw new Error('Package not found or does not support PHP version management');
+      }
+      throw error;
+    }
+  }
+
+  async getAllowedPhpConfiguration(packageId: string) {
+    // Get allowed PHP configuration directives for a hosting package
+    // Shows which PHP settings can be customized
+    //
+    // API Endpoint: GET /package/{packageId}/web/allowedPhpConfiguration
+    // - Returns list of configurable PHP directives
+    // - Includes directive names, types, and default values
+    // - Used for PHP environment customization
+    try {
+      const response = await this.apiClient.get(`/package/${packageId}/web/allowedPhpConfiguration`);
+      return response.data;
+    } catch (error: any) {
+      if (error.response?.status === 404) {
+        throw new Error('Package not found or does not support PHP configuration management');
+      }
+      throw error;
+    }
+  }
+
+  async getPhpConfig(packageId: string, phpConfigId: string) {
+    // Get current PHP configuration for a specific configuration ID
+    // Returns current PHP directive values
+    //
+    // API Endpoint: GET /package/{packageId}/web/phpConfig/{phpConfigId}
+    // - Returns current PHP configuration settings
+    // - Shows custom directive values and overrides
+    // - Used to review current PHP environment setup
+    try {
+      const response = await this.apiClient.get(`/package/${packageId}/web/phpConfig/${phpConfigId}`);
+      return response.data;
+    } catch (error: any) {
+      if (error.response?.status === 404) {
+        throw new Error('PHP configuration not found for the specified package and config ID');
+      }
+      throw error;
+    }
+  }
+
+  async updatePhpConfig(packageId: string, phpConfigId: string, config: Record<string, string>) {
+    // Update PHP configuration directives for a hosting package
+    // Allows customization of PHP environment settings
+    //
+    // API Endpoint: POST /package/{packageId}/web/phpConfig/{phpConfigId}/updateConfig
+    // - Updates PHP directive values
+    // - Affects PHP behavior for the hosting package
+    // - Configuration changes may require time to propagate
+    try {
+      const response = await this.apiClient.post(`/package/${packageId}/web/phpConfig/${phpConfigId}/updateConfig`, {
+        config: config
+      });
+      return response.data;
+    } catch (error: any) {
+      if (error.response?.status === 400) {
+        throw new Error('Invalid PHP configuration values. Check allowed directives and formats.');
+      }
+      if (error.response?.status === 404) {
+        throw new Error('PHP configuration not found for the specified package and config ID');
+      }
+      throw error;
+    }
+  }
+
+  // File Permission Management Methods
+  async getFilePermissionRecommendations(packageId: string) {
+    // Get file permissions that don't match platform recommendations
+    // Critical for web hosting security and proper file access
+    //
+    // API Endpoint: GET /package/{packageId}/web/filePermissions
+    // - Returns permission check information
+    // - Identifies files with incorrect permissions
+    // - Provides platform-recommended security settings
+    try {
+      const response = await this.apiClient.get(`/package/${packageId}/web/filePermissions`);
+      return response.data;
+    } catch (error: any) {
+      if (error.response?.status === 404) {
+        throw new Error('Package not found or does not support file permission management');
+      }
+      throw error;
+    }
+  }
+
+  async setFilePermissions(packageId: string, permissionCheckId: number, files: Array<{file: string, perms: number}>) {
+    // Set file permissions for specific files
+    // Corrects file permissions to match security recommendations
+    //
+    // API Endpoint: POST /package/{packageId}/web/filePermissions
+    // - Sets file permissions for security compliance
+    // - Requires permission check ID from recommendations
+    // - Applies permissions to specified files
+    try {
+      const response = await this.apiClient.post(`/package/${packageId}/web/filePermissions`, {
+        permissionCheckId,
+        files
+      });
+      return response.data;
+    } catch (error: any) {
+      if (error.response?.status === 400) {
+        throw new Error('Invalid permission check ID or file permission values');
+      }
+      if (error.response?.status === 404) {
+        throw new Error('Package not found or permission check ID is invalid');
+      }
+      throw error;
+    }
+  }
+
+  async getDirectoryIndexingStatus(packageId: string) {
+    // Get directory indexing configuration
+    // Controls whether visitors can view directory file listings
+    //
+    // API Endpoint: GET /package/{packageId}/web/directoryIndexing
+    // - Returns current directory indexing state
+    // - Important for web security and privacy
+    try {
+      const response = await this.apiClient.get(`/package/${packageId}/web/directoryIndexing`);
+      return response.data;
+    } catch (error: any) {
+      if (error.response?.status === 404) {
+        throw new Error('Package not found or does not support directory indexing management');
+      }
+      throw error;
+    }
+  }
+
+  async setDirectoryIndexing(packageId: string, enabled: boolean) {
+    // Enable or disable directory indexing for security
+    // Controls whether visitors can view directory file listings
+    //
+    // API Endpoint: POST /package/{packageId}/web/directoryIndexing
+    // - Enables/disables directory indexing
+    // - Critical for web security and privacy
+    // - Prevents unauthorized file browsing
+    try {
+      const response = await this.apiClient.post(`/package/${packageId}/web/directoryIndexing`, {
+        value: enabled
+      });
+      return response.data;
+    } catch (error: any) {
+      if (error.response?.status === 400) {
+        throw new Error('Invalid directory indexing value. Must be boolean.');
+      }
+      if (error.response?.status === 404) {
+        throw new Error('Package not found or does not support directory indexing management');
+      }
+      throw error;
+    }
+  }
+
+  async setDirectoryIndex(packageId: string, indexFiles: string[]) {
+    // Set directory index files (up to 5) for htaccess configuration
+    // Controls which files serve as directory index pages
+    //
+    // API Endpoint: POST /package/{packageId}/web/directoryIndex
+    // - Sets up to 5 files for directory index
+    // - Configures htaccess file handling
+    // - Defines default files for directory access
+    try {
+      const response = await this.apiClient.post(`/package/${packageId}/web/directoryIndex`, {
+        indexFiles: indexFiles.slice(0, 5) // Limit to 5 files as per API spec
+      });
+      return response.data;
+    } catch (error: any) {
+      if (error.response?.status === 400) {
+        throw new Error('Invalid directory index file list. Maximum 5 files allowed.');
+      }
+      if (error.response?.status === 404) {
+        throw new Error('Package not found or does not support directory index management');
+      }
+      throw error;
+    }
+  }
+
+  // Easy Builder Integration Methods
+  async getEasyBuilderInstances(packageId: string) {
+    // Get current Easy Builder instances for a hosting package
+    // Essential for website builder management and deployment
+    //
+    // API Endpoint: GET /package/{packageId}/web/easyBuilderInstance
+    // - Returns current Easy Builder instances
+    // - Shows instance status and configuration
+    // - Required for builder management workflows
+    try {
+      const response = await this.apiClient.get(`/package/${packageId}/web/easyBuilderInstance`);
+      return response.data;
+    } catch (error: any) {
+      if (error.response?.status === 404) {
+        throw new Error('Package not found or does not support Easy Builder');
+      }
+      throw error;
+    }
+  }
+
+  async deleteEasyBuilderInstance(packageId: string, instanceId: string) {
+    // Delete an Easy Builder instance
+    // Removes website builder deployment and configuration
+    //
+    // API Endpoint: POST /package/{packageId}/web/easyBuilderInstanceDelete
+    // - Deletes Easy Builder instance by ID
+    // - Removes associated configuration and files
+    // - Irreversible operation - use with caution
+    try {
+      const response = await this.apiClient.post(`/package/${packageId}/web/easyBuilderInstanceDelete`, {
+        instanceId
+      });
+      return response.data;
+    } catch (error: any) {
+      if (error.response?.status === 400) {
+        throw new Error('Invalid instance ID or instance cannot be deleted');
+      }
+      if (error.response?.status === 404) {
+        throw new Error('Package or Easy Builder instance not found');
+      }
+      throw error;
+    }
+  }
+
+  async installEasyBuilderInstance(packageId: string, instanceId: string) {
+    // Install an Easy Builder instance
+    // Deploys website builder to hosting package
+    //
+    // API Endpoint: POST /package/{packageId}/web/easyBuilderInstanceInstall
+    // - Installs Easy Builder instance by ID
+    // - Sets up builder environment and configuration
+    // - Enables website builder functionality
+    try {
+      const response = await this.apiClient.post(`/package/${packageId}/web/easyBuilderInstanceInstall`, {
+        instanceId
+      });
+      return response.data;
+    } catch (error: any) {
+      if (error.response?.status === 400) {
+        throw new Error('Invalid instance ID or installation failed');
+      }
+      if (error.response?.status === 404) {
+        throw new Error('Package or Easy Builder instance not found');
+      }
+      throw error;
+    }
+  }
+
+  async getEasyBuilderSso(packageId: string, instanceId: string) {
+    // Get Easy Builder Single Sign-On URL
+    // Provides direct access to builder interface
+    //
+    // API Endpoint: POST /package/{packageId}/web/easyBuilderSso
+    // - Returns SSO URL for Easy Builder instance
+    // - Enables seamless access to builder interface
+    // - Required for user authentication workflow
+    try {
+      const response = await this.apiClient.post(`/package/${packageId}/web/easyBuilderSso`, {
+        instanceId
+      });
+      return response.data;
+    } catch (error: any) {
+      if (error.response?.status === 400) {
+        throw new Error('Invalid instance ID or SSO generation failed');
+      }
+      if (error.response?.status === 404) {
+        throw new Error('Package or Easy Builder instance not found');
+      }
+      throw error;
+    }
+  }
+
+  async getEasyBuilderThemes(packageId: string) {
+    // Get all available Easy Builder themes
+    // Lists templates and design options for website builder
+    //
+    // API Endpoint: GET /package/{packageId}/web/easyBuilderTheme
+    // - Returns available themes and templates
+    // - Shows theme metadata and previews
+    // - Required for theme selection workflow
+    try {
+      const response = await this.apiClient.get(`/package/${packageId}/web/easyBuilderTheme`);
+      return response.data;
+    } catch (error: any) {
+      if (error.response?.status === 404) {
+        throw new Error('Package not found or does not support Easy Builder themes');
+      }
+      throw error;
+    }
+  }
+
+  async setEasyBuilderTheme(packageId: string, instanceId: string, themeName: string) {
+    // Set Easy Builder theme for instance
+    // Applies selected theme to website builder
+    //
+    // API Endpoint: POST /package/{packageId}/web/easyBuilderTheme
+    // - Sets theme for Easy Builder instance
+    // - Applies design and layout changes
+    // - Updates site appearance immediately
+    try {
+      const response = await this.apiClient.post(`/package/${packageId}/web/easyBuilderTheme`, {
+        instanceId,
+        themeName
+      });
+      return response.data;
+    } catch (error: any) {
+      if (error.response?.status === 400) {
+        throw new Error('Invalid instance ID or theme name');
+      }
+      if (error.response?.status === 404) {
+        throw new Error('Package, instance, or theme not found');
+      }
+      throw error;
+    }
+  }
+
+  async getWebsiteBuilderSso(packageId: string) {
+    // Get Website Builder Single Sign-On URL
+    // Provides direct access to traditional website builder
+    //
+    // API Endpoint: GET /package/{packageId}/web/websiteBuilderSso
+    // - Returns SSO URL for Website Builder
+    // - Enables seamless access to builder interface
+    // - Alternative to Easy Builder for traditional sites
+    try {
+      const response = await this.apiClient.get(`/package/${packageId}/web/websiteBuilderSso`);
+      return response.data;
+    } catch (error: any) {
+      if (error.response?.status === 404) {
+        throw new Error('Package not found or does not support Website Builder');
+      }
+      throw error;
+    }
   }
 
   // WordPress Management Methods
@@ -907,12 +1613,6 @@ class TwentyIClient {
     return response.data;
   }
 
-  async setPhpVersion(packageId: string, version: string) {
-    const response = await this.apiClient.post(`/package/${packageId}/web/phpVersion`, {
-      version
-    });
-    return response.data;
-  }
 
   // Application Management Methods
   async listApplications(packageId: string) {
@@ -1254,6 +1954,287 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
             },
           },
           required: ['name', 'years', 'contact'],
+        },
+      },
+      {
+        name: 'search_domains',
+        description: 'Search for domain availability and get suggestions',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            search_term: {
+              type: 'string',
+              description: 'Domain name or prefix to search for. Can be a full domain name (e.g., "example.com") or a prefix (e.g., "example") to search across all TLDs',
+            },
+            suggestions: {
+              type: 'boolean',
+              description: 'Enable domain name suggestions (default: false)',
+            },
+            tlds: {
+              type: 'array',
+              items: {
+                type: 'string',
+              },
+              description: 'Specific TLDs to search (optional, defaults to all supported TLDs)',
+            },
+          },
+          required: ['search_term'],
+        },
+      },
+      {
+        name: 'get_domain_verification_status',
+        description: 'Get domain verification status for all domains',
+        inputSchema: {
+          type: 'object',
+          properties: {},
+        },
+      },
+      {
+        name: 'resend_domain_verification_email',
+        description: 'Resend domain verification email for a specific domain',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'The hosting package ID containing the domain',
+            },
+            domain_id: {
+              type: 'string',
+              description: 'The domain ID requiring verification',
+            },
+          },
+          required: ['package_id', 'domain_id'],
+        },
+      },
+      {
+        name: 'get_dkim_signature',
+        description: 'Get DKIM signature configuration for a domain',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'The hosting package ID',
+            },
+            email_id: {
+              type: 'string',
+              description: 'The email domain ID',
+            },
+          },
+          required: ['package_id', 'email_id'],
+        },
+      },
+      {
+        name: 'set_dkim_signature',
+        description: 'Set or delete DKIM signature for email authentication',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'The hosting package ID',
+            },
+            email_id: {
+              type: 'string',
+              description: 'The email domain ID',
+            },
+            action: {
+              type: 'string',
+              enum: ['set', 'delete'],
+              description: 'Action to perform - set or delete DKIM signature',
+            },
+            canonicalization: {
+              type: 'string',
+              description: 'DKIM canonicalization method (optional)',
+            },
+            selector: {
+              type: 'string',
+              description: 'DKIM selector (optional)',
+            },
+            is_default: {
+              type: 'boolean',
+              description: 'Set as default DKIM signature (optional)',
+            },
+            note: {
+              type: 'string',
+              description: 'Note for DKIM configuration (optional)',
+            },
+          },
+          required: ['package_id', 'email_id', 'action'],
+        },
+      },
+      {
+        name: 'get_dmarc_policy',
+        description: 'Get DMARC policy configuration for a domain',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'The hosting package ID',
+            },
+            email_id: {
+              type: 'string',
+              description: 'The email domain ID',
+            },
+          },
+          required: ['package_id', 'email_id'],
+        },
+      },
+      {
+        name: 'set_dmarc_policy',
+        description: 'Set or delete DMARC policy for email authentication',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'The hosting package ID',
+            },
+            email_id: {
+              type: 'string',
+              description: 'The email domain ID',
+            },
+            action: {
+              type: 'string',
+              enum: ['set', 'delete'],
+              description: 'Action to perform - set or delete DMARC policy',
+            },
+            policy: {
+              type: 'string',
+              enum: ['none', 'quarantine', 'reject'],
+              description: 'DMARC policy action (required when action=set)',
+            },
+            subdomain_policy: {
+              type: 'string',
+              enum: ['none', 'quarantine', 'reject'],
+              description: 'DMARC policy for subdomains (optional)',
+            },
+            percentage: {
+              type: 'number',
+              minimum: 0,
+              maximum: 100,
+              description: 'Percentage of emails to apply policy to (optional, default 100)',
+            },
+            reporting_uri: {
+              type: 'string',
+              description: 'URI for aggregate reports (optional)',
+            },
+            alignment_mode: {
+              type: 'string',
+              enum: ['strict', 'relaxed'],
+              description: 'DMARC alignment mode (optional, default relaxed)',
+            },
+            note: {
+              type: 'string',
+              description: 'Note for DMARC configuration (optional)',
+            },
+          },
+          required: ['package_id', 'email_id', 'action'],
+        },
+      },
+      {
+        name: 'get_php_versions',
+        description: 'Get available PHP versions for a hosting package',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'The hosting package ID',
+            },
+          },
+          required: ['package_id'],
+        },
+      },
+      {
+        name: 'get_current_php_version',
+        description: 'Get the current PHP version for a hosting package',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'The hosting package ID',
+            },
+          },
+          required: ['package_id'],
+        },
+      },
+      {
+        name: 'set_php_version',
+        description: 'Set the PHP version for a hosting package',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'The hosting package ID',
+            },
+            version: {
+              type: 'string',
+              description: 'PHP version to set (e.g., "8.2", "7.4")',
+            },
+          },
+          required: ['package_id', 'version'],
+        },
+      },
+      {
+        name: 'get_php_config_options',
+        description: 'Get allowed PHP configuration directives for a hosting package',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'The hosting package ID',
+            },
+          },
+          required: ['package_id'],
+        },
+      },
+      {
+        name: 'get_php_config',
+        description: 'Get current PHP configuration for a hosting package',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'The hosting package ID',
+            },
+            config_id: {
+              type: 'string',
+              description: 'PHP configuration ID',
+            },
+          },
+          required: ['package_id', 'config_id'],
+        },
+      },
+      {
+        name: 'update_php_config',
+        description: 'Update PHP configuration directives for a hosting package',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'The hosting package ID',
+            },
+            config_id: {
+              type: 'string',
+              description: 'PHP configuration ID',
+            },
+            config: {
+              type: 'object',
+              description: 'PHP configuration directives as key-value pairs',
+              additionalProperties: {
+                type: 'string',
+              },
+            },
+          },
+          required: ['package_id', 'config_id', 'config'],
         },
       },
       {
@@ -2825,6 +3806,228 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
           required: ['package_id', 'action', 'path'],
         },
       },
+      {
+        name: 'get_file_permission_recommendations',
+        description: 'Get file permissions that do not match platform recommendations',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'The package ID to check file permissions for',
+            },
+          },
+          required: ['package_id'],
+        },
+      },
+      {
+        name: 'set_file_permissions',
+        description: 'Set file permissions for specific files',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'The package ID to set file permissions for',
+            },
+            permission_check_id: {
+              type: 'number',
+              description: 'The permission check ID from recommendations',
+            },
+            files: {
+              type: 'array',
+              description: 'Array of files and their permissions',
+              items: {
+                type: 'object',
+                properties: {
+                  file: {
+                    type: 'string',
+                    description: 'File path',
+                  },
+                  perms: {
+                    type: 'number',
+                    description: 'Permission value (e.g., 644, 755)',
+                  },
+                },
+                required: ['file', 'perms'],
+              },
+            },
+          },
+          required: ['package_id', 'permission_check_id', 'files'],
+        },
+      },
+      {
+        name: 'get_directory_indexing_status',
+        description: 'Get directory indexing configuration for security',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'The package ID to check directory indexing for',
+            },
+          },
+          required: ['package_id'],
+        },
+      },
+      {
+        name: 'set_directory_indexing',
+        description: 'Enable or disable directory indexing for security',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'The package ID to configure directory indexing for',
+            },
+            enabled: {
+              type: 'boolean',
+              description: 'Whether to enable directory indexing',
+            },
+          },
+          required: ['package_id', 'enabled'],
+        },
+      },
+      {
+        name: 'set_directory_index',
+        description: 'Set directory index files for htaccess configuration',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'The package ID to configure directory index for',
+            },
+            index_files: {
+              type: 'array',
+              description: 'Array of index files (max 5)',
+              items: {
+                type: 'string',
+              },
+              maxItems: 5,
+            },
+          },
+          required: ['package_id', 'index_files'],
+        },
+      },
+      {
+        name: 'get_easy_builder_instances',
+        description: 'Get current Easy Builder instances for a hosting package',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'The package ID to get Easy Builder instances for',
+            },
+          },
+          required: ['package_id'],
+        },
+      },
+      {
+        name: 'delete_easy_builder_instance',
+        description: 'Delete an Easy Builder instance',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'The package ID containing the Easy Builder instance',
+            },
+            instance_id: {
+              type: 'string',
+              description: 'The Easy Builder instance ID to delete',
+            },
+          },
+          required: ['package_id', 'instance_id'],
+        },
+      },
+      {
+        name: 'install_easy_builder_instance',
+        description: 'Install an Easy Builder instance',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'The package ID to install Easy Builder instance in',
+            },
+            instance_id: {
+              type: 'string',
+              description: 'The Easy Builder instance ID to install',
+            },
+          },
+          required: ['package_id', 'instance_id'],
+        },
+      },
+      {
+        name: 'get_easy_builder_sso',
+        description: 'Get Easy Builder Single Sign-On URL',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'The package ID containing the Easy Builder instance',
+            },
+            instance_id: {
+              type: 'string',
+              description: 'The Easy Builder instance ID for SSO',
+            },
+          },
+          required: ['package_id', 'instance_id'],
+        },
+      },
+      {
+        name: 'get_easy_builder_themes',
+        description: 'Get all available Easy Builder themes',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'The package ID to get Easy Builder themes for',
+            },
+          },
+          required: ['package_id'],
+        },
+      },
+      {
+        name: 'set_easy_builder_theme',
+        description: 'Set Easy Builder theme for instance',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'The package ID containing the Easy Builder instance',
+            },
+            instance_id: {
+              type: 'string',
+              description: 'The Easy Builder instance ID to set theme for',
+            },
+            theme_name: {
+              type: 'string',
+              description: 'The name of the theme to apply',
+            },
+          },
+          required: ['package_id', 'instance_id', 'theme_name'],
+        },
+      },
+      {
+        name: 'get_website_builder_sso',
+        description: 'Get Website Builder Single Sign-On URL',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'The package ID to get Website Builder SSO for',
+            },
+          },
+          required: ['package_id'],
+        },
+      },
     ],
   };
 });
@@ -2839,37 +4042,80 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 
     switch (name) {
       case 'get_reseller_info':
-        const resellerInfo = await twentyIClient.getResellerInfo();
-        return {
-          content: [
-            {
-              type: 'text',
-              text: JSON.stringify(resellerInfo, null, 2),
-            },
-          ],
-        };
+        try {
+          const resellerInfo = await twentyIClient.getResellerInfo();
+          return {
+            content: [
+              {
+                type: 'text',
+                text: JSON.stringify(resellerInfo, null, 2),
+              },
+            ],
+          };
+        } catch (error: any) {
+          throw new McpError(
+            ErrorCode.InternalError,
+            `Failed to get reseller info: ${error.message}`,
+            { originalError: error.toString() }
+          );
+        }
 
       case 'get_account_balance':
-        const accountBalance = await twentyIClient.getAccountBalance();
-        return {
-          content: [
-            {
-              type: 'text',
-              text: JSON.stringify(accountBalance, null, 2),
-            },
-          ],
-        };
+        try {
+          const accountBalance = await twentyIClient.getAccountBalance();
+          return {
+            content: [
+              {
+                type: 'text',
+                text: JSON.stringify(accountBalance, null, 2),
+              },
+            ],
+          };
+        } catch (error: any) {
+          // Handle "balance not available" case gracefully
+          if (error.message && error.message.includes('Balance information not available')) {
+            // Return a successful response with zero balance information
+            const gracefulResponse = {
+              balance: 0,
+              currency: 'USD',
+              message: 'Balance information not available - account may have zero balance or no payment history',
+              status: 'unavailable'
+            };
+            return {
+              content: [
+                {
+                  type: 'text',
+                  text: JSON.stringify(gracefulResponse, null, 2),
+                },
+              ],
+            };
+          }
+          
+          throw new McpError(
+            ErrorCode.InternalError,
+            `Failed to get account balance: ${error.message}`,
+            { originalError: error.toString() }
+          );
+        }
 
       case 'list_domains':
-        const domains = await twentyIClient.listDomains();
-        return {
-          content: [
-            {
-              type: 'text',
-              text: JSON.stringify(domains, null, 2),
-            },
-          ],
-        };
+        try {
+          const domains = await twentyIClient.listDomains();
+          return {
+            content: [
+              {
+                type: 'text',
+                text: JSON.stringify(domains, null, 2),
+              },
+            ],
+          };
+        } catch (error: any) {
+          throw new McpError(
+            ErrorCode.InternalError,
+            `Failed to list domains: ${error.message}`,
+            { originalError: error.toString() }
+          );
+        }
 
       case 'get_domain_info':
         const domainInfo = await twentyIClient.getDomainInfo(args.domain_id as string);
@@ -3024,6 +4270,308 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             },
           ],
         };
+
+      case 'search_domains':
+        try {
+          const searchResults = await twentyIClient.searchDomains(
+            args.search_term as string,
+            {
+              suggestions: args.suggestions as boolean,
+              tlds: args.tlds as string[],
+            }
+          );
+          return {
+            content: [
+              {
+                type: 'text',
+                text: JSON.stringify(searchResults, null, 2),
+              },
+            ],
+          };
+        } catch (error: any) {
+          throw new McpError(
+            ErrorCode.InternalError,
+            `Failed to search domains: ${error.message}`,
+            { originalError: error.toString() }
+          );
+        }
+
+      case 'get_domain_verification_status':
+        try {
+          const verificationStatus = await twentyIClient.getDomainVerificationStatus();
+          return {
+            content: [
+              {
+                type: 'text',
+                text: JSON.stringify(verificationStatus, null, 2),
+              },
+            ],
+          };
+        } catch (error: any) {
+          throw new McpError(
+            ErrorCode.InternalError,
+            `Failed to get domain verification status: ${error.message}`,
+            { originalError: error.toString() }
+          );
+        }
+
+      case 'resend_domain_verification_email':
+        try {
+          const emailResult = await twentyIClient.resendDomainVerificationEmail(
+            args.package_id as string,
+            args.domain_id as string
+          );
+          return {
+            content: [
+              {
+                type: 'text',
+                text: JSON.stringify(emailResult, null, 2),
+              },
+            ],
+          };
+        } catch (error: any) {
+          throw new McpError(
+            ErrorCode.InternalError,
+            `Failed to resend domain verification email: ${error.message}`,
+            { originalError: error.toString() }
+          );
+        }
+
+      case 'get_dkim_signature':
+        try {
+          const dkimSignature = await twentyIClient.getDkimSignature(
+            args.package_id as string,
+            args.email_id as string
+          );
+          return {
+            content: [
+              {
+                type: 'text',
+                text: JSON.stringify(dkimSignature, null, 2),
+              },
+            ],
+          };
+        } catch (error: any) {
+          throw new McpError(
+            ErrorCode.InternalError,
+            `Failed to get DKIM signature: ${error.message}`,
+            { originalError: error.toString() }
+          );
+        }
+
+      case 'set_dkim_signature':
+        try {
+          const dkimConfig = {
+            action: args.action as 'set' | 'delete',
+            body: args.action === 'set' ? {
+              Canonicalization: args.canonicalization as string,
+              Selector: args.selector as string,
+              IsDefault: args.is_default as boolean,
+              Note: args.note as string,
+            } : undefined,
+          };
+          
+          const dkimResult = await twentyIClient.setDkimSignature(
+            args.package_id as string,
+            args.email_id as string,
+            dkimConfig
+          );
+          return {
+            content: [
+              {
+                type: 'text',
+                text: JSON.stringify(dkimResult, null, 2),
+              },
+            ],
+          };
+        } catch (error: any) {
+          throw new McpError(
+            ErrorCode.InternalError,
+            `Failed to set DKIM signature: ${error.message}`,
+            { originalError: error.toString() }
+          );
+        }
+
+      case 'get_dmarc_policy':
+        try {
+          const dmarcPolicy = await twentyIClient.getDmarcPolicy(
+            args.package_id as string,
+            args.email_id as string
+          );
+          return {
+            content: [
+              {
+                type: 'text',
+                text: JSON.stringify(dmarcPolicy, null, 2),
+              },
+            ],
+          };
+        } catch (error: any) {
+          throw new McpError(
+            ErrorCode.InternalError,
+            `Failed to get DMARC policy: ${error.message}`,
+            { originalError: error.toString() }
+          );
+        }
+
+      case 'set_dmarc_policy':
+        try {
+          const dmarcConfig = {
+            action: args.action as 'set' | 'delete',
+            body: args.action === 'set' ? {
+              Policy: args.policy as 'none' | 'quarantine' | 'reject',
+              SubdomainPolicy: args.subdomain_policy as 'none' | 'quarantine' | 'reject',
+              Percentage: args.percentage as number,
+              ReportingURI: args.reporting_uri as string,
+              AlignmentMode: args.alignment_mode as 'strict' | 'relaxed',
+              Note: args.note as string,
+            } : undefined,
+          };
+          
+          const dmarcResult = await twentyIClient.setDmarcPolicy(
+            args.package_id as string,
+            args.email_id as string,
+            dmarcConfig
+          );
+          return {
+            content: [
+              {
+                type: 'text',
+                text: JSON.stringify(dmarcResult, null, 2),
+              },
+            ],
+          };
+        } catch (error: any) {
+          throw new McpError(
+            ErrorCode.InternalError,
+            `Failed to set DMARC policy: ${error.message}`,
+            { originalError: error.toString() }
+          );
+        }
+
+      case 'get_php_versions':
+        try {
+          const phpVersions = await twentyIClient.getAvailablePhpVersions(args.package_id as string);
+          return {
+            content: [
+              {
+                type: 'text',
+                text: JSON.stringify(phpVersions, null, 2),
+              },
+            ],
+          };
+        } catch (error: any) {
+          throw new McpError(
+            ErrorCode.InternalError,
+            `Failed to get PHP versions: ${error.message}`,
+            { originalError: error.toString() }
+          );
+        }
+
+      case 'get_current_php_version':
+        try {
+          const currentVersion = await twentyIClient.getCurrentPhpVersion(args.package_id as string);
+          return {
+            content: [
+              {
+                type: 'text',
+                text: JSON.stringify(currentVersion, null, 2),
+              },
+            ],
+          };
+        } catch (error: any) {
+          throw new McpError(
+            ErrorCode.InternalError,
+            `Failed to get current PHP version: ${error.message}`,
+            { originalError: error.toString() }
+          );
+        }
+
+      case 'set_php_version':
+        try {
+          const versionResult = await twentyIClient.setPhpVersion(
+            args.package_id as string,
+            args.version as string
+          );
+          return {
+            content: [
+              {
+                type: 'text',
+                text: JSON.stringify(versionResult, null, 2),
+              },
+            ],
+          };
+        } catch (error: any) {
+          throw new McpError(
+            ErrorCode.InternalError,
+            `Failed to set PHP version: ${error.message}`,
+            { originalError: error.toString() }
+          );
+        }
+
+      case 'get_php_config_options':
+        try {
+          const configOptions = await twentyIClient.getAllowedPhpConfiguration(args.package_id as string);
+          return {
+            content: [
+              {
+                type: 'text',
+                text: JSON.stringify(configOptions, null, 2),
+              },
+            ],
+          };
+        } catch (error: any) {
+          throw new McpError(
+            ErrorCode.InternalError,
+            `Failed to get PHP configuration options: ${error.message}`,
+            { originalError: error.toString() }
+          );
+        }
+
+      case 'get_php_config':
+        try {
+          const phpConfig = await twentyIClient.getPhpConfig(
+            args.package_id as string,
+            args.config_id as string
+          );
+          return {
+            content: [
+              {
+                type: 'text',
+                text: JSON.stringify(phpConfig, null, 2),
+              },
+            ],
+          };
+        } catch (error: any) {
+          throw new McpError(
+            ErrorCode.InternalError,
+            `Failed to get PHP configuration: ${error.message}`,
+            { originalError: error.toString() }
+          );
+        }
+
+      case 'update_php_config':
+        try {
+          const updateResult = await twentyIClient.updatePhpConfig(
+            args.package_id as string,
+            args.config_id as string,
+            args.config as Record<string, string>
+          );
+          return {
+            content: [
+              {
+                type: 'text',
+                text: JSON.stringify(updateResult, null, 2),
+              },
+            ],
+          };
+        } catch (error: any) {
+          throw new McpError(
+            ErrorCode.InternalError,
+            `Failed to update PHP configuration: ${error.message}`,
+            { originalError: error.toString() }
+          );
+        }
 
       case 'is_wordpress_installed':
         const wpInstalled = await twentyIClient.isWordPressInstalled(args.package_id as string);
@@ -4153,6 +5701,150 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             {
               type: 'text',
               text: JSON.stringify(directoryResult, null, 2),
+            },
+          ],
+        };
+
+      case 'get_file_permission_recommendations':
+        const { package_id: permPackageId } = request.params.arguments as any;
+        const permissionRecommendations = await twentyIClient.getFilePermissionRecommendations(permPackageId);
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(permissionRecommendations, null, 2),
+            },
+          ],
+        };
+
+      case 'set_file_permissions':
+        const { package_id: setPermPackageId, permission_check_id, files } = request.params.arguments as any;
+        const setPermissionsResult = await twentyIClient.setFilePermissions(setPermPackageId, permission_check_id, files);
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(setPermissionsResult, null, 2),
+            },
+          ],
+        };
+
+      case 'get_directory_indexing_status':
+        const { package_id: dirIndexPackageId } = request.params.arguments as any;
+        const directoryIndexingStatus = await twentyIClient.getDirectoryIndexingStatus(dirIndexPackageId);
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(directoryIndexingStatus, null, 2),
+            },
+          ],
+        };
+
+      case 'set_directory_indexing':
+        const { package_id: setDirIndexPackageId, enabled } = request.params.arguments as any;
+        const setDirectoryIndexingResult = await twentyIClient.setDirectoryIndexing(setDirIndexPackageId, enabled);
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(setDirectoryIndexingResult, null, 2),
+            },
+          ],
+        };
+
+      case 'set_directory_index':
+        const { package_id: setDirIndexFilesPackageId, index_files } = request.params.arguments as any;
+        const setDirectoryIndexResult = await twentyIClient.setDirectoryIndex(setDirIndexFilesPackageId, index_files);
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(setDirectoryIndexResult, null, 2),
+            },
+          ],
+        };
+
+      case 'get_easy_builder_instances':
+        const { package_id: easyBuilderPackageId } = request.params.arguments as any;
+        const easyBuilderInstances = await twentyIClient.getEasyBuilderInstances(easyBuilderPackageId);
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(easyBuilderInstances, null, 2),
+            },
+          ],
+        };
+
+      case 'delete_easy_builder_instance':
+        const { package_id: deleteEasyBuilderPackageId, instance_id: deleteInstanceId } = request.params.arguments as any;
+        const deleteEasyBuilderResult = await twentyIClient.deleteEasyBuilderInstance(deleteEasyBuilderPackageId, deleteInstanceId);
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(deleteEasyBuilderResult, null, 2),
+            },
+          ],
+        };
+
+      case 'install_easy_builder_instance':
+        const { package_id: installEasyBuilderPackageId, instance_id: installInstanceId } = request.params.arguments as any;
+        const installEasyBuilderResult = await twentyIClient.installEasyBuilderInstance(installEasyBuilderPackageId, installInstanceId);
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(installEasyBuilderResult, null, 2),
+            },
+          ],
+        };
+
+      case 'get_easy_builder_sso':
+        const { package_id: ssoEasyBuilderPackageId, instance_id: ssoInstanceId } = request.params.arguments as any;
+        const easyBuilderSso = await twentyIClient.getEasyBuilderSso(ssoEasyBuilderPackageId, ssoInstanceId);
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(easyBuilderSso, null, 2),
+            },
+          ],
+        };
+
+      case 'get_easy_builder_themes':
+        const { package_id: themesEasyBuilderPackageId } = request.params.arguments as any;
+        const easyBuilderThemes = await twentyIClient.getEasyBuilderThemes(themesEasyBuilderPackageId);
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(easyBuilderThemes, null, 2),
+            },
+          ],
+        };
+
+      case 'set_easy_builder_theme':
+        const { package_id: setThemeEasyBuilderPackageId, instance_id: setThemeInstanceId, theme_name } = request.params.arguments as any;
+        const setEasyBuilderThemeResult = await twentyIClient.setEasyBuilderTheme(setThemeEasyBuilderPackageId, setThemeInstanceId, theme_name);
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(setEasyBuilderThemeResult, null, 2),
+            },
+          ],
+        };
+
+      case 'get_website_builder_sso':
+        const { package_id: websiteBuilderSsoPackageId } = request.params.arguments as any;
+        const websiteBuilderSso = await twentyIClient.getWebsiteBuilderSso(websiteBuilderSsoPackageId);
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(websiteBuilderSso, null, 2),
             },
           ],
         };

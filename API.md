@@ -145,6 +145,66 @@ Registers a new domain name with full contact management.
 "Register 'example.net' and assign it to stack user 'john_doe'"
 ```
 
+#### `search_domains`
+Searches for domain availability and provides domain name suggestions.
+
+**Parameters:**
+- `search_term` (string, required): Domain name or prefix to search for. Can be a full domain name (e.g., "example.com") or a prefix (e.g., "example") to search across all TLDs
+- `suggestions` (boolean, optional): Enable domain name suggestions (default: false)
+- `tlds` (array, optional): Specific TLDs to search (defaults to all supported TLDs)
+
+**Returns:** Array of domain search results with:
+- Domain availability status
+- Pricing information
+- Registration details
+- Suggested alternative domains (if enabled)
+
+**Example Usage:**
+```
+"Search for availability of 'mybusiness.com'"
+"Check if 'example' is available across all TLDs"
+"Search for 'startup' domains with suggestions enabled"
+"Find available domains for 'tech' in .com, .net, and .org only"
+```
+
+**Note:** This endpoint supports both specific domain searches and prefix searches across multiple TLDs. Results may include semantic suggestions for similar domain names when suggestions are enabled.
+
+#### `get_domain_verification_status`
+Retrieves domain verification status for all domains requiring verification.
+
+**Parameters:** None
+
+**Returns:** Array of domains with verification information including:
+- Domain names requiring verification
+- Verification status and requirements
+- Completion status
+- Next steps for verification
+
+**Example Usage:**
+```
+"Show me which domains need verification"
+"Check domain verification status for my account"
+"List all domains requiring registrant verification"
+```
+
+#### `resend_domain_verification_email`
+Resends the domain verification email for a specific domain.
+
+**Parameters:**
+- `package_id` (string, required): The hosting package ID containing the domain
+- `domain_id` (string, required): The domain ID requiring verification
+
+**Returns:** Confirmation of email resend operation
+
+**Example Usage:**
+```
+"Resend verification email for domain ID 12345 in package w67890"
+"Send verification email again for my domain that needs verification"
+"Resend domain verification email for example.com"
+```
+
+**Note:** This is used when domains require registrant verification as part of the registration or transfer process. Not all domains require verification.
+
 ### WordPress Management
 
 #### `is_wordpress_installed`
@@ -1338,6 +1398,98 @@ Retrieves all email forwarders for a hosting package.
 "Show all email forwarders for hosting package w12345"
 "List every email forwarding rule in my hosting account"
 ```
+
+### Email Security Management
+
+#### `get_dkim_signature`
+Retrieves DKIM signature configuration for a domain's email.
+
+**Parameters:**
+- `package_id` (string, required): The hosting package ID
+- `email_id` (string, required): The email domain ID
+
+**Returns:** DKIM signature configuration including:
+- Current DKIM selector and key information
+- Signature settings and canonicalization
+- Configuration status and validity
+
+**Example Usage:**
+```
+"Show DKIM signature for example.com email domain"
+"Get DKIM configuration for package w12345 and email domain e67890"
+"Check current DKIM authentication settings"
+```
+
+#### `set_dkim_signature`
+Sets or deletes DKIM signature for email authentication.
+
+**Parameters:**
+- `package_id` (string, required): The hosting package ID
+- `email_id` (string, required): The email domain ID
+- `action` (string, required): Action to perform - 'set' or 'delete'
+- `canonicalization` (string, optional): DKIM canonicalization method
+- `selector` (string, optional): DKIM selector name
+- `is_default` (boolean, optional): Set as default DKIM signature
+- `note` (string, optional): Note for DKIM configuration
+
+**Returns:** DKIM signature configuration confirmation
+
+**Example Usage:**
+```
+"Set up DKIM signature for example.com with selector 'mail'"
+"Enable DKIM authentication for my email domain"
+"Delete DKIM signature for package w12345 email domain e67890"
+"Configure DKIM with strict canonicalization for better security"
+```
+
+**Note:** DKIM (DomainKeys Identified Mail) is essential for email deliverability and anti-spoofing protection.
+
+#### `get_dmarc_policy`
+Retrieves DMARC policy configuration for a domain's email.
+
+**Parameters:**
+- `package_id` (string, required): The hosting package ID
+- `email_id` (string, required): The email domain ID
+
+**Returns:** DMARC policy configuration including:
+- Current policy action (none, quarantine, reject)
+- Subdomain policy settings
+- Reporting configuration and URIs
+- Alignment modes and percentage settings
+
+**Example Usage:**
+```
+"Show DMARC policy for example.com email domain"
+"Get DMARC configuration and reporting settings"
+"Check current DMARC policy enforcement level"
+```
+
+#### `set_dmarc_policy`
+Sets or deletes DMARC policy for email authentication and security.
+
+**Parameters:**
+- `package_id` (string, required): The hosting package ID
+- `email_id` (string, required): The email domain ID
+- `action` (string, required): Action to perform - 'set' or 'delete'
+- `policy` (string, required when action=set): DMARC policy - 'none', 'quarantine', or 'reject'
+- `subdomain_policy` (string, optional): Policy for subdomains
+- `percentage` (number, optional): Percentage of emails to apply policy to (0-100)
+- `reporting_uri` (string, optional): URI for aggregate reports
+- `alignment_mode` (string, optional): Alignment mode - 'strict' or 'relaxed'
+- `note` (string, optional): Note for DMARC configuration
+
+**Returns:** DMARC policy configuration confirmation
+
+**Example Usage:**
+```
+"Set DMARC policy to 'quarantine' for enhanced email security"
+"Configure DMARC with 50% enforcement and reporting to security@example.com"
+"Enable strict DMARC policy with reject action for maximum protection"
+"Delete DMARC policy for package w12345 email domain e67890"
+"Set up DMARC monitoring with 'none' policy for testing"
+```
+
+**Note:** DMARC (Domain-based Message Authentication, Reporting & Conformance) works with SPF and DKIM to prevent email spoofing and improve deliverability.
 
 ### Database Management
 
