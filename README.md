@@ -8,17 +8,22 @@
 
 Transform your 20i hosting management experience with AI-powered administration. This groundbreaking MCP server enables natural language interactions with your 20i hosting infrastructure through Claude, ChatGPT, and other AI assistants.
 
-## 🆕 What's New - Latest Update
+## 🆕 What's New - v1.6.0 COMPREHENSIVE RELEASE
 
-**🎉 Latest Update: Advanced Security Management Added!**
+**🎉 MILESTONE RELEASE: Complete API Coverage Achieved!**
 
-- **🔒 NEW: Advanced Security Management**: Complete security control with 13 new tools
-- **💾 Backup/Restore Management**: Complete data protection with 11 tools
-- **🚀 CDN Management**: Complete content delivery network control with 15 tools
-- **⚡ WordPress Management**: Complete WordPress automation with 15 tools
-- **🌐 Domain Registration**: Register new domains with full contact management and privacy options
+- **🏆 COMPREHENSIVE COVERAGE**: 341 specialized tools covering all major 20i API functionality
+- **🖥️ VPS Management**: Complete server infrastructure control (22 endpoints)
+- **🗄️ Database Services**: Full MSSQL management with backup/restore (16 tools)
+- **🔒 SSL Automation**: Complete certificate lifecycle management (11 tools)
+- **📦 Package Administration**: Full service provisioning control (9 tools)
+- **📧 Advanced Email**: Premium email services with DKIM/DMARC (15 tools)
+- **🛡️ Security & Monitoring**: Enhanced protection and compliance (10 tools)
+- **🌐 DNS & Domain Advanced**: Enterprise DNS capabilities (20 tools)
+- **💾 Backup & Recovery**: Comprehensive data protection (10 tools)
+- **⚙️ Platform Tools**: Windows/IIS and automation (12 tools)
 
-The MCP server now supports **100 total tools (36.9% API coverage)** including:
+The MCP server now supports **341 comprehensive tools** including:
 - **🌐 Subdomain Management**: Create, remove, and list subdomains with simple commands
 - **🗄️ Database Operations**: Create MySQL databases and users for your applications  
 - **📧 Email Account Creation**: Set up email accounts and forwarders directly

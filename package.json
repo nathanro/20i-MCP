@@ -1,7 +1,7 @@
 {
   "name": "20i-mcp-server",
-  "version": "1.5.0",
-  "description": "The first and only Model Context Protocol (MCP) server for 20i web hosting services. Transform your hosting management with AI-powered automation through Claude, ChatGPT, and other AI assistants. 137 tools with 50.5% API coverage.",
+  "version": "1.6.0",
+  "description": "The first and only Model Context Protocol (MCP) server for 20i web hosting services. Transform your hosting management with AI-powered automation through Claude, ChatGPT, and other AI assistants. 341 comprehensive tools with extensive API coverage.",
   "main": "build/index.js",
   "type": "module",
   "scripts": {

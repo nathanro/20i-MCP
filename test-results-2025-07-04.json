@@ -1,0 +1,827 @@
+{
+  "timestamp": "2025-07-04T04:22:53.364Z",
+  "summary": {
+    "total": 67,
+    "passed": 60,
+    "failed": 7,
+    "errors": {
+      "Unknown": 7
+    }
+  },
+  "categories": {
+    "Core Management": {
+      "total": 5,
+      "passed": 2,
+      "failed": 3,
+      "tests": [
+        {
+          "tool": "get_reseller_info",
+          "description": "Get reseller account information",
+          "expectError": false,
+          "success": false,
+          "error": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n",
+          "statusCode": null,
+          "responseTime": 81,
+          "output": "",
+          "stderr": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n",
+          "unexpected": "Expected success but got error"
+        },
+        {
+          "tool": "get_account_balance",
+          "description": "Get account balance",
+          "expectError": false,
+          "success": false,
+          "error": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n",
+          "statusCode": null,
+          "responseTime": 73,
+          "output": "",
+          "stderr": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n",
+          "unexpected": "Expected success but got error"
+        },
+        {
+          "tool": "list_domains",
+          "description": "List all domains",
+          "expectError": false,
+          "success": false,
+          "error": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n",
+          "statusCode": null,
+          "responseTime": 73,
+          "output": "",
+          "stderr": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n",
+          "unexpected": "Expected success but got error"
+        },
+        {
+          "tool": "get_domain_info",
+          "description": "Get domain details",
+          "expectError": true,
+          "success": false,
+          "error": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n",
+          "statusCode": null,
+          "responseTime": 71,
+          "output": "",
+          "stderr": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n"
+        },
+        {
+          "tool": "get_dns_records",
+          "description": "Get DNS records",
+          "expectError": true,
+          "success": false,
+          "error": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n",
+          "statusCode": null,
+          "responseTime": 72,
+          "output": "",
+          "stderr": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n"
+        }
+      ]
+    },
+    "Hosting Package Management": {
+      "total": 6,
+      "passed": 5,
+      "failed": 1,
+      "tests": [
+        {
+          "tool": "list_hosting_packages",
+          "description": "List hosting packages",
+          "expectError": false,
+          "success": false,
+          "error": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n",
+          "statusCode": null,
+          "responseTime": 70,
+          "output": "",
+          "stderr": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n",
+          "unexpected": "Expected success but got error"
+        },
+        {
+          "tool": "get_hosting_package_info",
+          "description": "Get package info",
+          "expectError": true,
+          "success": false,
+          "error": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n",
+          "statusCode": null,
+          "responseTime": 69,
+          "output": "",
+          "stderr": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n"
+        },
+        {
+          "tool": "get_hosting_package_web_info",
+          "description": "Get web package info",
+          "expectError": true,
+          "success": false,
+          "error": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n",
+          "statusCode": null,
+          "responseTime": 75,
+          "output": "",
+          "stderr": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n"
+        },
+        {
+          "tool": "get_hosting_package_limits",
+          "description": "Get package limits",
+          "expectError": true,
+          "success": false,
+          "error": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n",
+          "statusCode": null,
+          "responseTime": 72,
+          "output": "",
+          "stderr": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n"
+        },
+        {
+          "tool": "get_hosting_package_usage",
+          "description": "Get package usage",
+          "expectError": true,
+          "success": false,
+          "error": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n",
+          "statusCode": null,
+          "responseTime": 70,
+          "output": "",
+          "stderr": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n"
+        },
+        {
+          "tool": "create_hosting_package",
+          "description": "Create hosting package",
+          "expectError": true,
+          "success": false,
+          "error": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n",
+          "statusCode": null,
+          "responseTime": 70,
+          "output": "",
+          "stderr": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n"
+        }
+      ]
+    },
+    "Database Management": {
+      "total": 5,
+      "passed": 5,
+      "failed": 0,
+      "tests": [
+        {
+          "tool": "get_mysql_databases",
+          "description": "List MySQL databases",
+          "expectError": true,
+          "success": false,
+          "error": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n",
+          "statusCode": null,
+          "responseTime": 70,
+          "output": "",
+          "stderr": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n"
+        },
+        {
+          "tool": "get_mysql_users",
+          "description": "List MySQL users",
+          "expectError": true,
+          "success": false,
+          "error": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n",
+          "statusCode": null,
+          "responseTime": 70,
+          "output": "",
+          "stderr": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n"
+        },
+        {
+          "tool": "get_mssql_databases",
+          "description": "List MSSQL databases",
+          "expectError": true,
+          "success": false,
+          "error": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n",
+          "statusCode": null,
+          "responseTime": 68,
+          "output": "",
+          "stderr": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n"
+        },
+        {
+          "tool": "create_mysql_database",
+          "description": "Create MySQL database",
+          "expectError": true,
+          "success": false,
+          "error": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n",
+          "statusCode": null,
+          "responseTime": 73,
+          "output": "",
+          "stderr": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n"
+        },
+        {
+          "tool": "create_mysql_user",
+          "description": "Create MySQL user",
+          "expectError": true,
+          "success": false,
+          "error": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n",
+          "statusCode": null,
+          "responseTime": 72,
+          "output": "",
+          "stderr": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n"
+        }
+      ]
+    },
+    "Email Management": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0,
+      "tests": [
+        {
+          "tool": "get_email_configuration",
+          "description": "Get email config",
+          "expectError": true,
+          "success": false,
+          "error": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n",
+          "statusCode": null,
+          "responseTime": 69,
+          "output": "",
+          "stderr": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n"
+        },
+        {
+          "tool": "get_mailbox_configuration",
+          "description": "Get mailbox config",
+          "expectError": true,
+          "success": false,
+          "error": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n",
+          "statusCode": null,
+          "responseTime": 72,
+          "output": "",
+          "stderr": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n"
+        },
+        {
+          "tool": "get_email_forwarders",
+          "description": "Get email forwarders",
+          "expectError": true,
+          "success": false,
+          "error": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n",
+          "statusCode": null,
+          "responseTime": 69,
+          "output": "",
+          "stderr": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n"
+        },
+        {
+          "tool": "get_all_email_forwarders",
+          "description": "Get all email forwarders",
+          "expectError": true,
+          "success": false,
+          "error": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n",
+          "statusCode": null,
+          "responseTime": 68,
+          "output": "",
+          "stderr": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n"
+        },
+        {
+          "tool": "create_email_account",
+          "description": "Create email account",
+          "expectError": true,
+          "success": false,
+          "error": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n",
+          "statusCode": null,
+          "responseTime": 68,
+          "output": "",
+          "stderr": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n"
+        },
+        {
+          "tool": "create_email_forwarder",
+          "description": "Create email forwarder",
+          "expectError": true,
+          "success": false,
+          "error": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n",
+          "statusCode": null,
+          "responseTime": 70,
+          "output": "",
+          "stderr": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n"
+        }
+      ]
+    },
+    "Application Management": {
+      "total": 2,
+      "passed": 2,
+      "failed": 0,
+      "tests": [
+        {
+          "tool": "list_applications",
+          "description": "List available applications",
+          "expectError": true,
+          "success": false,
+          "error": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n",
+          "statusCode": null,
+          "responseTime": 68,
+          "output": "",
+          "stderr": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n"
+        },
+        {
+          "tool": "install_application",
+          "description": "Install application",
+          "expectError": true,
+          "success": false,
+          "error": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n",
+          "statusCode": null,
+          "responseTime": 71,
+          "output": "",
+          "stderr": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n"
+        }
+      ]
+    },
+    "Security Management": {
+      "total": 15,
+      "passed": 15,
+      "failed": 0,
+      "tests": [
+        {
+          "tool": "get_blocked_ip_addresses",
+          "description": "Get blocked IPs",
+          "expectError": true,
+          "success": false,
+          "error": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n",
+          "statusCode": null,
+          "responseTime": 68,
+          "output": "",
+          "stderr": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n"
+        },
+        {
+          "tool": "set_blocked_ip_addresses",
+          "description": "Set blocked IPs",
+          "expectError": true,
+          "success": false,
+          "error": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n",
+          "statusCode": null,
+          "responseTime": 71,
+          "output": "",
+          "stderr": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n"
+        },
+        {
+          "tool": "add_ip_block",
+          "description": "Add IP block",
+          "expectError": true,
+          "success": false,
+          "error": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n",
+          "statusCode": null,
+          "responseTime": 76,
+          "output": "",
+          "stderr": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n"
+        },
+        {
+          "tool": "remove_ip_block",
+          "description": "Remove IP block",
+          "expectError": true,
+          "success": false,
+          "error": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n",
+          "statusCode": null,
+          "responseTime": 84,
+          "output": "",
+          "stderr": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n"
+        },
+        {
+          "tool": "get_blocked_countries",
+          "description": "Get blocked countries",
+          "expectError": true,
+          "success": false,
+          "error": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n",
+          "statusCode": null,
+          "responseTime": 70,
+          "output": "",
+          "stderr": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n"
+        },
+        {
+          "tool": "set_blocked_countries",
+          "description": "Set blocked countries",
+          "expectError": true,
+          "success": false,
+          "error": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n",
+          "statusCode": null,
+          "responseTime": 71,
+          "output": "",
+          "stderr": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n"
+        },
+        {
+          "tool": "add_country_block",
+          "description": "Add country block",
+          "expectError": true,
+          "success": false,
+          "error": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n",
+          "statusCode": null,
+          "responseTime": 72,
+          "output": "",
+          "stderr": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n"
+        },
+        {
+          "tool": "remove_country_block",
+          "description": "Remove country block",
+          "expectError": true,
+          "success": false,
+          "error": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n",
+          "statusCode": null,
+          "responseTime": 70,
+          "output": "",
+          "stderr": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n"
+        },
+        {
+          "tool": "get_malware_scan",
+          "description": "Get malware scan",
+          "expectError": true,
+          "success": false,
+          "error": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n",
+          "statusCode": null,
+          "responseTime": 68,
+          "output": "",
+          "stderr": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n"
+        },
+        {
+          "tool": "request_malware_scan",
+          "description": "Request malware scan",
+          "expectError": true,
+          "success": false,
+          "error": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n",
+          "statusCode": null,
+          "responseTime": 70,
+          "output": "",
+          "stderr": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n"
+        },
+        {
+          "tool": "get_malware_report",
+          "description": "Get malware report",
+          "expectError": true,
+          "success": false,
+          "error": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n",
+          "statusCode": null,
+          "responseTime": 72,
+          "output": "",
+          "stderr": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n"
+        },
+        {
+          "tool": "get_email_spam_blacklist",
+          "description": "Get spam blacklist",
+          "expectError": true,
+          "success": false,
+          "error": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n",
+          "statusCode": null,
+          "responseTime": 68,
+          "output": "",
+          "stderr": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n"
+        },
+        {
+          "tool": "get_email_spam_whitelist",
+          "description": "Get spam whitelist",
+          "expectError": true,
+          "success": false,
+          "error": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n",
+          "statusCode": null,
+          "responseTime": 67,
+          "output": "",
+          "stderr": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n"
+        },
+        {
+          "tool": "add_tls_certificate",
+          "description": "Add TLS certificate",
+          "expectError": true,
+          "success": false,
+          "error": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n",
+          "statusCode": null,
+          "responseTime": 74,
+          "output": "",
+          "stderr": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n"
+        },
+        {
+          "tool": "renew_tls_certificate",
+          "description": "Renew TLS certificate",
+          "expectError": true,
+          "success": false,
+          "error": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n",
+          "statusCode": null,
+          "responseTime": 73,
+          "output": "",
+          "stderr": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n"
+        }
+      ]
+    },
+    "SSL Management": {
+      "total": 4,
+      "passed": 4,
+      "failed": 0,
+      "tests": [
+        {
+          "tool": "get_ssl_certificates",
+          "description": "Get SSL certificates",
+          "expectError": true,
+          "success": false,
+          "error": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n",
+          "statusCode": null,
+          "responseTime": 68,
+          "output": "",
+          "stderr": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n"
+        },
+        {
+          "tool": "add_free_ssl",
+          "description": "Add free SSL",
+          "expectError": true,
+          "success": false,
+          "error": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n",
+          "statusCode": null,
+          "responseTime": 72,
+          "output": "",
+          "stderr": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n"
+        },
+        {
+          "tool": "get_force_ssl",
+          "description": "Get Force SSL status",
+          "expectError": true,
+          "success": false,
+          "error": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n",
+          "statusCode": null,
+          "responseTime": 69,
+          "output": "",
+          "stderr": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n"
+        },
+        {
+          "tool": "set_force_ssl",
+          "description": "Set Force SSL",
+          "expectError": true,
+          "success": false,
+          "error": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n",
+          "statusCode": null,
+          "responseTime": 68,
+          "output": "",
+          "stderr": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n"
+        }
+      ]
+    },
+    "WordPress Management": {
+      "total": 15,
+      "passed": 15,
+      "failed": 0,
+      "tests": [
+        {
+          "tool": "is_wordpress_installed",
+          "description": "Check WordPress installation",
+          "expectError": true,
+          "success": false,
+          "error": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n",
+          "statusCode": null,
+          "responseTime": 72,
+          "output": "",
+          "stderr": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n"
+        },
+        {
+          "tool": "reinstall_wordpress",
+          "description": "Reinstall WordPress",
+          "expectError": true,
+          "success": false,
+          "error": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n",
+          "statusCode": null,
+          "responseTime": 68,
+          "output": "",
+          "stderr": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n"
+        },
+        {
+          "tool": "get_wordpress_settings",
+          "description": "Get WordPress settings",
+          "expectError": true,
+          "success": false,
+          "error": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n",
+          "statusCode": null,
+          "responseTime": 71,
+          "output": "",
+          "stderr": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n"
+        },
+        {
+          "tool": "set_wordpress_settings",
+          "description": "Set WordPress settings",
+          "expectError": true,
+          "success": false,
+          "error": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n",
+          "statusCode": null,
+          "responseTime": 73,
+          "output": "",
+          "stderr": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n"
+        },
+        {
+          "tool": "get_wordpress_version",
+          "description": "Get WordPress version",
+          "expectError": true,
+          "success": false,
+          "error": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n",
+          "statusCode": null,
+          "responseTime": 71,
+          "output": "",
+          "stderr": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n"
+        },
+        {
+          "tool": "wordpress_search_replace",
+          "description": "WordPress search/replace",
+          "expectError": true,
+          "success": false,
+          "error": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n",
+          "statusCode": null,
+          "responseTime": 73,
+          "output": "",
+          "stderr": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n"
+        },
+        {
+          "tool": "get_wordpress_plugins",
+          "description": "Get WordPress plugins",
+          "expectError": true,
+          "success": false,
+          "error": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n",
+          "statusCode": null,
+          "responseTime": 71,
+          "output": "",
+          "stderr": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n"
+        },
+        {
+          "tool": "manage_wordpress_plugin",
+          "description": "Manage WordPress plugin",
+          "expectError": true,
+          "success": false,
+          "error": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n",
+          "statusCode": null,
+          "responseTime": 70,
+          "output": "",
+          "stderr": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n"
+        },
+        {
+          "tool": "install_stackcache_plugin",
+          "description": "Install StackCache plugin",
+          "expectError": true,
+          "success": false,
+          "error": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n",
+          "statusCode": null,
+          "responseTime": 73,
+          "output": "",
+          "stderr": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n"
+        },
+        {
+          "tool": "get_wordpress_themes",
+          "description": "Get WordPress themes",
+          "expectError": true,
+          "success": false,
+          "error": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n",
+          "statusCode": null,
+          "responseTime": 73,
+          "output": "",
+          "stderr": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n"
+        },
+        {
+          "tool": "manage_wordpress_theme",
+          "description": "Manage WordPress theme",
+          "expectError": true,
+          "success": false,
+          "error": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n",
+          "statusCode": null,
+          "responseTime": 71,
+          "output": "",
+          "stderr": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n"
+        },
+        {
+          "tool": "get_wordpress_users",
+          "description": "Get WordPress users",
+          "expectError": true,
+          "success": false,
+          "error": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n",
+          "statusCode": null,
+          "responseTime": 72,
+          "output": "",
+          "stderr": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n"
+        },
+        {
+          "tool": "update_wordpress",
+          "description": "Update WordPress",
+          "expectError": true,
+          "success": false,
+          "error": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n",
+          "statusCode": null,
+          "responseTime": 73,
+          "output": "",
+          "stderr": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n"
+        },
+        {
+          "tool": "get_wordpress_staging",
+          "description": "Get WordPress staging",
+          "expectError": true,
+          "success": false,
+          "error": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n",
+          "statusCode": null,
+          "responseTime": 77,
+          "output": "",
+          "stderr": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n"
+        },
+        {
+          "tool": "manage_wordpress_staging",
+          "description": "Manage WordPress staging",
+          "expectError": true,
+          "success": false,
+          "error": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n",
+          "statusCode": null,
+          "responseTime": 72,
+          "output": "",
+          "stderr": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n"
+        }
+      ]
+    },
+    "Cloud Infrastructure": {
+      "total": 6,
+      "passed": 3,
+      "failed": 3,
+      "tests": [
+        {
+          "tool": "list_cloud_servers",
+          "description": "List cloud servers",
+          "expectError": false,
+          "success": false,
+          "error": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n",
+          "statusCode": null,
+          "responseTime": 74,
+          "output": "",
+          "stderr": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n",
+          "unexpected": "Expected success but got error"
+        },
+        {
+          "tool": "create_cloud_server",
+          "description": "Create cloud server",
+          "expectError": true,
+          "success": false,
+          "error": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n",
+          "statusCode": null,
+          "responseTime": 72,
+          "output": "",
+          "stderr": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n"
+        },
+        {
+          "tool": "list_vps",
+          "description": "List VPS servers",
+          "expectError": false,
+          "success": false,
+          "error": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n",
+          "statusCode": null,
+          "responseTime": 72,
+          "output": "",
+          "stderr": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n",
+          "unexpected": "Expected success but got error"
+        },
+        {
+          "tool": "get_vps_info",
+          "description": "Get VPS info",
+          "expectError": true,
+          "success": false,
+          "error": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n",
+          "statusCode": null,
+          "responseTime": 71,
+          "output": "",
+          "stderr": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n"
+        },
+        {
+          "tool": "list_managed_vps",
+          "description": "List managed VPS",
+          "expectError": false,
+          "success": false,
+          "error": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n",
+          "statusCode": null,
+          "responseTime": 69,
+          "output": "",
+          "stderr": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n",
+          "unexpected": "Expected success but got error"
+        },
+        {
+          "tool": "get_managed_vps_info",
+          "description": "Get managed VPS info",
+          "expectError": true,
+          "success": false,
+          "error": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n",
+          "statusCode": null,
+          "responseTime": 73,
+          "output": "",
+          "stderr": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n"
+        }
+      ]
+    },
+    "Statistics": {
+      "total": 3,
+      "passed": 3,
+      "failed": 0,
+      "tests": [
+        {
+          "tool": "get_bandwidth_stats",
+          "description": "Get bandwidth stats",
+          "expectError": true,
+          "success": false,
+          "error": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n",
+          "statusCode": null,
+          "responseTime": 69,
+          "output": "",
+          "stderr": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n"
+        },
+        {
+          "tool": "get_disk_usage",
+          "description": "Get disk usage",
+          "expectError": true,
+          "success": false,
+          "error": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n",
+          "statusCode": null,
+          "responseTime": 71,
+          "output": "",
+          "stderr": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n"
+        },
+        {
+          "tool": "get_access_logs",
+          "description": "Get access logs",
+          "expectError": true,
+          "success": false,
+          "error": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n",
+          "statusCode": null,
+          "responseTime": 69,
+          "output": "",
+          "stderr": "file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71\n            throw new Error(`Failed to load credentials from environment variables or ignor.txt file: ${error}`);\n                  ^\n\nError: Failed to load credentials from environment variables or ignor.txt file: Error: ENOENT: no such file or directory, open '/Users/carlbrown/claude/MCP-Servers/20i-server/ignor.txt'\n    at TwentyIClient.loadCredentials (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:71:19)\n    at new TwentyIClient (file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:15:33)\n    at file:///Users/carlbrown/claude/MCP-Servers/20i-server/build/index.js:790:23\n    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)\n\nNode.js v23.11.0\n"
+        }
+      ]
+    }
+  }
+}
