@@ -1491,6 +1491,437 @@ Sets or deletes DMARC policy for email authentication and security.
 
 **Note:** DMARC (Domain-based Message Authentication, Reporting & Conformance) works with SPF and DKIM to prevent email spoofing and improve deliverability.
 
+### PHP Environment Management
+
+#### `get_available_php_versions`
+Get all available PHP versions for a hosting package.
+
+**Parameters:**
+- `package_id` (string, required): The hosting package ID
+
+**Returns:** List of available PHP versions with:
+- Version numbers and display titles
+- Compatibility information
+- Feature support details
+
+**Example Usage:**
+```
+"Show available PHP versions for my hosting package"
+"What PHP versions can I use for package w12345?"
+"List supported PHP versions for application deployment"
+```
+
+#### `get_current_php_version`
+Get the currently active PHP version for a hosting package.
+
+**Parameters:**
+- `package_id` (string, required): The hosting package ID
+
+**Returns:** Current PHP version information including:
+- Active version number
+- Configuration details
+- Performance settings
+
+**Example Usage:**
+```
+"What PHP version is currently active?"
+"Check current PHP version for package w12345"
+"Show me the active PHP configuration"
+```
+
+#### `set_php_version`
+Set the PHP version for a hosting package.
+
+**Parameters:**
+- `package_id` (string, required): The hosting package ID
+- `version` (string, required): PHP version to set (e.g., "8.2", "7.4")
+
+**Returns:** PHP version change confirmation
+
+**Example Usage:**
+```
+"Set PHP version to 8.2 for my hosting package"
+"Upgrade PHP to version 8.1 for package w12345"
+"Switch to PHP 7.4 for compatibility with legacy application"
+```
+
+**Note:** PHP version changes may require application restart and cache clearing. Ensure compatibility before switching versions.
+
+#### `get_allowed_php_configuration`
+Get configurable PHP directives for a hosting package.
+
+**Parameters:**
+- `package_id` (string, required): The hosting package ID
+
+**Returns:** List of configurable PHP directives with:
+- Directive names and types
+- Default values and limits
+- Configuration constraints
+
+**Example Usage:**
+```
+"Show PHP configuration options for my package"
+"What PHP settings can I customize?"
+"List configurable PHP directives for optimization"
+```
+
+#### `get_php_config`
+Get current PHP configuration for a specific configuration ID.
+
+**Parameters:**
+- `package_id` (string, required): The hosting package ID
+- `php_config_id` (string, required): The PHP configuration ID
+
+**Returns:** Current PHP configuration including:
+- Custom directive values
+- Active overrides and settings
+- Configuration status
+
+**Example Usage:**
+```
+"Show PHP configuration for config ID c12345"
+"Get current PHP settings for my application"
+"Check PHP directive values for optimization"
+```
+
+#### `update_php_config`
+Update PHP configuration directives for a hosting package.
+
+**Parameters:**
+- `package_id` (string, required): The hosting package ID
+- `php_config_id` (string, required): The PHP configuration ID
+- `config` (object, required): PHP directive key-value pairs to update
+
+**Returns:** PHP configuration update confirmation
+
+**Example Usage:**
+```
+"Update PHP memory limit to 512M"
+"Set max execution time to 300 seconds"
+"Configure PHP upload limits for large files"
+"Update PHP timezone to America/New_York"
+```
+
+**Note:** Configuration changes may take time to propagate and could affect application performance.
+
+### File Permission Management
+
+#### `get_file_permission_recommendations`
+Get file permissions that don't match platform security recommendations.
+
+**Parameters:**
+- `package_id` (string, required): The hosting package ID
+
+**Returns:** Permission check information including:
+- Files with incorrect permissions
+- Recommended security settings
+- Platform compliance status
+
+**Example Usage:**
+```
+"Check file permissions for security compliance"
+"Show files with incorrect permissions"
+"Audit file security for package w12345"
+"Get security recommendations for my website files"
+```
+
+#### `set_file_permissions`
+Set file permissions for specific files to match security recommendations.
+
+**Parameters:**
+- `package_id` (string, required): The hosting package ID
+- `permission_check_id` (number, required): Check ID from recommendations
+- `files` (array, required): Array of file objects with:
+  - `file` (string): File path
+  - `perms` (number): Permission value (e.g., 644, 755)
+
+**Returns:** File permission update confirmation
+
+**Example Usage:**
+```
+"Fix file permissions for security compliance"
+"Set recommended permissions for all flagged files"
+"Update file permissions to 644 for web files"
+"Apply security permissions for public_html directory"
+```
+
+**Note:** Incorrect file permissions can create security vulnerabilities. Always use recommended values.
+
+#### `get_directory_indexing_status`
+Get directory indexing configuration for security control.
+
+**Parameters:**
+- `package_id` (string, required): The hosting package ID
+
+**Returns:** Directory indexing status including:
+- Current indexing state
+- Security implications
+- Access control settings
+
+**Example Usage:**
+```
+"Check if directory indexing is enabled"
+"Show directory browsing status for security audit"
+"Get directory indexing configuration"
+```
+
+#### `set_directory_indexing`
+Enable or disable directory indexing for security.
+
+**Parameters:**
+- `package_id` (string, required): The hosting package ID
+- `enabled` (boolean, required): Whether to enable directory indexing
+
+**Returns:** Directory indexing update confirmation
+
+**Example Usage:**
+```
+"Disable directory indexing for security"
+"Enable directory browsing for development"
+"Turn off directory listing to prevent file exposure"
+```
+
+**Note:** Disabling directory indexing prevents visitors from viewing file lists in directories without index files.
+
+#### `set_directory_index`
+Set directory index files for htaccess configuration.
+
+**Parameters:**
+- `package_id` (string, required): The hosting package ID
+- `index_files` (array, required): Array of index file names (max 5)
+
+**Returns:** Directory index configuration confirmation
+
+**Example Usage:**
+```
+"Set index.html as default directory file"
+"Configure index.php and index.html as directory defaults"
+"Set custom directory index files for application"
+```
+
+### Easy Builder & Website Builder Management
+
+#### `get_easy_builder_instances`
+Get current Easy Builder instances for a hosting package.
+
+**Parameters:**
+- `package_id` (string, required): The hosting package ID
+
+**Returns:** Easy Builder instances with:
+- Instance IDs and status
+- Configuration details
+- Deployment information
+
+**Example Usage:**
+```
+"Show Easy Builder instances for my package"
+"List website builder deployments"
+"Check Easy Builder instance status"
+```
+
+#### `install_easy_builder_instance`
+Install an Easy Builder instance to deploy website builder.
+
+**Parameters:**
+- `package_id` (string, required): The hosting package ID
+- `instance_id` (string, required): Easy Builder instance ID to install
+
+**Returns:** Installation confirmation and status
+
+**Example Usage:**
+```
+"Install Easy Builder instance eb12345"
+"Deploy website builder to my hosting package"
+"Set up Easy Builder for website creation"
+```
+
+#### `delete_easy_builder_instance`
+Delete an Easy Builder instance and remove website builder.
+
+**Parameters:**
+- `package_id` (string, required): The hosting package ID
+- `instance_id` (string, required): Easy Builder instance ID to delete
+
+**Returns:** Deletion confirmation
+
+**Example Usage:**
+```
+"Delete Easy Builder instance eb12345"
+"Remove website builder from hosting package"
+"Uninstall Easy Builder deployment"
+```
+
+**Note:** This operation is irreversible and will remove all website builder configuration and files.
+
+#### `get_easy_builder_sso`
+Get Easy Builder Single Sign-On URL for direct access.
+
+**Parameters:**
+- `package_id` (string, required): The hosting package ID
+- `instance_id` (string, required): Easy Builder instance ID
+
+**Returns:** SSO URL for Easy Builder interface
+
+**Example Usage:**
+```
+"Get Easy Builder login URL for instance eb12345"
+"Generate SSO link for website builder access"
+"Create direct access link to Easy Builder interface"
+```
+
+#### `get_easy_builder_themes`
+Get all available Easy Builder themes and templates.
+
+**Parameters:**
+- `package_id` (string, required): The hosting package ID
+
+**Returns:** Available themes with:
+- Theme names and categories
+- Preview information
+- Feature descriptions
+
+**Example Usage:**
+```
+"Show available Easy Builder themes"
+"List website builder templates"
+"Get theme options for Easy Builder"
+```
+
+#### `set_easy_builder_theme`
+Apply a theme to an Easy Builder instance.
+
+**Parameters:**
+- `package_id` (string, required): The hosting package ID
+- `instance_id` (string, required): Easy Builder instance ID
+- `theme_name` (string, required): Theme name to apply
+
+**Returns:** Theme application confirmation
+
+**Example Usage:**
+```
+"Apply 'Modern Business' theme to Easy Builder"
+"Set theme 'Creative Portfolio' for website builder"
+"Change Easy Builder theme to 'E-commerce Pro'"
+```
+
+#### `get_website_builder_sso`
+Get Website Builder Single Sign-On URL for traditional builder access.
+
+**Parameters:**
+- `package_id` (string, required): The hosting package ID
+
+**Returns:** SSO URL for Website Builder interface
+
+**Example Usage:**
+```
+"Get Website Builder login URL"
+"Generate SSO link for traditional website builder"
+"Create direct access to Website Builder interface"
+```
+
+### Enhanced Monitoring and Logging
+
+#### `get_access_and_error_logs`
+Get access and error logs for website monitoring and troubleshooting.
+
+**Parameters:**
+- `package_id` (string, required): The hosting package ID
+
+**Returns:** Combined log data including:
+- Access log entries with visitor information
+- Error log entries with application issues
+- Request details and response codes
+
+**Example Usage:**
+```
+"Show access and error logs for my website"
+"Get log files for troubleshooting issues"
+"Review visitor activity and application errors"
+"Check logs for security incidents"
+```
+
+**Note:** Log access may be restricted based on package permissions. Logs are essential for debugging and security analysis.
+
+#### `request_disk_usage_report`
+Request a detailed disk usage analysis report for storage optimization.
+
+**Parameters:**
+- `package_id` (string, required): The hosting package ID
+- `subdirectory` (string, required): Directory to analyze (e.g., "public_html", "logs")
+
+**Returns:** Report request confirmation with:
+- Report ID for later retrieval
+- Analysis status
+- Estimated completion time
+
+**Example Usage:**
+```
+"Analyze disk usage for public_html directory"
+"Request storage report for logs folder"
+"Check disk space usage for email directory"
+"Generate storage analysis for optimization"
+```
+
+#### `get_disk_usage_report`
+Get completed disk usage report with detailed breakdown.
+
+**Parameters:**
+- `package_id` (string, required): The hosting package ID
+- `report_id` (string, required): Report ID from request_disk_usage_report
+
+**Returns:** Detailed disk usage report including:
+- File and directory space consumption
+- Largest files and directories
+- Storage optimization recommendations
+
+**Example Usage:**
+```
+"Get disk usage report r12345"
+"Show storage analysis results"
+"Review disk space breakdown for cleanup"
+"Check completed storage optimization report"
+```
+
+#### `get_email_stats`
+Get email mailbox statistics and folder information.
+
+**Parameters:**
+- `package_id` (string, required): The hosting package ID
+- `email_id` (string, required): The email domain ID
+- `mailbox_id` (string, required): The mailbox ID
+
+**Returns:** Mailbox statistics including:
+- Storage usage by folder
+- Message counts and sizes
+- Quota information
+
+**Example Usage:**
+```
+"Show email storage stats for mailbox m12345"
+"Get mailbox statistics for optimization"
+"Check email folder sizes and message counts"
+"Review email storage usage for quota management"
+```
+
+#### `get_malware_scan_objects`
+Get malware scan configuration and scan history.
+
+**Parameters:**
+- `package_id` (string, required): The hosting package ID
+
+**Returns:** Malware scan information including:
+- Scan configuration settings
+- Scan history and results
+- Security monitoring status
+
+**Example Usage:**
+```
+"Show malware scan configuration"
+"Get security scan history and settings"
+"Check malware monitoring setup"
+"Review security scan objects for website protection"
+```
+
 ### Database Management
 
 #### `get_mysql_databases`

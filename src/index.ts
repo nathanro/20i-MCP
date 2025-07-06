@@ -951,6 +951,116 @@ class TwentyIClient {
     }
   }
 
+  // Enhanced Monitoring and Logging Methods
+  async getAccessAndErrorLogs(packageId: string) {
+    // Get access and error logs for website monitoring
+    // Essential for troubleshooting and security analysis
+    //
+    // API Endpoint: GET /package/{packageId}/web/logs
+    // - Returns combined access and error log data
+    // - Critical for debugging and security monitoring
+    // - Shows visitor activity and application errors
+    try {
+      const response = await this.apiClient.get(`/package/${packageId}/web/logs`);
+      return response.data;
+    } catch (error: any) {
+      if (error.response?.status === 404) {
+        throw new Error('Package not found or logs not available');
+      }
+      if (error.response?.status === 403) {
+        throw new Error('Access to logs not permitted for this package');
+      }
+      throw error;
+    }
+  }
+
+
+  async requestDiskUsageReport(packageId: string, subdirectory: string) {
+    // Request a disk usage analysis report
+    // Initiates detailed disk space analysis for optimization
+    //
+    // API Endpoint: POST /package/{packageId}/web/requestDiskUsage
+    // - Initiates disk usage scanning for specified directory
+    // - Returns report ID for later retrieval
+    // - Essential for storage optimization and cleanup
+    try {
+      const response = await this.apiClient.post(`/package/${packageId}/web/requestDiskUsage`, {
+        subdirectory
+      });
+      return response.data;
+    } catch (error: any) {
+      if (error.response?.status === 400) {
+        throw new Error('Invalid subdirectory specified');
+      }
+      if (error.response?.status === 404) {
+        throw new Error('Package not found or disk usage reporting not available');
+      }
+      throw error;
+    }
+  }
+
+  async getDiskUsageReport(packageId: string, reportId: string) {
+    // Get completed disk usage report details
+    // Shows detailed disk space breakdown by directory and file
+    //
+    // API Endpoint: POST /package/{packageId}/web/diskUsage
+    // - Returns detailed disk usage report
+    // - Shows file and directory space consumption
+    // - Critical for storage optimization decisions
+    try {
+      const response = await this.apiClient.post(`/package/${packageId}/web/diskUsage`, {
+        reportId
+      });
+      return response.data;
+    } catch (error: any) {
+      if (error.response?.status === 400) {
+        throw new Error('Invalid report ID or report not ready');
+      }
+      if (error.response?.status === 404) {
+        throw new Error('Package or disk usage report not found');
+      }
+      throw error;
+    }
+  }
+
+  async getEmailStats(packageId: string, emailId: string, mailboxId: string) {
+    // Get email mailbox statistics and folder information
+    // Shows email storage usage and folder statistics
+    //
+    // API Endpoint: GET /package/{packageId}/email/{emailId}/stats?mb={mailboxId}
+    // - Returns mailbox statistics by folder
+    // - Shows email storage usage and message counts
+    // - Essential for email management and optimization
+    try {
+      const response = await this.apiClient.get(`/package/${packageId}/email/${emailId}/stats?mb=${mailboxId}`);
+      return response.data;
+    } catch (error: any) {
+      if (error.response?.status === 404) {
+        throw new Error('Package, email domain, or mailbox not found');
+      }
+      throw error;
+    }
+  }
+
+  async getMalwareScanObjects(packageId: string) {
+    // Get malware scan configuration and scan objects
+    // Shows malware scanning setup and scan history
+    //
+    // API Endpoint: GET /package/{packageId}/web/malwareScan
+    // - Returns malware scan objects and configuration
+    // - Shows scan history and configuration settings
+    // - Essential for security monitoring setup
+    try {
+      const response = await this.apiClient.get(`/package/${packageId}/web/malwareScan`);
+      return response.data;
+    } catch (error: any) {
+      if (error.response?.status === 404) {
+        throw new Error('Package not found or malware scan objects not available');
+      }
+      throw error;
+    }
+  }
+
   // WordPress Management Methods
   async isWordPressInstalled(packageId: string) {
     const response = await this.apiClient.get(`/package/${packageId}/web/wordpressIsInstalled`);
@@ -1613,6 +1723,313 @@ class TwentyIClient {
     return response.data;
   }
 
+
+  // Runtime Environment Management Methods
+  async getInstalledApplications(packageId: string) {
+    // Get list of installed runtime applications (Node.js, Python, etc.)
+    // Shows deployed applications with their configurations
+    //
+    // API Endpoint: GET /package/{packageId}/web/installedApplications
+    // - Returns array of application objects with runtime information
+    // - Shows application paths, scripts, and environment settings
+    // - Critical for runtime environment management
+    try {
+      const response = await this.apiClient.get(`/package/${packageId}/web/installedApplications`);
+      return response.data;
+    } catch (error: any) {
+      if (error.response?.status === 404) {
+        throw new Error('Package not found or does not support runtime applications');
+      }
+      throw error;
+    }
+  }
+
+  async deployApplication(packageId: string, applicationConfig: {
+    domain: string;
+    environment: string;
+    name: string;
+    path: string;
+    script: string;
+    typeCode: string;
+  }) {
+    // Deploy a new runtime application (Node.js, Python, etc.)
+    // Sets up application environment and deployment configuration
+    //
+    // API Endpoint: POST /package/{packageId}/web/installedApplications
+    // - Deploys new runtime application with specified configuration
+    // - Sets environment variables and runtime parameters
+    // - Essential for application deployment automation
+    try {
+      const response = await this.apiClient.post(`/package/${packageId}/web/installedApplications`, applicationConfig);
+      return response.data;
+    } catch (error: any) {
+      if (error.response?.status === 400) {
+        throw new Error('Invalid application configuration. Check typeCode, domain, and script parameters.');
+      }
+      if (error.response?.status === 404) {
+        throw new Error('Package not found or does not support runtime applications');
+      }
+      throw error;
+    }
+  }
+
+  async updateApplicationEnvironment(packageId: string, applicationId: string, environment: string) {
+    // Update environment variables and configuration for a runtime application
+    // Modifies runtime settings without redeploying application
+    //
+    // API Endpoint: POST /package/{packageId}/web/installedApplications
+    // - Updates environment configuration for existing application
+    // - Allows runtime parameter changes and variable updates
+    // - Essential for application configuration management
+    try {
+      const response = await this.apiClient.post(`/package/${packageId}/web/installedApplications`, {
+        id: applicationId,
+        environment
+      });
+      return response.data;
+    } catch (error: any) {
+      if (error.response?.status === 400) {
+        throw new Error('Invalid application ID or environment configuration');
+      }
+      if (error.response?.status === 404) {
+        throw new Error('Application not found or package does not support runtime applications');
+      }
+      throw error;
+    }
+  }
+
+  async deleteApplication(packageId: string, applicationId: string) {
+    // Delete a deployed runtime application
+    // Removes application and cleans up associated resources
+    //
+    // API Endpoint: POST /package/{packageId}/web/installedApplications
+    // - Removes deployed application completely
+    // - Cleans up runtime environment and resources
+    // - Irreversible operation - use with caution
+    try {
+      const response = await this.apiClient.post(`/package/${packageId}/web/installedApplications`, {
+        id: applicationId
+      });
+      return response.data;
+    } catch (error: any) {
+      if (error.response?.status === 400) {
+        throw new Error('Invalid application ID or deletion failed');
+      }
+      if (error.response?.status === 404) {
+        throw new Error('Application not found or package does not support runtime applications');
+      }
+      throw error;
+    }
+  }
+
+  async getInstalledSoftware(packageId: string) {
+    // Get list of installed software by type on managed server
+    // Shows available runtime environments and installed software
+    //
+    // API Endpoint: GET /package/{packageId}/web/installedSoftware
+    // - Returns array of installed software type codes
+    // - Shows available runtime environments (Node.js, Python, etc.)
+    // - Essential for determining deployment capabilities
+    try {
+      const response = await this.apiClient.get(`/package/${packageId}/web/installedSoftware`);
+      return response.data;
+    } catch (error: any) {
+      if (error.response?.status === 404) {
+        throw new Error('Package not found or software information not available');
+      }
+      throw error;
+    }
+  }
+
+  // Advanced Domain Management Methods
+  async transferDomain(applicationConfig: {
+    name: string;
+    years?: number;
+    authcode?: string;
+    contact: any;
+    emulateYears?: boolean;
+    otherContacts?: any;
+    limits?: any;
+    nameservers?: string[];
+    privacyService: boolean;
+    stackUser?: string;
+  }) {
+    // Transfer a domain to your 20i account
+    // Initiates domain transfer with full configuration
+    const resellerInfo = await this.getResellerInfo();
+    const resellerId = resellerInfo?.id;
+    
+    if (!resellerId) {
+      throw new Error('Unable to determine reseller ID from account information');
+    }
+
+    try {
+      const response = await this.apiClient.post(`/reseller/${resellerId}/transferDomain`, applicationConfig);
+      return response.data;
+    } catch (error: any) {
+      if (error.response?.status === 400) {
+        throw new Error('Invalid domain transfer configuration. Check domain name, contact details, and auth code.');
+      }
+      throw error;
+    }
+  }
+
+  async getDomainTransferStatus(packageId: string, domainId: string) {
+    // Get current status of domain transfer
+    try {
+      const response = await this.apiClient.get(`/package/${packageId}/domain/${domainId}/pendingTransferStatus`);
+      return response.data;
+    } catch (error: any) {
+      if (error.response?.status === 404) {
+        throw new Error('Domain or transfer status not found');
+      }
+      throw error;
+    }
+  }
+
+  async getDomainAuthCode(packageId: string, domainId: string) {
+    // Get domain EPP auth code for outbound transfers
+    try {
+      const response = await this.apiClient.get(`/package/${packageId}/domain/${domainId}/authCode`);
+      return response.data;
+    } catch (error: any) {
+      if (error.response?.status === 404) {
+        throw new Error('Domain not found or auth code not available');
+      }
+      throw error;
+    }
+  }
+
+  async getDomainWhois(packageId: string, domainId: string) {
+    // Get live WHOIS data for domain
+    try {
+      const response = await this.apiClient.get(`/package/${packageId}/domain/${domainId}/whois`);
+      return response.data;
+    } catch (error: any) {
+      if (error.response?.status === 404) {
+        throw new Error('Domain not found or WHOIS data not available');
+      }
+      throw error;
+    }
+  }
+
+  async setDomainTransferLock(packageId: string, domainId: string, enabled: boolean) {
+    // Set domain transfer lock status
+    try {
+      const response = await this.apiClient.post(`/package/${packageId}/domain/${domainId}/canTransfer`, {
+        enable: enabled
+      });
+      return response.data;
+    } catch (error: any) {
+      if (error.response?.status === 404) {
+        throw new Error('Domain not found or transfer lock not available');
+      }
+      throw error;
+    }
+  }
+
+  // Advanced Email Management Methods  
+  async getEmailAutoresponder(packageId: string, emailId: string) {
+    // Get autoresponder configuration
+    try {
+      const response = await this.apiClient.get(`/package/${packageId}/email/${emailId}/responder`);
+      return response.data;
+    } catch (error: any) {
+      if (error.response?.status === 404) {
+        throw new Error('Email domain or autoresponder not found');
+      }
+      throw error;
+    }
+  }
+
+
+  async updateEmailSpamSettings(packageId: string, emailId: string, spamConfig: {
+    spamScore?: string;
+    rejectScore?: string | number;
+  }) {
+    // Update spam filtering settings for email domain
+    try {
+      const response = await this.apiClient.post(`/package/${packageId}/email/${emailId}`, spamConfig);
+      return response.data;
+    } catch (error: any) {
+      if (error.response?.status === 400) {
+        throw new Error('Invalid spam configuration settings');
+      }
+      if (error.response?.status === 404) {
+        throw new Error('Email domain not found');
+      }
+      throw error;
+    }
+  }
+
+  // Development and Logging Methods
+  async getErrorLogs(packageId: string) {
+    // Get access and error logs (alias for existing method)
+    return this.getAccessAndErrorLogs(packageId);
+  }
+
+
+  async cloneWordPressStaging(packageId: string, type: 'live' | 'staging') {
+    // Clone WordPress between live and staging environments
+    try {
+      const response = await this.apiClient.post(`/package/${packageId}/web/wordpressStaging`, {
+        type
+      });
+      return response.data;
+    } catch (error: any) {
+      if (error.response?.status === 400) {
+        throw new Error('Invalid clone type. Use "live" or "staging"');
+      }
+      if (error.response?.status === 404) {
+        throw new Error('Package not found or WordPress staging not available');
+      }
+      throw error;
+    }
+  }
+
+  async getTimelineBackups(packageId: string) {
+    // Get timeline backup system information
+    try {
+      const response = await this.apiClient.get(`/package/${packageId}/web/timelineBackup`);
+      return response.data;
+    } catch (error: any) {
+      if (error.response?.status === 404) {
+        throw new Error('Package not found or timeline backups not available');
+      }
+      throw error;
+    }
+  }
+
+  async takeWebSnapshot(packageId: string) {
+    // Take a web files snapshot for version control
+    try {
+      const response = await this.apiClient.post(`/package/${packageId}/web/timelineBackup/web/takeSnapshot`);
+      return response.data;
+    } catch (error: any) {
+      if (error.response?.status === 404) {
+        throw new Error('Package not found or web snapshots not available');
+      }
+      throw error;
+    }
+  }
+
+  async restoreWebSnapshot(packageId: string, snapshotId: string) {
+    // Restore web files from a snapshot
+    try {
+      const response = await this.apiClient.post(`/package/${packageId}/web/timelineBackup/web/restoreSnapshot`, {
+        snapshotId
+      });
+      return response.data;
+    } catch (error: any) {
+      if (error.response?.status === 400) {
+        throw new Error('Invalid snapshot ID');
+      }
+      if (error.response?.status === 404) {
+        throw new Error('Package or snapshot not found');
+      }
+      throw error;
+    }
+  }
 
   // Application Management Methods
   async listApplications(packageId: string) {
@@ -4028,6 +4445,482 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
           required: ['package_id'],
         },
       },
+      {
+        name: 'get_access_and_error_logs',
+        description: 'Get access and error logs for website monitoring and troubleshooting',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'The package ID to get logs for',
+            },
+          },
+          required: ['package_id'],
+        },
+      },
+      {
+        name: 'request_disk_usage_report',
+        description: 'Request a disk usage analysis report for storage optimization',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'The package ID to analyze disk usage for',
+            },
+            subdirectory: {
+              type: 'string',
+              description: 'Subdirectory to analyze (e.g., public_html, logs)',
+            },
+          },
+          required: ['package_id', 'subdirectory'],
+        },
+      },
+      {
+        name: 'get_disk_usage_report',
+        description: 'Get completed disk usage report details',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'The package ID the report belongs to',
+            },
+            report_id: {
+              type: 'string',
+              description: 'The report ID from request_disk_usage_report',
+            },
+          },
+          required: ['package_id', 'report_id'],
+        },
+      },
+      {
+        name: 'get_email_stats',
+        description: 'Get email mailbox statistics and folder information',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'The package ID containing the email',
+            },
+            email_id: {
+              type: 'string',
+              description: 'The email domain ID',
+            },
+            mailbox_id: {
+              type: 'string',
+              description: 'The mailbox ID to get statistics for',
+            },
+          },
+          required: ['package_id', 'email_id', 'mailbox_id'],
+        },
+      },
+      {
+        name: 'get_malware_scan_objects',
+        description: 'Get malware scan configuration and scan history',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'The package ID to get malware scan objects for',
+            },
+          },
+          required: ['package_id'],
+        },
+      },
+      {
+        name: 'get_installed_applications',
+        description: 'Get list of installed runtime applications (Node.js, Python, etc.)',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'The package ID to get installed applications for',
+            },
+          },
+          required: ['package_id'],
+        },
+      },
+      {
+        name: 'deploy_application',
+        description: 'Deploy a new runtime application (Node.js, Python, etc.)',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'The package ID to deploy application to',
+            },
+            domain: {
+              type: 'string',
+              description: 'Domain name for the application',
+            },
+            environment: {
+              type: 'string',
+              description: 'Environment variables and configuration',
+            },
+            name: {
+              type: 'string',
+              description: 'Application name/identifier',
+            },
+            path: {
+              type: 'string',
+              description: 'Application deployment path',
+            },
+            script: {
+              type: 'string',
+              description: 'Entry script file (e.g., app.js, main.py)',
+            },
+            type_code: {
+              type: 'string',
+              description: 'Runtime type identifier (e.g., nodejs, python)',
+            },
+          },
+          required: ['package_id', 'domain', 'environment', 'name', 'path', 'script', 'type_code'],
+        },
+      },
+      {
+        name: 'update_application_environment',
+        description: 'Update environment variables for a runtime application',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'The package ID containing the application',
+            },
+            application_id: {
+              type: 'string',
+              description: 'The application ID to update',
+            },
+            environment: {
+              type: 'string',
+              description: 'New environment variables and configuration',
+            },
+          },
+          required: ['package_id', 'application_id', 'environment'],
+        },
+      },
+      {
+        name: 'delete_application',
+        description: 'Delete a deployed runtime application',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'The package ID containing the application',
+            },
+            application_id: {
+              type: 'string',
+              description: 'The application ID to delete',
+            },
+          },
+          required: ['package_id', 'application_id'],
+        },
+      },
+      {
+        name: 'get_installed_software',
+        description: 'Get list of installed software and runtime environments',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'The package ID to check installed software for',
+            },
+          },
+          required: ['package_id'],
+        },
+      },
+      {
+        name: 'transfer_domain',
+        description: 'Transfer a domain to your 20i account',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            name: {
+              type: 'string',
+              description: 'Domain name to transfer',
+            },
+            years: {
+              type: 'number',
+              description: 'Number of years for transfer (0 for UK transfers)',
+            },
+            authcode: {
+              type: 'string',
+              description: 'EPP auth code for domain transfer',
+            },
+            contact: {
+              type: 'object',
+              description: 'Contact information for domain registration',
+            },
+            privacy_service: {
+              type: 'boolean',
+              description: 'Add domain privacy service',
+            },
+            nameservers: {
+              type: 'array',
+              items: { type: 'string' },
+              description: 'Nameserver hostnames',
+            },
+          },
+          required: ['name', 'contact', 'privacy_service'],
+        },
+      },
+      {
+        name: 'get_domain_transfer_status',
+        description: 'Get current status of domain transfer',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'The package ID containing the domain',
+            },
+            domain_id: {
+              type: 'string',
+              description: 'The domain ID to check transfer status for',
+            },
+          },
+          required: ['package_id', 'domain_id'],
+        },
+      },
+      {
+        name: 'get_domain_auth_code',
+        description: 'Get domain EPP auth code for outbound transfers',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'The package ID containing the domain',
+            },
+            domain_id: {
+              type: 'string',
+              description: 'The domain ID to get auth code for',
+            },
+          },
+          required: ['package_id', 'domain_id'],
+        },
+      },
+      {
+        name: 'get_domain_whois',
+        description: 'Get live WHOIS data for domain',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'The package ID containing the domain',
+            },
+            domain_id: {
+              type: 'string',
+              description: 'The domain ID to get WHOIS data for',
+            },
+          },
+          required: ['package_id', 'domain_id'],
+        },
+      },
+      {
+        name: 'set_domain_transfer_lock',
+        description: 'Set domain transfer lock status for security',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'The package ID containing the domain',
+            },
+            domain_id: {
+              type: 'string',
+              description: 'The domain ID to set transfer lock for',
+            },
+            enabled: {
+              type: 'boolean',
+              description: 'Whether to enable transfer lock',
+            },
+          },
+          required: ['package_id', 'domain_id', 'enabled'],
+        },
+      },
+      {
+        name: 'get_email_autoresponder',
+        description: 'Get email autoresponder configuration',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'The package ID containing the email',
+            },
+            email_id: {
+              type: 'string',
+              description: 'The email domain ID',
+            },
+          },
+          required: ['package_id', 'email_id'],
+        },
+      },
+      {
+        name: 'get_email_spam_blacklist',
+        description: 'Get spam filtering blacklist configuration',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'The package ID containing the email',
+            },
+            email_id: {
+              type: 'string',
+              description: 'The email domain ID',
+            },
+          },
+          required: ['package_id', 'email_id'],
+        },
+      },
+      {
+        name: 'get_email_spam_whitelist',
+        description: 'Get spam filtering whitelist configuration',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'The package ID containing the email',
+            },
+            email_id: {
+              type: 'string',
+              description: 'The email domain ID',
+            },
+          },
+          required: ['package_id', 'email_id'],
+        },
+      },
+      {
+        name: 'update_email_spam_settings',
+        description: 'Update spam filtering settings for email domain',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'The package ID containing the email',
+            },
+            email_id: {
+              type: 'string',
+              description: 'The email domain ID',
+            },
+            spam_score: {
+              type: 'string',
+              description: 'Spam score threshold',
+            },
+            reject_score: {
+              type: ['string', 'number'],
+              description: 'Reject score threshold',
+            },
+          },
+          required: ['package_id', 'email_id'],
+        },
+      },
+      {
+        name: 'get_error_logs',
+        description: 'Get access and error logs for troubleshooting',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'The package ID to get error logs for',
+            },
+          },
+          required: ['package_id'],
+        },
+      },
+      {
+        name: 'get_wordpress_staging',
+        description: 'Get WordPress staging environment status',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'The package ID to check staging for',
+            },
+          },
+          required: ['package_id'],
+        },
+      },
+      {
+        name: 'clone_wordpress_staging',
+        description: 'Clone WordPress between live and staging environments',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'The package ID to clone staging for',
+            },
+            type: {
+              type: 'string',
+              enum: ['live', 'staging'],
+              description: 'Clone type: "live" (live to staging) or "staging" (staging to live)',
+            },
+          },
+          required: ['package_id', 'type'],
+        },
+      },
+      {
+        name: 'get_timeline_backups',
+        description: 'Get timeline backup system information for version control',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'The package ID to get timeline backups for',
+            },
+          },
+          required: ['package_id'],
+        },
+      },
+      {
+        name: 'take_web_snapshot',
+        description: 'Take a web files snapshot for version control',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'The package ID to take snapshot for',
+            },
+          },
+          required: ['package_id'],
+        },
+      },
+      {
+        name: 'restore_web_snapshot',
+        description: 'Restore web files from a snapshot',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            package_id: {
+              type: 'string',
+              description: 'The package ID to restore snapshot for',
+            },
+            snapshot_id: {
+              type: 'string',
+              description: 'The snapshot ID to restore from',
+            },
+          },
+          required: ['package_id', 'snapshot_id'],
+        },
+      },
     ],
   };
 });
@@ -5845,6 +6738,325 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             {
               type: 'text',
               text: JSON.stringify(websiteBuilderSso, null, 2),
+            },
+          ],
+        };
+
+      case 'get_access_and_error_logs':
+        const { package_id: logsPackageId } = request.params.arguments as any;
+        const accessErrorLogs = await twentyIClient.getAccessAndErrorLogs(logsPackageId);
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(accessErrorLogs, null, 2),
+            },
+          ],
+        };
+
+
+      case 'request_disk_usage_report':
+        const { package_id: diskRequestPackageId, subdirectory } = request.params.arguments as any;
+        const diskUsageRequest = await twentyIClient.requestDiskUsageReport(diskRequestPackageId, subdirectory);
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(diskUsageRequest, null, 2),
+            },
+          ],
+        };
+
+      case 'get_disk_usage_report':
+        const { package_id: diskReportPackageId, report_id } = request.params.arguments as any;
+        const diskUsageReport = await twentyIClient.getDiskUsageReport(diskReportPackageId, report_id);
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(diskUsageReport, null, 2),
+            },
+          ],
+        };
+
+      case 'get_email_stats':
+        const { package_id: emailStatsPackageId, email_id, mailbox_id } = request.params.arguments as any;
+        const emailStats = await twentyIClient.getEmailStats(emailStatsPackageId, email_id, mailbox_id);
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(emailStats, null, 2),
+            },
+          ],
+        };
+
+
+      case 'get_malware_scan_objects':
+        const { package_id: malwareScanPackageId } = request.params.arguments as any;
+        const malwareScanObjects = await twentyIClient.getMalwareScanObjects(malwareScanPackageId);
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(malwareScanObjects, null, 2),
+            },
+          ],
+        };
+
+      case 'get_installed_applications':
+        const { package_id: installedAppsPackageId } = request.params.arguments as any;
+        const installedApplications = await twentyIClient.getInstalledApplications(installedAppsPackageId);
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(installedApplications, null, 2),
+            },
+          ],
+        };
+
+      case 'deploy_application':
+        const { package_id: deployPackageId, domain, environment, name: appName, path, script, type_code } = request.params.arguments as any;
+        const deployResult = await twentyIClient.deployApplication(deployPackageId, {
+          domain,
+          environment,
+          name: appName,
+          path,
+          script,
+          typeCode: type_code
+        });
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(deployResult, null, 2),
+            },
+          ],
+        };
+
+      case 'update_application_environment':
+        const { package_id: updateAppPackageId, application_id, environment: newEnvironment } = request.params.arguments as any;
+        const updateResult = await twentyIClient.updateApplicationEnvironment(updateAppPackageId, application_id, newEnvironment);
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(updateResult, null, 2),
+            },
+          ],
+        };
+
+      case 'delete_application':
+        const { package_id: deleteAppPackageId, application_id: deleteAppId } = request.params.arguments as any;
+        const deleteResult = await twentyIClient.deleteApplication(deleteAppPackageId, deleteAppId);
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(deleteResult, null, 2),
+            },
+          ],
+        };
+
+      case 'get_installed_software':
+        const { package_id: softwarePackageId } = request.params.arguments as any;
+        const installedSoftware = await twentyIClient.getInstalledSoftware(softwarePackageId);
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(installedSoftware, null, 2),
+            },
+          ],
+        };
+
+      case 'transfer_domain':
+        const { name: domainName, years, authcode, contact, privacy_service, nameservers } = request.params.arguments as any;
+        const transferResult = await twentyIClient.transferDomain({
+          name: domainName,
+          years,
+          authcode,
+          contact,
+          privacyService: privacy_service,
+          nameservers
+        });
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(transferResult, null, 2),
+            },
+          ],
+        };
+
+      case 'get_domain_transfer_status':
+        const { package_id: transferStatusPackageId, domain_id: transferStatusDomainId } = request.params.arguments as any;
+        const transferStatus = await twentyIClient.getDomainTransferStatus(transferStatusPackageId, transferStatusDomainId);
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(transferStatus, null, 2),
+            },
+          ],
+        };
+
+      case 'get_domain_auth_code':
+        const { package_id: authCodePackageId, domain_id: authCodeDomainId } = request.params.arguments as any;
+        const authCode = await twentyIClient.getDomainAuthCode(authCodePackageId, authCodeDomainId);
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(authCode, null, 2),
+            },
+          ],
+        };
+
+      case 'get_domain_whois':
+        const { package_id: whoisPackageId, domain_id: whoisDomainId } = request.params.arguments as any;
+        const whoisData = await twentyIClient.getDomainWhois(whoisPackageId, whoisDomainId);
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(whoisData, null, 2),
+            },
+          ],
+        };
+
+      case 'set_domain_transfer_lock':
+        const { package_id: lockPackageId, domain_id: lockDomainId, enabled: lockEnabled } = request.params.arguments as any;
+        const lockResult = await twentyIClient.setDomainTransferLock(lockPackageId, lockDomainId, lockEnabled);
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(lockResult, null, 2),
+            },
+          ],
+        };
+
+      case 'get_email_autoresponder':
+        const { package_id: autoresponderPackageId, email_id: autoresponderEmailId } = request.params.arguments as any;
+        const autoresponder = await twentyIClient.getEmailAutoresponder(autoresponderPackageId, autoresponderEmailId);
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(autoresponder, null, 2),
+            },
+          ],
+        };
+
+      case 'get_email_spam_blacklist':
+        const { package_id: blacklistPackageId, email_id: blacklistEmailId } = request.params.arguments as any;
+        const blacklist = await twentyIClient.getEmailSpamBlacklist(blacklistPackageId, blacklistEmailId);
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(blacklist, null, 2),
+            },
+          ],
+        };
+
+      case 'get_email_spam_whitelist':
+        const { package_id: whitelistPackageId, email_id: whitelistEmailId } = request.params.arguments as any;
+        const whitelist = await twentyIClient.getEmailSpamWhitelist(whitelistPackageId, whitelistEmailId);
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(whitelist, null, 2),
+            },
+          ],
+        };
+
+      case 'update_email_spam_settings':
+        const { package_id: spamSettingsPackageId, email_id: spamSettingsEmailId, spam_score, reject_score } = request.params.arguments as any;
+        const spamSettings = await twentyIClient.updateEmailSpamSettings(spamSettingsPackageId, spamSettingsEmailId, {
+          spamScore: spam_score,
+          rejectScore: reject_score
+        });
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(spamSettings, null, 2),
+            },
+          ],
+        };
+
+      case 'get_error_logs':
+        const { package_id: errorLogsPackageId } = request.params.arguments as any;
+        const errorLogs = await twentyIClient.getErrorLogs(errorLogsPackageId);
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(errorLogs, null, 2),
+            },
+          ],
+        };
+
+      case 'get_wordpress_staging':
+        const { package_id: wpStagingPackageId } = request.params.arguments as any;
+        const wpStagingInfo = await twentyIClient.getWordPressStaging(wpStagingPackageId);
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(wpStagingInfo, null, 2),
+            },
+          ],
+        };
+
+      case 'clone_wordpress_staging':
+        const { package_id: clonePackageId, type: cloneType } = request.params.arguments as any;
+        const cloneResult = await twentyIClient.cloneWordPressStaging(clonePackageId, cloneType);
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(cloneResult, null, 2),
+            },
+          ],
+        };
+
+      case 'get_timeline_backups':
+        const { package_id: timelinePackageId } = request.params.arguments as any;
+        const timelineBackups = await twentyIClient.getTimelineBackups(timelinePackageId);
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(timelineBackups, null, 2),
+            },
+          ],
+        };
+
+      case 'take_web_snapshot':
+        const { package_id: snapshotPackageId } = request.params.arguments as any;
+        const webSnapshotResult = await twentyIClient.takeWebSnapshot(snapshotPackageId);
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(webSnapshotResult, null, 2),
+            },
+          ],
+        };
+
+      case 'restore_web_snapshot':
+        const { package_id: restorePackageId, snapshot_id } = request.params.arguments as any;
+        const webRestoreResult = await twentyIClient.restoreWebSnapshot(restorePackageId, snapshot_id);
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(webRestoreResult, null, 2),
             },
           ],
         };
