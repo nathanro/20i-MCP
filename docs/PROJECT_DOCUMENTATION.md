@@ -119,7 +119,7 @@ Access URL: https://shakatogatt.dzind.com/suitecrm
 ```typescript
 const authHeader = `Bearer ${Buffer.from(apiKey).toString('base64')}`;
 Base URL: https://api.20i.com
-API Key: First part of combined key (c878755260a884f4d)
+API Key: Use environment variable TWENTYI_API_KEY
 ```
 
 ## 🚀 Automation Workflow Achieved

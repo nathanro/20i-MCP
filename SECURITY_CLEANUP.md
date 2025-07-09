@@ -14,8 +14,8 @@ Multiple files contain hardcoded API keys and credentials that must be removed i
 4. Implement environment variable usage only
 
 ## API Keys Found:
-- c878755260a884f4d (TWENTYI_API_KEY)
-- c91cb8e4acf44f421 (TWENTYI_OAUTH_KEY)
+- [REDACTED] (TWENTYI_API_KEY)
+- [REDACTED] (TWENTYI_OAUTH_KEY)
 - Combined keys and other credentials
 
 ## NEVER COMMIT CREDENTIALS TO GIT
