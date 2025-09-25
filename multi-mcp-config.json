@@ -1,0 +1,281 @@
+{
+  "name": "multi-mcp-server",
+  "version": "1.0.0",
+  "description": "Configuración para manejo de múltiples MCPs en la misma infraestructura",
+  "architecture": {
+    "loadBalancer": {
+      "type": "nginx",
+      "port": 80,
+      "sslPort": 443,
+      "healthCheck": {
+        "path": "/health",
+        "interval": 30,
+        "timeout": 10,
+        "retries": 3
+      }
+    },
+    "serviceDiscovery": {
+      "type": "docker",
+      "registry": "local",
+      "refreshInterval": 60
+    }
+  },
+  "mcpInstances": {
+    "20i-hosting": {
+      "name": "20i Hosting MCP",
+      "description": "MCP server for 20i web hosting services",
+      "image": "20i-mcp-server:latest",
+      "port": 3000,
+      "environment": {
+        "TWENTYI_API_KEY": "${TWENTYI_API_KEY}",
+        "TWENTYI_OAUTH_KEY": "${TWENTYI_OAUTH_KEY}",
+        "TWENTYI_COMBINED_KEY": "${TWENTYI_COMBINED_KEY}",
+        "NODE_ENV": "production",
+        "MCP_NAME": "20i-hosting"
+      },
+      "healthCheck": {
+        "path": "/health",
+        "interval": 30,
+        "timeout": 10,
+        "retries": 3
+      },
+      "scaling": {
+        "minInstances": 1,
+        "maxInstances": 3,
+        "cpuThreshold": 70,
+        "memoryThreshold": 80
+      },
+      "routing": {
+        "path": "/api/20i",
+        "methods": ["GET", "POST"],
+        "rateLimit": {
+          "requests": 100,
+          "window": "60s"
+        }
+      }
+    },
+    "aws-ec2": {
+      "name": "AWS EC2 MCP",
+      "description": "MCP server for AWS EC2 instance management",
+      "image": "aws-ec2-mcp:latest",
+      "port": 3001,
+      "environment": {
+        "AWS_ACCESS_KEY_ID": "${AWS_ACCESS_KEY_ID}",
+        "AWS_SECRET_ACCESS_KEY": "${AWS_SECRET_ACCESS_KEY}",
+        "AWS_REGION": "${AWS_REGION}",
+        "NODE_ENV": "production",
+        "MCP_NAME": "aws-ec2"
+      },
+      "healthCheck": {
+        "path": "/health",
+        "interval": 30,
+        "timeout": 10,
+        "retries": 3
+      },
+      "scaling": {
+        "minInstances": 1,
+        "maxInstances": 2,
+        "cpuThreshold": 60,
+        "memoryThreshold": 75
+      },
+      "routing": {
+        "path": "/api/aws",
+        "methods": ["GET", "POST"],
+        "rateLimit": {
+          "requests": 50,
+          "window": "60s"
+        }
+      }
+    },
+    "docker-hub": {
+      "name": "Docker Hub MCP",
+      "description": "MCP server for Docker Hub image management",
+      "image": "docker-hub-mcp:latest",
+      "port": 3002,
+      "environment": {
+        "DOCKER_HUB_USERNAME": "${DOCKER_HUB_USERNAME}",
+        "DOCKER_HUB_TOKEN": "${DOCKER_HUB_TOKEN}",
+        "NODE_ENV": "production",
+        "MCP_NAME": "docker-hub"
+      },
+      "healthCheck": {
+        "path": "/health",
+        "interval": 30,
+        "timeout": 10,
+        "retries": 3
+      },
+      "scaling": {
+        "minInstances": 1,
+        "maxInstances": 2,
+        "cpuThreshold": 50,
+        "memoryThreshold": 70
+      },
+      "routing": {
+        "path": "/api/docker",
+        "methods": ["GET", "POST"],
+        "rateLimit": {
+          "requests": 75,
+          "window": "60s"
+        }
+      }
+    },
+    "github-repos": {
+      "name": "GitHub Repos MCP",
+      "description": "MCP server for GitHub repository management",
+      "image": "github-repos-mcp:latest",
+      "port": 3003,
+      "environment": {
+        "GITHUB_TOKEN": "${GITHUB_TOKEN}",
+        "NODE_ENV": "production",
+        "MCP_NAME": "github-repos"
+      },
+      "healthCheck": {
+        "path": "/health",
+        "interval": 30,
+        "timeout": 10,
+        "retries": 3
+      },
+      "scaling": {
+        "minInstances": 1,
+        "maxInstances": 2,
+        "cpuThreshold": 55,
+        "memoryThreshold": 65
+      },
+      "routing": {
+        "path": "/api/github",
+        "methods": ["GET", "POST"],
+        "rateLimit": {
+          "requests": 80,
+          "window": "60s"
+        }
+      }
+    }
+  },
+  "sharedServices": {
+    "database": {
+      "type": "postgres",
+      "image": "postgres:15",
+      "port": 5432,
+      "environment": {
+        "POSTGRES_DB": "multi_mcp",
+        "POSTGRES_USER": "mcp_user",
+        "POSTGRES_PASSWORD": "${POSTGRES_PASSWORD}"
+      },
+      "volumes": {
+        "data": "/var/lib/postgresql/data"
+      },
+      "backup": {
+        "enabled": true,
+        "schedule": "0 2 * * *",
+        "retention": "7d"
+      }
+    },
+    "cache": {
+      "type": "redis",
+      "image": "redis:7",
+      "port": 6379,
+      "volumes": {
+        "data": "/data"
+      },
+      "persistence": {
+        "enabled": true,
+        "memoryLimit": "512mb"
+      }
+    },
+    "monitoring": {
+      "prometheus": {
+        "image": "prom/prometheus",
+        "port": 9090,
+        "config": "prometheus.yml"
+      },
+      "grafana": {
+        "image": "grafana/grafana",
+        "port": 3001,
+        "environment": {
+          "GF_SECURITY_ADMIN_PASSWORD": "${GRAFANA_PASSWORD}"
+        }
+      }
+    }
+  },
+  "networking": {
+    "ports": {
+      "http": 80,
+      "https": 443,
+      "metrics": 9090,
+      "grafana": 3001
+    },
+    "volumes": {
+      "logs": "./logs",
+      "data": "./data",
+      "ssl": "./ssl"
+    },
+    "networks": {
+      "frontend": "multi-mcp-frontend",
+      "backend": "multi-mcp-backend"
+    }
+  },
+  "security": {
+    "ssl": {
+      "enabled": true,
+      "provider": "letsencrypt",
+      "email": "${SSL_EMAIL}",
+      "renewalDays": 30
+    },
+    "authentication": {
+      "enabled": true,
+      "type": "jwt",
+      "secret": "${JWT_SECRET}",
+      "expiration": "24h"
+    },
+    "authorization": {
+      "enabled": true,
+      "rbac": {
+        "admin": ["*"],
+        "user": ["read"],
+        "guest": ["read"]
+      }
+    },
+    "rateLimiting": {
+      "enabled": true,
+      "global": {
+        "requests": 1000,
+        "window": "60s"
+      },
+      "perEndpoint": {
+        "default": {
+          "requests": 100,
+          "window": "60s"
+        }
+      }
+    }
+  },
+  "deployment": {
+    "strategy": "blue-green",
+    "rollingUpdate": {
+      "maxUnavailable": 1,
+      "maxSurge": 1
+    },
+    "healthChecks": {
+      "enabled": true,
+      "interval": 30,
+      "timeout": 10,
+      "retries": 3
+    },
+    "restartPolicy": {
+      "condition": "on-failure",
+      "delay": "5s",
+      "maxAttempts": 3,
+      "window": "120s"
+    }
+  },
+  "backup": {
+    "enabled": true,
+    "schedule": "0 2 * * *",
+    "retention": "7d",
+    "storage": {
+      "type": "s3",
+      "bucket": "${BACKUP_BUCKET}",
+      "region": "${BACKUP_REGION}"
+    }
+  }
+}

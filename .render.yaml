@@ -1,0 +1,236 @@
+# Render configuration for 20i MCP Server
+# This file defines the deployment configuration for Render.com
+
+services:
+  # Main MCP Server
+  - type: web
+    name: 20i-mcp-server
+    env: docker
+    repo: https://github.com/Cbrown35/20i-MCP
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    
+    # Environment variables
+    envVars:
+      # Required 20i API credentials
+      - key: TWENTYI_API_KEY
+        sync: false  # Do not sync with Render - set manually
+      - key: TWENTYI_OAUTH_KEY
+        sync: false
+      - key: TWENTYI_COMBINED_KEY
+        sync: false
+      
+      # Application settings
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: LOG_LEVEL
+        value: info
+      - key: HEALTH_CHECK_ENABLED
+        value: "true"
+      - key: MONITORING_ENABLED
+        value: "true"
+      - key: ENABLE_CORS
+        value: "true"
+      - key: RATE_LIMIT_ENABLED
+        value: "true"
+      - key: MAX_CONCURRENT_REQUESTS
+        value: "100"
+      - key: REQUEST_TIMEOUT
+        value: "30000"
+    
+    # Health check configuration
+    healthCheck:
+      path: /health
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    
+    # Resource allocation
+    instanceCount: 1
+    cpuKind: shared
+    cpuAmount: 1
+    memoryLimit: 1Gi
+    diskSize: 1Gi
+    
+    # Auto-deployment configuration
+    autoDeploy: true
+    branch: main
+    
+    # Service configuration
+    serviceGroup: mcp-services
+    
+    # Public URL configuration
+    publicUrl: https://20i-mcp-server.onrender.com
+    
+    # Build and start commands
+    buildCommand: npm ci && npm run build
+    startCommand: node build/index-cloud.js
+    
+    # Docker-specific settings
+    dockerRunCommand: >
+      --name 20i-mcp-server
+      --health-cmd="node -e \"require('http').get('http://localhost:10000/health', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) }).on('error', () => { process.exit(1) })\""
+      --health-interval=30s
+      --health-timeout=10s
+      --health-retries=3
+
+  # PostgreSQL Database (if needed)
+  - type: pserv
+    name: 20i-mcp-database
+    env: docker
+    repo: https://github.com/Cbrown35/20i-MCP
+    dockerfilePath: ./postgres.Dockerfile
+    dockerContext: .
+    
+    # Environment variables
+    envVars:
+      - key: POSTGRES_DB
+        value: mcp_server
+      - key: POSTGRES_USER
+        value: mcp_user
+      - key: POSTGRES_PASSWORD
+        sync: false  # Set manually in Render dashboard
+      - key: POSTGRES_INITDB_ARGS
+        value: "--auth-host=scram-sha-256"
+    
+    # Resource allocation
+    instanceCount: 1
+    cpuKind: shared
+    cpuAmount: 0.5
+    memoryLimit: 512Mi
+    diskSize: 1Gi
+    
+    # Service configuration
+    serviceGroup: mcp-services
+    
+    # Database-specific settings
+    databaseName: 20i-mcp-database
+    user: mcp_user
+    password: password  # Will be overridden by env var
+    
+    # Backup configuration
+    backupSchedule: "0 2 * * *"  # Daily at 2 AM
+    backupRetention: 7d
+
+  # Redis Cache (if needed)
+  - type: pserv
+    name: 20i-mcp-redis
+    env: docker
+    repo: https://github.com/Cbrown35/20i-MCP
+    dockerfilePath: ./redis.Dockerfile
+    dockerContext: .
+    
+    # Environment variables
+    envVars:
+      - key: REDIS_PASSWORD
+        sync: false  # Set manually in Render dashboard
+      - key: REDIS_DISABLE_COMMANDS
+        value: "FLUSHDB,FLUSHALL"
+    
+    # Resource allocation
+    instanceCount: 1
+    cpuKind: shared
+    cpuAmount: 0.25
+    memoryLimit: 256Mi
+    diskSize: 512Mi
+    
+    # Service configuration
+    serviceGroup: mcp-services
+    
+    # Redis-specific settings
+    port: 6379
+    password: password  # Will be overridden by env var
+
+# Global configuration
+envVars:
+  # Global environment variables
+  - key: NODE_ENV
+    value: production
+  
+  # Monitoring and logging
+  - key: LOG_LEVEL
+    value: info
+  
+  # Security
+  - key: ENABLE_CORS
+    value: "true"
+
+# Service groups for organization
+serviceGroups:
+  mcp-services:
+    name: "MCP Services"
+    description: "All MCP-related services"
+    services:
+      - 20i-mcp-server
+      - 20i-mcp-database
+      - 20i-mcp-redis
+
+# Notifications configuration
+notifications:
+  # Email notifications
+  email:
+    onDeploymentFailure: true
+    onDeploymentSuccess: true
+    onServiceHealthChange: true
+  
+  # Webhook notifications
+  webhook:
+    onDeploymentFailure: false
+    onDeploymentSuccess: false
+    onServiceHealthChange: false
+
+# Build cache configuration
+buildCache:
+  enabled: true
+  maxSize: 10Gi
+
+# Network configuration
+network:
+  internal: true
+  public: true
+
+# Security configuration
+security:
+  # SSL/TLS configuration
+  ssl:
+    enabled: true
+    type: letsencrypt
+    email: your-email@example.com  # Set manually
+  
+  # Firewall rules
+  firewall:
+    inbound:
+      - type: http
+        port: 80
+      - type: https
+        port: 443
+    outbound:
+      - type: all
+        port: all
+
+# Monitoring configuration
+monitoring:
+  enabled: true
+  metrics:
+    cpu: true
+    memory: true
+    network: true
+    disk: true
+  logs:
+    enabled: true
+    retention: 30d
+    level: info
+
+# Backup configuration
+backup:
+  enabled: true
+  schedule: "0 2 * * *"  # Daily at 2 AM
+  retention: 7d
+  storage: s3
+  s3:
+    bucket: your-backup-bucket  # Set manually
+    region: us-east-1  # Set manually
+    accessKey: your-access-key  # Set manually
+    secretKey: your-secret-key  # Set manually

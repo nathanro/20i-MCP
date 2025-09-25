@@ -1,0 +1,76 @@
+{
+  "name": "20i-mcp-server-cloud",
+  "version": "1.0.0",
+  "description": "Configuración de despliegue en la nube para el servidor MCP de 20i",
+  "environment": {
+    "node": "18.x",
+    "npm": "8.x"
+  },
+  "deployment": {
+    "type": "container",
+    "platform": "docker",
+    "runtime": "node",
+    "port": 3000,
+    "healthCheck": {
+      "path": "/health",
+      "interval": 30,
+      "timeout": 10,
+      "retries": 3
+    }
+  },
+  "environmentVariables": {
+    "required": [
+      "TWENTYI_API_KEY",
+      "TWENTYI_OAUTH_KEY", 
+      "TWENTYI_COMBINED_KEY"
+    ],
+    "optional": [
+      "NODE_ENV",
+      "PORT",
+      "LOG_LEVEL",
+      "MAX_REQUEST_SIZE",
+      "REQUEST_TIMEOUT"
+    ]
+  },
+  "monitoring": {
+    "enabled": true,
+    "metrics": {
+      "cpu": true,
+      "memory": true,
+      "network": true,
+      "requests": true
+    },
+    "logging": {
+      "level": "info",
+      "format": "json",
+      "retention": "30d"
+    }
+  },
+  "scaling": {
+    "minInstances": 1,
+    "maxInstances": 5,
+    "cpuThreshold": 70,
+    "memoryThreshold": 80,
+    "requestThreshold": 1000
+  },
+  "security": {
+    "ssl": true,
+    "cors": {
+      "enabled": true,
+      "origins": ["*"],
+      "methods": ["GET", "POST", "PUT", "DELETE"],
+      "headers": ["Content-Type", "Authorization"]
+    },
+    "rateLimit": {
+      "enabled": true,
+      "requests": 100,
+      "windowMs": 60000
+    }
+  },
+  "backup": {
+    "enabled": true,
+    "schedule": "0 2 * * *",
+    "retention": "7d",
+    "storage": "s3"
+  }
+}
