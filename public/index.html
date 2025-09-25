@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MCP Server Manager</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            color: #667eea;
+            font-size: 2rem;
+        }
+
+        .status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #dc3545;
+        }
+
+        .status-indicator.connected {
+            background: #28a745;
+        }
+
+        .login-form {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            margin: 20px auto;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #555;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e1e5e9;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background 0.3s;
+            width: 100%;
+        }
+
+        .btn:hover {
+            background: #5a6fd8;
+        }
+
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+        }
+
+        .btn-danger:hover {
+            background: #c82333;
+        }
+
+        .main-content {
+            display: none;
+        }
+
+        .main-content.active {
+            display: block;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .card h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .tools-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .tool-item {
+            border: 1px solid #e1e5e9;
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 10px;
+            background: #f8f9fa;
+        }
+
+        .tool-item h4 {
+            color: #667eea;
+            margin-bottom: 8px;
+        }
+
+        .tool-item p {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .tool-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .tool-actions .btn {
+            flex: 1;
+            padding: 8px 16px;
+            font-size: 14px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-header h3 {
+            color: #667eea;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .test-result {
+            background: #f8f9fa;
+            border: 1px solid #e1e5e9;
+            border-radius: 6px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+
+        .test-result.success {
+            background: #d4edda;
+            border-color: #c3e6cb;
+        }
+
+        .test-result.error {
+            background: #f8d7da;
+            border-color: #f5c6cb;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 6px;
+            color: white;
+            font-weight: 600;
+            z-index: 1001;
+            transform: translateX(100%);
+            transition: transform 0.3s;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.success {
+            background: #28a745;
+        }
+
+        .notification.error {
+            background: #dc3545;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+            
+            .header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Login Form -->
+        <div id="loginForm" class="login-form">
+            <h2 style="text-align: center; margin-bottom: 20px; color: #667eea;">MCP Server Manager</h2>
+            <form id="loginFormElement">
+                <div class="form-group">
+                    <label for="username">Usuario:</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Contraseña:</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit" class="btn">Iniciar Sesión</button>
+            </form>
+            <p style="text-align: center; margin-top: 15px; color: #666; font-size: 14px;">
+                Usuario: admin | Contraseña: admin123
+            </p>
+        </div>
+
+        <!-- Main Content -->
+        <div id="mainContent" class="main-content">
+            <div class="header">
+                <h1>MCP Server Manager</h1>
+                <div class="status">
+                    <div id="statusIndicator" class="status-indicator"></div>
+                    <span id="statusText">Desconectado</span>
+                    <button id="logoutBtn" class="btn btn-secondary" style="margin-left: 20px;">Cerrar Sesión</button>
+                </div>
+            </div>
+
+            <div class="dashboard">
+                <div class="card">
+                    <h3>Control del Servidor MCP</h3>
+                    <button id="connectBtn" class="btn">Conectar Servidor</button>
+                    <button id="disconnectBtn" class="btn btn-danger" style="margin-top: 10px; display: none;">Desconectar Servidor</button>
+                    <div id="connectionInfo" style="margin-top: 15px; padding: 10px; background: #f8f9fa; border-radius: 6px; display: none;">
+                        <p><strong>Estado:</strong> <span id="connectionStatus">-</span></p>
+                        <p><strong>Herramientas disponibles:</strong> <span id="toolsCount">-</span></p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Acciones Rápidas</h3>
+                    <button id="refreshBtn" class="btn btn-secondary">Actualizar Lista</button>
+                    <button id="testAllBtn" class="btn btn-secondary" style="margin-top: 10px;">Probar Todas las Herramientas</button>
+                </div>
+            </div>
+
+            <div class="tools-section">
+                <h3>Herramientas MCP Disponibles</h3>
+                <div id="toolsList">
+                    <p style="text-align: center; color: #666; padding: 20px;">Conecte el servidor MCP para ver las herramientas disponibles</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Test Modal -->
+    <div id="testModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Probar Herramienta</h3>
+                <button class="close-btn" id="closeModal">&times;</button>
+            </div>
+            <div id="testContent">
+                <p>Seleccione una herramienta para probar</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div id="notification" class="notification"></div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        class MCPManager {
+            constructor() {
+                this.socket = io();
+                this.isAuthenticated = false;
+                this.isMcpConnected = false;
+                this.tools = [];
+                this.init();
+            }
+
+            init() {
+                this.setupEventListeners();
+                this.checkAuthStatus();
+                this.setupSocketListeners();
+            }
+
+            setupEventListeners() {
+                // Login form
+                document.getElementById('loginFormElement').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.login();
+                });
+
+                // Logout button
+                document.getElementById('logoutBtn').addEventListener('click', () => {
+                    this.logout();
+                });
+
+                // MCP controls
+                document.getElementById('connectBtn').addEventListener('click', () => {
+                    this.connectMCP();
+                });
+
+                document.getElementById('disconnectBtn').addEventListener('click', () => {
+                    this.disconnectMCP();
+                });
+
+                // Quick actions
+                document.getElementById('refreshBtn').addEventListener('click', () => {
+                    this.refreshTools();
+                });
+
+                document.getElementById('testAllBtn').addEventListener('click', () => {
+                    this.testAllTools();
+                });
+
+                // Modal
+                document.getElementById('closeModal').addEventListener('click', () => {
+                    this.closeModal();
+                });
+
+                // Close modal on outside click
+                document.getElementById('testModal').addEventListener('click', (e) => {
+                    if (e.target.id === 'testModal') {
+                        this.closeModal();
+                    }
+                });
+            }
+
+            setupSocketListeners() {
+                this.socket.on('mcp-status', (data) => {
+                    this.updateMCPStatus(data.connected);
+                });
+            }
+
+            async login() {
+                const username = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
+
+                try {
+                    const response = await fetch('/api/login', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ username, password }),
+                    });
+
+                    const data = await response.json();
+
+                    if (data.success) {
+                        this.isAuthenticated = true;
+                        this.showNotification('Login exitoso', 'success');
+                        this.showMainContent();
+                    } else {
+                        this.showNotification('Credenciales inválidas', 'error');
+                    }
+                } catch (error) {
+                    this.showNotification('Error en el login', 'error');
+                }
+            }
+
+            async logout() {
+                try {
+                    await fetch('/api/logout', { method: 'POST' });
+                    this.isAuthenticated = false;
+                    this.showNotification('Sesión cerrada', 'success');
+                    this.showLoginForm();
+                } catch (error) {
+                    this.showNotification('Error al cerrar sesión', 'error');
+                }
+            }
+
+            async checkAuthStatus() {
+                try {
+                    const response = await fetch('/api/auth/status');
+                    const data = await response.json();
+                    
+                    if (data.authenticated) {
+                        this.isAuthenticated = true;
+                        this.showMainContent();
+                    }
+                } catch (error) {
+                    console.error('Error checking auth status:', error);
+                }
+            }
+
+            async connectMCP() {
+                const connectBtn = document.getElementById('connectBtn');
+                connectBtn.innerHTML = '<span class="loading"></span> Conectando...';
+                connectBtn.disabled = true;
+
+                try {
+                    const response = await fetch('/api/mcp/connect', { method: 'POST' });
+                    const data = await response.json();
+
+                    if (data.success) {
+                        this.showNotification('Servidor MCP conectado', 'success');
+                        this.refreshTools();
+                    } else {
+                        this.showNotification(data.error || 'Error al conectar', 'error');
+                    }
+                } catch (error) {
+                    this.showNotification('Error al conectar el servidor MCP', 'error');
+                } finally {
+                    connectBtn.innerHTML = 'Conectar Servidor';
+                    connectBtn.disabled = false;
+                }
+            }
+
+            async disconnectMCP() {
+                const disconnectBtn = document.getElementById('disconnectBtn');
+                disconnectBtn.innerHTML = '<span class="loading"></span> Desconectando...';
+                disconnectBtn.disabled = true;
+
+                try {
+                    const response = await fetch('/api/mcp/disconnect', { method: 'POST' });
+                    const data = await response.json();
+
+                    if (data.success) {
+                        this.showNotification('Servidor MCP desconectado', 'success');
+                        this.updateMCPStatus(false);
+                        this.updateToolsList([]);
+                    } else {
+                        this.showNotification(data.error || 'Error al desconectar', 'error');
+                    }
+                } catch (error) {
+                    this.showNotification('Error al desconectar el servidor MCP', 'error');
+                } finally {
+                    disconnectBtn.innerHTML = 'Desconectar Servidor';
+                    disconnectBtn.disabled = false;
+                }
+            }
+
+            async refreshTools() {
+                try {
+                    const response = await fetch('/api/tools');
+                    const data = await response.json();
+                    
+                    if (data.tools) {
+                        this.tools = data.tools;
+                        this.updateToolsList(this.tools);
+                        this.updateConnectionInfo();
+                    }
+                } catch (error) {
+                    this.showNotification('Error al actualizar herramientas', 'error');
+                }
+            }
+
+            async testTool(toolName, args = {}) {
+                try {
+                    const response = await fetch('/api/tools/test', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ toolName, arguments: args }),
+                    });
+
+                    const data = await response.json();
+
+                    if (data.success) {
+                        this.showTestResult(toolName, data.result, 'success');
+                    } else {
+                        this.showTestResult(toolName, data.error || 'Error desconocido', 'error');
+                    }
+                } catch (error) {
+                    this.showTestResult(toolName, 'Error en la conexión', 'error');
+                }
+            }
+
+            async testAllTools() {
+                const testContent = document.getElementById('testContent');
+                testContent.innerHTML = '<p style="text-align: center; padding: 20px;">Probando todas las herramientas...</p>';
+                this.openModal();
+
+                const results = [];
+                
+                for (const tool of this.tools) {
+                    try {
+                        const response = await fetch('/api/tools/test', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({ toolName: tool.name, arguments: {} }),
+                        });
+
+                        const data = await response.json();
+                        results.push({
+                            name: tool.name,
+                            success: data.success,
+                            result: data.success ? data.result : data.error
+                        });
+                    } catch (error) {
+                        results.push({
+                            name: tool.name,
+                            success: false,
+                            result: 'Error en la conexión'
+                        });
+                    }
+                }
+
+                this.displayTestResults(results);
+            }
+
+            showTestResult(toolName, result, type) {
+                const testContent = document.getElementById('testContent');
+                testContent.innerHTML = `
+                    <h4>Resultado para ${toolName}</h4>
+                    <div class="test-result ${type}">
+                        <pre>${JSON.stringify(result, null, 2)}</pre>
+                    </div>
+                    <button class="btn" onclick="mcpManager.closeModal()">Cerrar</button>
+                `;
+                this.openModal();
+            }
+
+            displayTestResults(results) {
+                const testContent = document.getElementById('testContent');
+                let html = '<h4>Resultados de Prueba</h4>';
+                
+                results.forEach(result => {
+                    html += `
+                        <div class="test-result ${result.success ? 'success' : 'error'}">
+                            <strong>${result.name}:</strong> ${result.success ? 'Éxito' : 'Falló'}
+                            <pre>${JSON.stringify(result.result, null, 2)}</pre>
+                        </div>
+                    `;
+                });
+
+                html += '<button class="btn" onclick="mcpManager.closeModal()">Cerrar</button>';
+                testContent.innerHTML = html;
+                this.openModal();
+            }
+
+            updateMCPStatus(connected) {
+                this.isMcpConnected = connected;
+                const indicator = document.getElementById('statusIndicator');
+                const statusText = document.getElementById('statusText');
+                const connectBtn = document.getElementById('connectBtn');
+                const disconnectBtn = document.getElementById('disconnectBtn');
+
+                if (connected) {
+                    indicator.classList.add('connected');
+                    statusText.textContent = 'Conectado';
+                    connectBtn.style.display = 'none';
+                    disconnectBtn.style.display = 'block';
+                    this.refreshTools();
+                } else {
+                    indicator.classList.remove('connected');
+                    statusText.textContent = 'Desconectado';
+                    connectBtn.style.display = 'block';
+                    disconnectBtn.style.display = 'none';
+                    this.updateToolsList([]);
+                }
+            }
+
+            updateToolsList(tools) {
+                const toolsList = document.getElementById('toolsList');
+                
+                if (tools.length === 0) {
+                    toolsList.innerHTML = '<p style="text-align: center; color: #666; padding: 20px;">No hay herramientas disponibles</p>';
+                    return;
+                }
+
+                let html = '';
+                tools.forEach(tool => {
+                    html += `
+                        <div class="tool-item">
+                            <h4>${tool.name}</h4>
+                            <p>${tool.description}</p>
+                            <div class="tool-actions">
+                                <button class="btn" onclick="mcpManager.testTool('${tool.name}')">Probar</button>
+                                <button class="btn btn-secondary" onclick="mcpManager.showToolDetails('${tool.name}')">Detalles</button>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                toolsList.innerHTML = html;
+            }
+
+            updateConnectionInfo() {
+                const connectionInfo = document.getElementById('connectionInfo');
+                const connectionStatus = document.getElementById('connectionStatus');
+                const toolsCount = document.getElementById('toolsCount');
+
+                if (this.isMcpConnected) {
+                    connectionInfo.style.display = 'block';
+                    connectionStatus.textContent = 'Conectado';
+                    toolsCount.textContent = this.tools.length;
+                } else {
+                    connectionInfo.style.display = 'none';
+                }
+            }
+
+            showToolDetails(toolName) {
+                const tool = this.tools.find(t => t.name === toolName);
+                if (!tool) return;
+
+                const testContent = document.getElementById('testContent');
+                testContent.innerHTML = `
+                    <h4>${tool.name}</h4>
+                    <p><strong>Descripción:</strong> ${tool.description}</p>
+                    <p><strong>Parámetros:</strong></p>
+                    <pre>${JSON.stringify(tool.inputSchema, null, 2)}</pre>
+                    <div style="margin-top: 15px;">
+                        <button class="btn" onclick="mcpManager.testTool('${tool.name}')">Probar Herramienta</button>
+                    </div>
+                `;
+                this.openModal();
+            }
+
+            showLoginForm() {
+                document.getElementById('loginForm').style.display = 'block';
+                document.getElementById('mainContent').classList.remove('active');
+            }
+
+            showMainContent() {
+                document.getElementById('loginForm').style.display = 'none';
+                document.getElementById('mainContent').classList.add('active');
+            }
+
+            openModal() {
+                document.getElementById('testModal').classList.add('active');
+            }
+
+            closeModal() {
+                document.getElementById('testModal').classList.remove('active');
+            }
+
+            showNotification(message, type) {
+                const notification = document.getElementById('notification');
+                notification.textContent = message;
+                notification.className = `notification ${type}`;
+                notification.classList.add('show');
+
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                }, 3000);
+            }
+        }
+
+        // Initialize the application
+        const mcpManager = new MCPManager();
+    </script>
+</body>
+</html>

@@ -15461,6 +15461,9 @@ async function startHealthCheckServer() {
   });
 }
 
+// Import and start web server
+import { app } from './web-server.js';
+
 async function main() {
   try {
     console.error('20i MCP Server starting...');
