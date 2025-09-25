@@ -1,7 +1,11 @@
 #!/usr/bin/env node
 
 import { config } from 'dotenv';
-config();
+
+// Only load .env file in development, not in production (Render)
+if (process.env.NODE_ENV !== 'production') {
+  config();
+}
 
 import { Server } from '@modelcontextprotocol/sdk/server/index.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
@@ -14,6 +18,7 @@ import {
 import axios, { AxiosInstance } from 'axios';
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
+import { createServer } from 'http';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -15430,10 +15435,56 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
   }
 });
 
-async function main() {
-  const transport = new StdioServerTransport();
-  await server.connect(transport);
+async function startHealthCheckServer() {
+  const port = process.env.PORT || 10000;
+
+  return new Promise((resolve, reject) => {
+    const server = createServer((req, res) => {
+      if (req.url === '/health' && req.method === 'GET') {
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ status: 'healthy', timestamp: new Date().toISOString() }));
+      } else {
+        res.writeHead(404, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: 'Not found' }));
+      }
+    });
+
+    server.listen(port, () => {
+      console.error(`Health check server listening on port ${port}`);
+      resolve(server);
+    });
+
+    server.on('error', (error) => {
+      console.error('Health check server error:', error);
+      reject(error);
+    });
+  });
 }
+
+async function main() {
+  try {
+    console.error('20i MCP Server starting...');
+    
+    // Start health check server first
+    await startHealthCheckServer();
+    console.error('Health check server started');
+
+    // Then start MCP server
+    const transport = new StdioServerTransport();
+    await server.connect(transport);
+    console.error('MCP server connected via stdio');
+    
+  } catch (error) {
+    console.error('Failed to start server:', error);
+    process.exit(1);
+  }
+}
+
+// Start the server
+main().catch((error) => {
+  console.error('Unhandled error in main:', error);
+  process.exit(1);
+});
 
 main().catch((error) => {
   console.error('Fatal error in main():', error);

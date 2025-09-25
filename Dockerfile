@@ -7,8 +7,8 @@ WORKDIR /app
 # Copy package files
 COPY package*.json ./
 
-# Install dependencies
-RUN npm ci --only=production
+# Install all dependencies (including dev dependencies for build)
+RUN npm ci
 
 # Copy source code
 COPY src/ ./src/
@@ -41,16 +41,16 @@ RUN mkdir -p /app/logs /app/data && chown -R nextjs:nodejs /app
 # Switch to non-root user
 USER nextjs
 
-# Expose port (if needed for health checks)
-EXPOSE 3000
+# Expose port (Render uses port 10000)
+EXPOSE 10000
 
-# Health check
+# Health check for Render
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
-  CMD node -e "require('http').get('http://localhost:3000/health', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) }).on('error', () => { process.exit(1) })"
+  CMD node -e "require('http').get('http://localhost:10000/health', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) }).on('error', () => { process.exit(1) })"
 
-# Set environment variables
+# Set environment variables for Render
 ENV NODE_ENV=production
-ENV PORT=3000
+ENV PORT=10000
 
 # Start the application
 ENTRYPOINT ["dumb-init", "--"]

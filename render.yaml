@@ -1,0 +1,28 @@
+services:
+  - type: web
+    name: 20i-mcp-server
+    env: docker
+    repo: https://github.com/Cbrown35/20i-MCP
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    envVars:
+      - key: TWENTYI_API_KEY
+        sync: false
+      - key: TWENTYI_OAUTH_KEY
+        sync: false
+      - key: TWENTYI_COMBINED_KEY
+        sync: false
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+    healthCheck:
+      path: /health
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    instanceCount: 1
+    cpuKind: shared
+    cpuAmount: 1
+    memoryLimit: 1Gi
+    diskSize: 1Gi
